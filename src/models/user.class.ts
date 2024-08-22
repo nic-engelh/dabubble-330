@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export class User {
 
   constructor(
@@ -7,7 +9,9 @@ export class User {
     public avatarUrl: string | undefined = "",
     public createdAt: Date = new Date(),
     public updatedAt: Date = new Date()
-  ) {}
+  ) {
+    this.id = uuidv4();
+  }
 
   toJson(): any {
     return {
