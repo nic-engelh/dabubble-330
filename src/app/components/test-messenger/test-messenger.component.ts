@@ -18,7 +18,7 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
   data: any;
 
   constructor(private dataService: DataService) {
-    this.user.username = 'Craven';
+    this.user.username = 'Spiderman';
   }
 
   async saveData() {

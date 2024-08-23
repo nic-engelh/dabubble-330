@@ -50,11 +50,12 @@ export class DataService {
             ...docSnap.data(),
           }));
           Subscriber.next(data);
+          console.log(querySnap);
         },
         (error) => Subscriber.error(error)
       );
     });
   }
 
-  
+
 }
