@@ -43,7 +43,6 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
       error: (error) => console.error(error),
       complete: () => console.log('complete')
     }));
-
   }
 
   ngOnDestroy(): void {
