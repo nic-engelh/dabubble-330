@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "dabubble": {
+    "da-bubble": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "daBubble:build:production"
+              "buildTarget": "da-bubble:build:production"
             },
             "development": {
-              "buildTarget": "daBubble:build:development"
+              "buildTarget": "da-bubble:build:development"
             }
           },
           "defaultConfiguration": "development"
