@@ -25,6 +25,20 @@ export class DataService {
     await setDoc(documentRef, data);
   }
 
+  async setDocumentToSubcollection(
+    collectionName: string,
+    documentId: string,
+    subcollectionName: string,
+    subdocumentId: string,
+    data: any
+  ): Promise<any> {
+    const collectionRef = collection(this.database, collectionName);
+    const documentRef = doc(collectionRef, documentId);
+    const subcollectionRef = collection(documentRef, subcollectionName);
+    const subdocumentRef = doc(subcollectionRef, subdocumentId);
+    return await setDoc(subdocumentRef, data);
+  }
+
   // Method to get a document from Firestore
   async getDocument(collectionName: string, documentId: string): Promise<any> {
     const documentRef = doc(this.database, collectionName, documentId);
@@ -56,6 +70,4 @@ export class DataService {
       );
     });
   }
-
-
 }

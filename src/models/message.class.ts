@@ -1,4 +1,5 @@
 import { User } from './user.class';
+import { v4 as uuidv4 } from 'uuid';
 
 export class Message {
   constructor(
@@ -7,7 +8,9 @@ export class Message {
     public sender: User = new User(),
     public timestamp: Date = new Date(),
     public isRead: boolean = false
-  ) {}
+  ) {
+    this.id = uuidv4();
+  }
 
   toJson(): any {
     return {
