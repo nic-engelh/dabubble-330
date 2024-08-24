@@ -2,5 +2,9 @@
   <h1>Firestore Service Example</h1>
   <button (click)="saveThread()">Add Data</button>
   <button (click)="getThread()">Get Data</button>
-  <p>{{ data.name | json }}</p>
+  <p>{{ data | json }}</p>
+
+  <button (click)="setUsertoThread()">Add User to Thread</button>
+
+  
 </div>

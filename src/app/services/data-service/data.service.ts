@@ -1,19 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Firestore,
   doc,
   setDoc,
   getDoc,
+  updateDoc,
+  CollectionReference,
+  DocumentReference,
   onSnapshot,
 } from '@angular/fire/firestore';
-import { DocumentData, collection, getFirestore } from 'firebase/firestore';
-import { Observable, from } from 'rxjs';
+import { collection, getFirestore } from 'firebase/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  constructor(private database: Firestore) {}
+  private database: Firestore = inject(Firestore);
 
   // Method to set a document in Firestore
   async setDocument(
@@ -49,6 +52,33 @@ export class DataService {
       throw new Error('Document does not exist');
     }
   }
+
+  async addDocumentToSubcollection(
+    mainCollectionName: string,
+    mainDocumentId: string,
+    subcollectionName: string,
+    data: any
+  ): Promise<void> {
+    try {
+      // Reference to the main document
+      const mainDocRef = doc(this.database, mainCollectionName, mainDocumentId);
+
+      // Reference to the subcollection
+      const subcollectionRef = collection(mainDocRef, subcollectionName);
+
+      // Generate a new document reference with a unique ID
+      const newDocRef = doc(subcollectionRef);
+
+      // Set the document data (this will create the subcollection if it doesn't exist)
+      await setDoc(newDocRef, data);
+
+      console.log('Document added successfully to subcollection');
+    } catch (error) {
+      console.error('Error adding document to subcollection:', error);
+      throw error;
+    }
+  }
+
 
   getCollectionRealTime(
     collectionName: string

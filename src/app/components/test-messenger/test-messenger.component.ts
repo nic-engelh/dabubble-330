@@ -64,9 +64,18 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
     }
   }
 
+  async setUsertoThread() {
+    const threadId= "852b5738-7ed3-4878-accb-e330ad9108ca";
+    const userId = this.user.id;
+    const userData = this.user.toJson();
+    const threadData = this.thread.toJson();
+   await this.dataService.addDocumentToSubcollection('threads', threadId, 'chatUsers', userData);
+  }
+
+
   getAllUserInRealTime() {
     this.userSub.add(
-      this.dataService.getCollectionRealTime('users').subscribe({
+      this.dataService.getCollectionRealTime('threads').subscribe({
         next: (userData) => console.log(userData),
         error: (error) => console.error(error),
         complete: () => console.log('complete'),
