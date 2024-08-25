@@ -1,16 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
 import {
   Firestore,
   doc,
   setDoc,
   getDoc,
-  updateDoc,
-  CollectionReference,
-  DocumentReference,
+  DocumentData,
   onSnapshot,
+  collectionData,
+  docData
 } from '@angular/fire/firestore';
 import { collection, getFirestore } from 'firebase/firestore';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest, map, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -62,16 +63,12 @@ export class DataService {
     try {
       // Reference to the main document
       const mainDocRef = doc(this.database, mainCollectionName, mainDocumentId);
-
       // Reference to the subcollection
       const subcollectionRef = collection(mainDocRef, subcollectionName);
-
       // Generate a new document reference with a unique ID
       const newDocRef = doc(subcollectionRef);
-
       // Set the document data (this will create the subcollection if it doesn't exist)
       await setDoc(newDocRef, data);
-
       console.log('Document added successfully to subcollection');
     } catch (error) {
       console.error('Error adding document to subcollection:', error);
@@ -100,4 +97,5 @@ export class DataService {
       );
     });
   }
+
 }
