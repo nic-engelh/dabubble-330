@@ -69,13 +69,17 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
   }
 
   async setUsertoThread() {
-    const threadId= "852b5738-7ed3-4878-accb-e330ad9108ca";
+    const threadId = '852b5738-7ed3-4878-accb-e330ad9108ca';
     const userId = this.user.id;
     const userData = this.user.toJson();
     const threadData = this.thread.toJson();
-   await this.dataService.addDocumentToSubcollection('threads', threadId, 'chatUsers', userData);
+    await this.dataService.addDocumentToSubcollection(
+      'threads',
+      threadId,
+      'chatUsers',
+      userData
+    );
   }
-
 
   getAllUserUpdates() {
     this.userSub.add(
@@ -97,13 +101,19 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
     );
   }
 
-  getConversationMessageUpdates(){
-    this.threadMessageSub.add (
-      this.dataService.getSubcollectionUpdates('threads', '30040944-9e8d-4d01-a84b-a03c70ea58c7', 'conversationMessages').subscribe({
-        next: (userData) => console.log(userData),
-        error: (error) => console.error(error),
-        complete: () => console.log ('complete'),
-      })
+  getConversationMessageUpdates() {
+    this.threadMessageSub.add(
+      this.dataService
+        .getSubcollectionUpdates(
+          'threads',
+          '30040944-9e8d-4d01-a84b-a03c70ea58c7',
+          'conversationMessages'
+        )
+        .subscribe({
+          next: (userData) => console.log(userData),
+          error: (error) => console.error(error),
+          complete: () => console.log('complete'),
+        })
     );
   }
 
