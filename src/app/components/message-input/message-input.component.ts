@@ -3,6 +3,7 @@ import { Message } from '../../../models/message.class';
 import { Conversation } from '../../../models/conversation.class';
 import { User } from '../../../models/user.class';
 
+
 @Component({
   selector: 'app-message-input',
   standalone: true,
@@ -16,7 +17,5 @@ export class MessageInputComponent {
   // collection "threads"
   // subcollection: "messages"
   // path threads/30040944-9e8d-4d01-a84b-a03c70ea58c7/messages
-
-
 
 }

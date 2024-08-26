@@ -5,6 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class MessageService {
   constructor() {}
+
+  createMessage() { }
+
 }
 // save threat
 // get threat
