@@ -1,0 +1,57 @@
+.message-container {
+  border: 1px solid grey;
+  min-width: 320px;
+  border-radius: 20px;
+  height: 145px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+
+  form {
+    min-width: 320px;
+    width: 100%;
+    input {
+      margin-bottom: 40px;
+      border: none;
+      height: 25px;
+      font-size: 18px;
+      &:focus {
+        outline: none;
+        border-bottom: 2px solid blue;
+      }
+    }
+    > button {
+      border: unset;
+    }
+    .icons-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      button {
+        border: unset;
+        background-color: unset;
+        padding: unset;
+        margin-left: 10px;
+
+        img {
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .plus-icon-btn {
+        margin: 0 !important;
+        .plus-icon {
+          width: 40px;
+          height: 40px;
+        }
+      }
+      .icons {
+        display: flex;
+        flex-direction: row;
+      }
+    }
+  }
+}
