@@ -18,6 +18,8 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
   userSub: Subscription = new Subscription();
   data: any;
   thread = new Conversation();
+  threadMessageSub: Subscription = new Subscription();
+  conversationSub: Subscription = new Subscription();
 
   constructor(private dataService: DataService) {
     this.user.username = 'Spiderman';
@@ -25,7 +27,9 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getAllUserInRealTime();
+    this.getAllUserUpdates();
+    this.getAllConversationUpdates();
+    this.getConversationMessageUpdates();
   }
 
   async saveUser() {
@@ -73,9 +77,9 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
   }
 
 
-  getAllUserInRealTime() {
+  getAllUserUpdates() {
     this.userSub.add(
-      this.dataService.getCollectionRealTime('threads').subscribe({
+      this.dataService.getCollectionUpdates('users').subscribe({
         next: (userData) => console.log(userData),
         error: (error) => console.error(error),
         complete: () => console.log('complete'),
@@ -83,9 +87,29 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
     );
   }
 
-  
+  getAllConversationUpdates() {
+    this.conversationSub.add(
+      this.dataService.getCollectionUpdates('threads').subscribe({
+        next: (threadData) => console.log(threadData),
+        error: (error) => console.error(error),
+        complete: () => console.log('complete'),
+      })
+    );
+  }
+
+  getConversationMessageUpdates(){
+    this.threadMessageSub.add (
+      this.dataService.getSubcollectionUpdates('threads', '30040944-9e8d-4d01-a84b-a03c70ea58c7', 'conversationMessages').subscribe({
+        next: (userData) => console.log(userData),
+        error: (error) => console.error(error),
+        complete: () => console.log ('complete'),
+      })
+    );
+  }
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
+    this.threadMessageSub.unsubscribe();
+    this.conversationSub.unsubscribe();
   }
 }
