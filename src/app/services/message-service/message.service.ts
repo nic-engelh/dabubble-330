@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { DataService } from '../../services/data-service/data.service';
+import { Message } from '../../../models/message.class';
 
 @Injectable({
   providedIn: 'root',
@@ -6,13 +8,24 @@ import { Injectable } from '@angular/core';
 export class MessageService {
   constructor() {}
 
-  createMessage() { }
+  createMessage(inputValues: any) {
+    // new Message()
+
+    // newMessage.user = inputVal.user
+    // content ....
+
+
+    return  // newMessage
+   }
+
+
 
 }
-// save threat
-// get threat
-// update threat
+
 
 // get message
 // save message
 // update message
+
+
+
