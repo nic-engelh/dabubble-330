@@ -5,13 +5,10 @@ import {
   doc,
   setDoc,
   getDoc,
-  DocumentData,
   onSnapshot,
-  collectionData,
-  docData
 } from '@angular/fire/firestore';
 import { collection, getFirestore } from 'firebase/firestore';
-import { Observable, combineLatest, map, switchMap } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -76,26 +73,62 @@ export class DataService {
     }
   }
 
-
-  getCollectionRealTime(
+  getCollectionUpdates(
+    // Function parameter that takes the name of the Firestore collection as a string.
     collectionName: string
+    // The function returns an Observable, a part of RxJS for handling asynchronous data streams.
   ): Observable<any> {
+    // Creates a new Observable that takes a subscriber as a parameter.
     return new Observable((Subscriber) => {
-      const db = getFirestore();
-      const collectionRef = collection(db, collectionName);
+      // Get a reference to the Firestore collection using the provided collection name.
+      const collectionRef = collection(this.database, collectionName);
+      // Listen for real-time updates from Firestore using onSnapshot.
       onSnapshot(
+        // The reference to the Firestore collection.
         collectionRef,
+        // Success callback: Fires whenever the collection changes.
         (querySnap) => {
+          // Maps over the documents in the query snapshot.
           const data = querySnap.docs.map((docSnap) => ({
+            // Extracts the document ID.
             id: docSnap.id,
+            // Spreads the document data into the object.
             ...docSnap.data(),
           }));
+          // Emits the data to the observable subscribers.
           Subscriber.next(data);
+          // Logs the entire query snapshot to the console for debugging purposes.
           console.log(querySnap);
         },
+        // Error callback: Emits an error to the observable subscribers if the onSnapshot fails.
         (error) => Subscriber.error(error)
       );
     });
   }
 
+  getSubcollectionUpdates(
+    mainCollectionName: string,
+    mainDocumentId: string,
+    subCollectionName: string
+  ): Observable<any> {
+    const subcollectionRef = collection(
+      this.database,
+      `${mainCollectionName}/${mainDocumentId}/${subCollectionName}`
+    );
+    return new Observable((Subscriber) => {
+
+      onSnapshot (
+
+        subcollectionRef,
+        (querySnapshot) => {
+          const data = querySnapshot.docs.map ((documentSnapshot) => ({
+            id: documentSnapshot.id,
+            ...documentSnapshot.data(),
+          }));
+          Subscriber.next(data);
+        },
+        (error) => Subscriber.error(error)
+      );
+    });
+  }
 }
