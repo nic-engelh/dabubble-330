@@ -116,12 +116,10 @@ export class DataService {
       `${mainCollectionName}/${mainDocumentId}/${subCollectionName}`
     );
     return new Observable((Subscriber) => {
-
-      onSnapshot (
-
+      onSnapshot(
         subcollectionRef,
         (querySnapshot) => {
-          const data = querySnapshot.docs.map ((documentSnapshot) => ({
+          const data = querySnapshot.docs.map((documentSnapshot) => ({
             id: documentSnapshot.id,
             ...documentSnapshot.data(),
           }));
