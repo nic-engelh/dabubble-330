@@ -17,8 +17,9 @@
       height: 25px;
       font-size: 18px;
       &:focus {
-        outline: none;
+        outline: unset;
         border-bottom: 2px solid blue;
+        transition: all 0.2s ease-in-out;
       }
     }
     > button {
@@ -42,11 +43,36 @@
         }
       }
 
+      .smiley {
+        &:hover {
+          filter: brightness(0) saturate(100%) invert(100%) sepia(58%)
+            saturate(2643%) hue-rotate(324deg) brightness(116%) contrast(88%);
+        }
+      }
+
+      .hash-email {
+        &:hover {
+          filter: brightness(0) saturate(100%) invert(41%) sepia(73%)
+            saturate(2317%) hue-rotate(193deg) brightness(100%) contrast(89%);
+        }
+      }
+
+      .send-img {
+        &:hover {
+          filter: brightness(0) saturate(100%) invert(50%) sepia(8%)
+            saturate(5252%) hue-rotate(202deg) brightness(95%) contrast(85%);
+        }
+      }
+
       .plus-icon-btn {
         margin: 0 !important;
         .plus-icon {
           width: 40px;
           height: 40px;
+          &:hover {
+            filter: brightness(0) saturate(100%) invert(58%) sepia(5%)
+              saturate(292%) hue-rotate(314deg) brightness(94%) contrast(83%);
+          }
         }
       }
       .icons {
