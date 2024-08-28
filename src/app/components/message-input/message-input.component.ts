@@ -13,7 +13,6 @@ import { MessageService } from '../../services/message-service/message.service';
   styleUrl: './message-input.component.scss',
 })
 export class MessageInputComponent implements OnInit {
-
   threadId = '30040944-9e8d-4d01-a84b-a03c70ea58c7'; // Will be given
   // collection "threads"
   // subcollection: "messages"
@@ -22,19 +21,18 @@ export class MessageInputComponent implements OnInit {
   // form values = content and user
   formInputValues: any;
 
-  constructor( private messageService: MessageService, private messagingService: MessagingService) {}
+  constructor(
+    private messageService: MessageService,
+    private messagingService: MessagingService
+  ) {}
 
   ngOnInit(): void {}
 
-  
-
-  sendMessage () {
-
+  sendMessage() {
     let newMessage: any; // Message Datatyp
 
     newMessage = this.messageService.createMessage(this.formInputValues);
 
     this.messagingService.setMassagetoConversation(this.threadId, newMessage);
   }
-
 }
