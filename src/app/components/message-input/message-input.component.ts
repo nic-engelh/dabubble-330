@@ -26,6 +26,7 @@ export class MessageInputComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  
 
   sendMessage () {
 
