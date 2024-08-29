@@ -1,12 +1,22 @@
-
-<button><img src="" alt="Ausblenden"></button>
-<img src="" alt="Profil">
-<p>Direktnachrichten</p>
-
-@for (chat of directMessageList; track $index) {
-  <div id="{{ chat.id }}">
-    <img src="{{ chat.participants[1].avatarUrl }}" alt="Profil-Avatar">
-    <img src="" alt="Statusanzeige">
-    <p>{{ chat.participants[1].username }}</p>
+<section>
+  <div>
+    <button><img src="/assets/img/arrow_drop_down.svg" alt="Ausblenden" /></button>
+    <img src="/assets/img/account_circle.svg" alt="Profil" />
+    <p>Direktnachrichten</p>
   </div>
-}
+
+  @if (directMessageList) {
+    @for (chat of directMessageList; track $index) {
+      <div id="{{ chat.id }}">
+        <img src="{{ chat.participants[0].avatarUrl }}" alt="Profil-Avatar" />
+        <img src="/assets/img/status_online_unknown.svg" alt="Statusanzeige" />
+        <p>{{ chat.participants[0].username }}</p>
+      </div>
+    }
+  }
+  @else {
+  <p>Keine Direktnachrichten vorhanden</p>
+  }
+</section>
+
+
