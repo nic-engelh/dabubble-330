@@ -20,7 +20,8 @@ export class DirectMessageListComponent {
 
 
   constructor (private chatListService: ConversationListService) {
-    this.testUser.username = "Clark Kent"
+    this.testUser.username = "Clark Kent";
+    this.testUser.avatarUrl = "/assets/img/avatar_small_male_1.svg";
     this.testThread.participants.push(this.testUser);
     this.directMessageList.push(this.testThread);
   }
