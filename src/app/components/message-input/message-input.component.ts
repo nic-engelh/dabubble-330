@@ -4,11 +4,13 @@ import { Message } from '../../../models/message.class';
 import { Conversation } from '../../../models/conversation.class';
 import { User } from '../../../models/user.class';
 import { MessageService } from '../../services/message-service/message.service';
+import { FormControl } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-message-input',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './message-input.component.html',
   styleUrl: './message-input.component.scss',
 })

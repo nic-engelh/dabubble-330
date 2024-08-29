@@ -1,7 +1,11 @@
 <div class="message-container">
-  <form>
+  <form (ngSubmit)="sendMessage()">
     <div>
-      <input type="text" placeholder="Nachricht an Member" />
+      <input
+        [(ngModel)]="formInputValues"
+        type="text"
+        placeholder="Nachricht an Member"
+      />
       <span class="underline"></span>
     </div>
     <div class="icons-container">
