@@ -31,6 +31,7 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
     this.directMessageList.push(this.testThread);
     this.testThread.participants.push(this.testUser);
     this.directMessageList.push(this.testThread);
+
   }
 
   ngOnInit(): void {
@@ -42,11 +43,22 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.conversations = data;
         console.log(this.conversations);
+        //this.directMessageList = data;
       },
       error: (error) => {
         console.error(error);
       }
     });
+  }
+
+  addUserToChat() {
+    try {
+      this.conversations[0].push(this.testUser);
+      console.log(this.conversations);
+    }
+    catch (e) {
+      console.error(e)
+    }
   }
 
   toggleList() {
