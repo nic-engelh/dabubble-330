@@ -1,0 +1,30 @@
+@import '../../../styles/_breakpoints.scss';
+
+menu {
+  max-height: 940px;
+  max-width: 366px;
+  height: 100%;
+  width: 100%;
+  border-radius: 30px;
+  padding: 32px 30px 32px 30px;
+  background-color:#FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 25px;
+  > div {
+    width: 306px;
+    @include xs {
+      width: 100%;
+      max-width: unset;
+    }
+  }
+  @include xs {
+    width: 100%;
+    height: 100%;
+    max-width: unset;
+    max-height: unset;
+  }
+
+}
