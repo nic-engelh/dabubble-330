@@ -8,13 +8,17 @@
     <div class="direct-message-list-container">
       @if (directMessageList) {
         @for (chat of directMessageList; track $index) {
-          <div id="{{ chat.id }}" class="direct-message-item">
-            <div class="avatar-box">
-              <img class="avatar-img" src="{{ chat.participants[0].avatarUrl }}" alt="Profil-Avatar" />
-              <img class="status-symbol" src="/assets/img/status_online_unknown.svg" alt="Statusanzeige" />
-            </div>
-            <p>{{ chat.participants[0].username }}</p>
+          <div id="{{ chat.id }}" class="direct-message-item" >
+            <a [routerLink]="['/chat', chat.id]">
+              <div class="avatar-box">
+                <img class="avatar-img" src="{{ chat.participants[0].avatarUrl }}" alt="Profil-Avatar" />
+                <img class="status-symbol" src="/assets/img/status_online_unknown.svg" alt="Statusanzeige" />
+              </div>
+              <p>{{ chat.participants[0].username }}</p>
+
+            </a>
           </div>
+
         }
       }
       @else {
