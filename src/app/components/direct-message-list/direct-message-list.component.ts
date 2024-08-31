@@ -3,28 +3,33 @@ import { ConversationListService } from './../../services/conversation-list-serv
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../../models/user.class';
 import { Observable, Subscriber, Subscription } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-direct-message-list',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './direct-message-list.component.html',
   styleUrl: './direct-message-list.component.scss'
 })
 export class DirectMessageListComponent implements OnInit, OnDestroy {
 
-  // cache array for all direct messages participants/user
-  directMessageList: Conversation[] =  [];
+  // * Testing variables
   testThread = new Conversation();
   testUser = new User();
+
+  // ! essential variables
   isOpen: boolean = true;
   conversations: any[] = [];
-
+  // cache array for all direct messages participants/user
+  directMessageList: Conversation[] =  [];
   private subscription = new Subscription;
 
 
   constructor (private chatListService: ConversationListService) {
+
+    //* Testing variables
     this.testUser.username = "Clark Kent";
     this.testUser.avatarUrl = "/assets/img/avatar_small_male_1.svg";
     this.testThread.participants.push(this.testUser);
@@ -42,8 +47,16 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
    return this.chatListService.getAllConversationUpdates().subscribe({
       next: (data) => {
         this.conversations = data;
+
+        // *Testing - adding test user to array
+        this.conversations.forEach((conversation) => {
+          if (!conversation.participants.includes(this.testUser)){
+            conversation.participants.push(this.testUser);
+          }
+        } );
         console.log(this.conversations);
-        //this.directMessageList = data;
+        // * Testing - put testUser/testChats into primary cache array
+        this.directMessageList = this.conversations;
       },
       error: (error) => {
         console.error(error);
@@ -51,6 +64,8 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
     });
   }
 
+  // todo: conversations[0] needs to automated -> for finding the right chat partner
+  // ? Maybe participants deleted from chat creator?
   addUserToChat() {
     try {
       this.conversations[0].push(this.testUser);
