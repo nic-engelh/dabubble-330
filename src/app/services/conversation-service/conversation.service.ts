@@ -1,15 +1,23 @@
 import { Injectable } from '@angular/core';
+import { DataService } from '../data-service/data.service';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConversationService {
 
-  constructor() { }
 
+  private conversationUpdates$: Observable<any>;
 
-  // save threat
-// get threat
-// update threat
-// Delete Threat
+  constructor(private dataService: DataService) {
+    this.conversationUpdates$ = this.dataService.getCollectionUpdates('threads');
+   }
+
+   getAllConversationUpdates(): Observable<any> {
+    return this.conversationUpdates$;
+  }
+
+  // todo: saveChat(), getChat(), updateChat(), deleteChat()
 }

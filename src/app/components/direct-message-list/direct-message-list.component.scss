@@ -1,12 +1,13 @@
 @import '../../../styles/_breakpoints.scss';
 
 section {
-  min-width: 320px;
-  @include sm {
-
+  max-width: 306px;
+  width: 100%;
+  @include xs {
+    width: 100%;
+    max-width: unset;
   }
 }
-
 .direct-message-list-header {
   display: flex;
   justify-content: center;

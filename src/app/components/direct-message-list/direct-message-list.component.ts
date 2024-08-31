@@ -1,9 +1,9 @@
 import { Conversation } from './../../../models/conversation.class';
-import { ConversationListService } from './../../services/conversation-list-service/conversation-list.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../../models/user.class';
-import { Observable, Subscriber, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { ConversationService } from '../../services/conversation-service/conversation.service';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription;
 
 
-  constructor (private chatListService: ConversationListService) {
+  constructor (private chatListService: ConversationService) {
 
     //* Testing variables
     this.testUser.username = "Clark Kent";
@@ -64,7 +64,7 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
     });
   }
 
-  // todo: conversations[0] needs to automated -> for finding the right chat partner
+  // todo: conversations[0] needs to automated -> finding the right chat partner
   // ? Maybe participants deleted from chat creator?
   addUserToChat() {
     try {
