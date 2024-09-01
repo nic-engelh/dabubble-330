@@ -1,0 +1,7 @@
+@import '../../../styles/_breakpoints.scss';
+
+header {
+  @include xs {
+    height: 9svh;
+  }
+}
