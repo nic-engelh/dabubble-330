@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
   Firestore,
@@ -9,13 +10,35 @@ import {
 } from '@angular/fire/firestore';
 import { collection, getFirestore } from 'firebase/firestore';
 import { Observable, Subscriber } from 'rxjs';
+import { Message } from '../../../models/message.class';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
   private database: Firestore = inject(Firestore);
+  constructor(private http: HttpClient) {}
+  async createMessage(
+    conversationId: string,
+    messageText: string
+  ): Promise<Message> {
+    const response = await this.http.post('/messages', {
+      conversationId,
+      messageText,
+    });
+    return response.json();
+  }
 
+  async getMessagesForConversation(conversationId: string): Promise<Message[]> {
+    const response = await this.http.get(
+      `/messages?conversationId=${conversationId}`
+    );
+    return response.json();
+  }
+
+  async deleteMessage(messageId: string): Promise<void> {
+    await this.http.delete(`/messages/${messageId}`);
+  }
   // Method to set a document in Firestore
   async setDocument(
     collectionName: string,

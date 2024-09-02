@@ -8,6 +8,11 @@ import { MessageService } from '../message-service/message.service';
 })
 export class MessagingService {
   constructor(private dataService: DataService) {}
+  messageService: any;
+  constructor(
+    private dataService: DataService,
+    messageService: MessageService
+  ) {}
 
   async setMassagetoConversation(threadId: string, messageData: Message) {
     const messageDataJson = messageData.toJson();
