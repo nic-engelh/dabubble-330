@@ -22,6 +22,10 @@ section {
     font-family: 'Nunito';
     margin-left: 10px;
   }
+  &:hover {
+    color:#535AF1;
+    filter: invert(45%) sepia(90%) saturate(600%) hue-rotate(200deg) brightness(95%);
+  }
 }
 
 .hide-button {
@@ -34,7 +38,7 @@ section {
 
 .hide-button.rotated {
   > img {
-    transform: rotate(180deg);
+    transform: rotate(-90deg);
   }
 
 }
@@ -47,6 +51,7 @@ section {
   justify-content: center;
   align-items: center;
   gap: 25px;
+  transition: transform 0.3s ease;
 }
 
 .direct-message-item {
