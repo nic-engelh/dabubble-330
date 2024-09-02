@@ -45,12 +45,16 @@ section {
 
 .direct-message-list-container {
   min-width: 306px;
+  max-height: 490px;
+  height: 100%;
   padding: 3px 0px 3px 0px;
+  padding-top: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 25px;
+  overflow: auto;
   transition: transform 0.3s ease;
 }
 

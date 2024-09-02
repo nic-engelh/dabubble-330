@@ -124,15 +124,17 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   >img {
     height: 24px;
     width: 24px;
   }
   > p {
-    font-weight: 700;
-    font-size: 20px;
+    font-weight: 400;
+    font-size: 17px;
     font-family: 'Nunito';
     margin-left: 10px;
+    color: #535AF1;
   }
   &:hover {
     color:#535AF1;
