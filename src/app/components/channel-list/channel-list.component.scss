@@ -1,0 +1,142 @@
+@import '../../../styles/_breakpoints.scss';
+
+section {
+  max-width: 306px;
+  width: 100%;
+  @include xs {
+    width: 100%;
+    max-width: unset;
+  }
+}
+.channel-list-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > button:hover {
+    cursor: pointer;
+  }
+  >img {
+    height: 24px;
+    width: 24px;
+  }
+  > p {
+    font-weight: 700;
+    font-size: 20px;
+    font-family: 'Nunito';
+    margin-left: 10px;
+  }
+  &:hover {
+    color:#535AF1;
+    filter: invert(45%) sepia(90%) saturate(600%) hue-rotate(200deg) brightness(95%);
+  }
+}
+
+.hide-button {
+  margin-right: 16px;
+  cursor: pointer;
+  > img {
+    transition: transform 0.3s ease;
+  }
+}
+
+.hide-button.rotated {
+  > img {
+    transform: rotate(-90deg);
+  }
+
+}
+
+.channel-list-container {
+  min-width: 306px;
+  padding: 3px 0px 3px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  transition: transform 0.3s ease;
+}
+
+.channel-item {
+  width: 100%;
+  cursor: pointer;
+  > a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    > p {
+      font-weight: 400;
+      font-size: 18px;
+    }
+  }
+
+}
+
+.channel-item:hover {
+  width: fit-content;
+  background-color:#ECEEFE;
+  border-radius: 30px;
+  padding: 4px 20px 4px 20px;
+}
+
+.channel-item:active {
+  width: fit-content;
+  background-color:#ECEEFE;
+  border-radius: 30px;
+  padding: 4px 20px 4px 20px;
+  > a {
+    >p {
+      color: #535AF1;
+      font-weight: 700;
+    }
+  }
+
+}
+
+.channel-tag-box {
+  height: 50px;
+  width: 50px;
+  position: relative;
+  > .status-symbol {
+    height: 14px;
+    width: 14px;
+    position: absolute;
+    top: 40px;
+    left: 32px;
+  }
+}
+
+.channel-img {
+  width: 100%;
+  height: 100%;
+}
+
+
+.hover-box {
+  background-color:#ECEEFE;
+  border-radius: 30px;
+  padding: 4px 20px 4px 20px;
+}
+
+
+.channel-list-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  >img {
+    height: 24px;
+    width: 24px;
+  }
+  > p {
+    font-weight: 700;
+    font-size: 20px;
+    font-family: 'Nunito';
+    margin-left: 10px;
+  }
+  &:hover {
+    color:#535AF1;
+    filter: invert(45%) sepia(90%) saturate(600%) hue-rotate(200deg) brightness(95%);
+  }
+}
+

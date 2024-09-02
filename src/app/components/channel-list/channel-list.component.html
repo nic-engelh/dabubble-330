@@ -1,28 +1,42 @@
 <section>
   <div class="channel-list-header">
-    <button class="unbuttonize hide-button" (click)="toggleList()" [class.rotated]="!isOpen"><img src="/assets/img/arrow_drop_down.svg" alt="Ausblenden" /></button>
+    <button
+      class="unbuttonize hide-button"
+      (click)="toggleList()"
+      [class.rotated]="!isOpen"
+    >
+      <img src="/assets/img/arrow_drop_down.svg" alt="Ausblenden" />
+    </button>
     <img class="" src="/assets/img/workspaces.svg" alt="Workspace-Symbol" />
     <p>Channels</p>
+    <button class="unbuttonize">
+      <img src="/assets/img/add_purple.svg" alt="Add-Symbol" />
+    </button>
   </div>
   @if (isOpen) {
-    <div class="channel-list-container">
-      @if (channelList) {
-        @for (channel of channelList; track $index) {
-          <div id="{{ channel.id }}" class="channel-item" >
-            <a class="undecorate" [routerLink]="['/channel', channel.id]">
-              <div class="channel-avatar-box">
-                <img class="channel-img" src="/assets/img/tag-channel.svg" alt="Channel-Tag" />
-              </div>
-              <p>{{ channel.name }}</p>
-            </a>
-          </div>
-
-        }
-      }
-      @else {
-      <p>Keine Channels vorhanden</p>
-      }
+  <div class="channel-list-container">
+    @if (channelList) { @for (channel of channelList; track $index) {
+    <div id="{{ channel.id }}" class="channel-item">
+      <a class="undecorate" [routerLink]="['/channel', channel.id]">
+        <div class="channel-tag-box">
+          <img
+            class="channel-img"
+            src="/assets/img/tag-channel.svg"
+            alt="Channel-Tag"
+          />
+        </div>
+        <p>{{ channel.name }}</p>
+      </a>
     </div>
+    } } @else {
+    <p>Keine Channels vorhanden</p>
+    }
+  </div>
+  <div class="channel-list-bottom">
+    <button class="unbuttonize hide-button">
+      <img class="" src="/assets/img/add_circle_purple.svg" alt="Add-Symbol" />
+    </button>
+    <p>Channel hinzufügen</p>
+  </div>
   }
 </section>
-
