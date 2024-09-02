@@ -17,37 +17,6 @@ import { Message } from '../../../models/message.class';
 })
 export class DataService {
   private database: Firestore = inject(Firestore);
-  constructor(private http: HttpClient) {}
-  async createMessage(
-    conversationId: string,
-    messageText: string
-  ): Promise<Message> {
-    const response = await this.http.post('/messages', {
-      conversationId,
-      messageText,
-    });
-    return response.json();
-  }
-
-  async getMessagesForConversation(conversationId: string): Promise<Message[]> {
-    const response = await this.http.get(
-      `/messages?conversationId=${conversationId}`
-    );
-    return response.json();
-  }
-
-  async deleteMessage(messageId: string): Promise<void> {
-    await this.http.delete(`/messages/${messageId}`);
-  }
-  // Method to set a document in Firestore
-  async setDocument(
-    collectionName: string,
-    documentId: string,
-    data: any
-  ): Promise<void> {
-    const documentRef = doc(this.database, collectionName, documentId);
-    await setDoc(documentRef, data);
-  }
 
   async setDocumentToSubcollection(
     collectionName: string,

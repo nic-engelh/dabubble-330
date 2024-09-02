@@ -7,8 +7,6 @@ import { MessageService } from '../message-service/message.service';
   providedIn: 'root',
 })
 export class MessagingService {
-  constructor(private dataService: DataService) {}
-  messageService: any;
   constructor(
     private dataService: DataService,
     messageService: MessageService
