@@ -4,11 +4,17 @@ import { DirectMessageListComponent } from './components/direct-message-list/dir
 import { InConstructionComponent } from './components/in-construction/in-construction.component';
 import { DesktopComponent } from './components/desktop/desktop.component';
 import { ErrorComponent } from './components/error/error.component';
+import { ChannelComponent } from './components/channel/channel.component';
+
 export const routes: Routes = [
 
   {
     path: 'chat/:id',
     component: DirectMessageComponent
+  },
+  {
+    path: 'channel/:id',
+    component: ChannelComponent
   },
   {
     path: 'construction',
