@@ -5,6 +5,8 @@ import { InConstructionComponent } from './components/in-construction/in-constru
 import { DesktopComponent } from './components/desktop/desktop.component';
 import { ErrorComponent } from './components/error/error.component';
 import { ChannelComponent } from './components/channel/channel.component';
+import { TestMessengerComponent } from './components/test-messenger/test-messenger.component';
+
 
 export const routes: Routes = [
 
@@ -27,6 +29,10 @@ export const routes: Routes = [
   {
     path: '',
     component: DesktopComponent
+  },
+  {
+    path: 'testing',
+    component: TestMessengerComponent
   },
 
 ];
