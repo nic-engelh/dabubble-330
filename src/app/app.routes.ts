@@ -7,32 +7,29 @@ import { ErrorComponent } from './components/error/error.component';
 import { ChannelComponent } from './components/channel/channel.component';
 import { TestMessengerComponent } from './components/test-messenger/test-messenger.component';
 
-
 export const routes: Routes = [
-
   {
     path: 'chat/:id',
-    component: DirectMessageComponent
+    component: DirectMessageComponent,
   },
   {
     path: 'channel/:id',
-    component: ChannelComponent
+    component: ChannelComponent,
   },
   {
     path: 'construction',
-    component: InConstructionComponent
+    component: InConstructionComponent,
   },
   {
     path: 'error',
-    component: ErrorComponent
+    component: ErrorComponent,
   },
   {
     path: '',
-    component: DesktopComponent
+    component: DesktopComponent,
   },
   {
     path: 'testing',
-    component: TestMessengerComponent
+    component: TestMessengerComponent,
   },
-
 ];

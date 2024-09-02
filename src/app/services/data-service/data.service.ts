@@ -18,6 +18,15 @@ import { Message } from '../../../models/message.class';
 export class DataService {
   private database: Firestore = inject(Firestore);
 
+  async setDocument(
+    collectionName: string,
+    documentId: string,
+    data: any
+  ): Promise<void> {
+    const documentRef = doc(this.database, collectionName, documentId);
+    await setDoc(documentRef, data);
+  }
+
   async setDocumentToSubcollection(
     collectionName: string,
     documentId: string,

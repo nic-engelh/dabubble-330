@@ -12,8 +12,8 @@ export class MessagingService {
     messageService: MessageService
   ) {}
 
-  async setMassagetoConversation(threadId: string, messageData: Message) {
-    const messageDataJson = messageData.toJson();
+  async setMessagetoConversation(threadId: string, messageDataJson: Message) {
+    // const messageDataJson = messageData.toJson();
     await this.dataService.addDocumentToSubcollection(
       'threads',
       threadId,

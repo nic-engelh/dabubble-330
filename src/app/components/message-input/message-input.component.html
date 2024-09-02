@@ -3,6 +3,7 @@
     <div>
       <input
         [(ngModel)]="formInputValues"
+        [ngModelOptions]="{ standalone: true }"
         type="text"
         placeholder="Nachricht an Member"
       />

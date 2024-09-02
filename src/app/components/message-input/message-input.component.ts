@@ -1,16 +1,17 @@
+import { User } from './../../../models/user.class';
 import { MessagingService } from './../../services/messaging-service/messaging.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { Message } from '../../../models/message.class';
 import { Conversation } from '../../../models/conversation.class';
-import { User } from '../../../models/user.class';
 import { MessageService } from '../../services/message-service/message.service';
 import { FormControl } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-message-input',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterModule],
   templateUrl: './message-input.component.html',
   styleUrl: './message-input.component.scss',
 })
@@ -22,7 +23,8 @@ export class MessageInputComponent implements OnInit {
 
   // form values = content and user
   formInputValues: any;
-
+  user = new User(); //user wird übergeben
+  // ACTIVE USER === SENDER
   constructor(
     private messageService: MessageService,
     private messagingService: MessagingService
@@ -30,11 +32,28 @@ export class MessageInputComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+  }
+
+  printConsoleLog() {
+    console.log('hallo Input', this.formInputValues);
+    // input === string;
+  }
+
   sendMessage() {
     let newMessage: any; // Message Datatyp
 
-    newMessage = this.messageService.createMessage(this.formInputValues);
+    newMessage = this.messageService.createMessage(
+      this.threadId,
+      this.formInputValues,
+      this.user
+    );
 
-    this.messagingService.setMassagetoConversation(this.threadId, newMessage);
+    this.messagingService.setMessagetoConversation(this.threadId, newMessage);
   }
+
+  //function getUserSender(){}
+  // function needs to find Sender from Conversation => active USER === Sender
 }

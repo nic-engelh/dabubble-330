@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from '../../services/data-service/data.service';
 import { Message } from '../../../models/message.class';
+import { User } from '../../../models/user.class';
 
 @Injectable({
   providedIn: 'root',
@@ -10,16 +11,20 @@ export class MessageService {
 
   // This function creates a new message in the database. It might call DataService to perform the actual database operation.
   async createMessage(
-    inputValues: any,
     conversationId: string,
-    messageText: string
+    messageText: string,
+    sender: User
   ): Promise<Message> {
-    // new Message()
-
+    let message = new Message();
+    message.content = messageText;
+    message.sender = sender;
+    message = message;
+    console.log('Message', message);
+    //
     // newMessage.user = inputVal.user
     // content ....
 
-    return new Message(); // newMessage
+    return message; // newMessage
   }
 
   createMessageExample(conversationId: string, messageText: string) {
