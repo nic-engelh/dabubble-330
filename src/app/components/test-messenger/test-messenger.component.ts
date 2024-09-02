@@ -5,11 +5,13 @@ import { User } from '../../../models/user.class';
 import { Observable, Subscriber, Subscription } from 'rxjs';
 import { OnInit, OnDestroy } from '@angular/core';
 import { Conversation } from '../../../models/conversation.class';
+import { Channel } from '../../../models/channel.class';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-test-messenger',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './test-messenger.component.html',
   styleUrl: './test-messenger.component.scss',
 })
@@ -18,12 +20,15 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
   userSub: Subscription = new Subscription();
   data: any;
   thread = new Conversation();
+  channel = new Channel();
   threadMessageSub: Subscription = new Subscription();
   conversationSub: Subscription = new Subscription();
+
 
   constructor(private dataService: DataService) {
     this.user.username = 'Spiderman';
     this.thread.name = 'Deeptalk';
+    this.channel.name = 'Justice League'
   }
 
   ngOnInit(): void {
@@ -35,6 +40,14 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
   async saveUser() {
     const data = this.user.toJson();
     await this.dataService.setDocument('users', `${this.user.id}`, data);
+  }
+
+  async saveChannel() {
+    this.channel.createdBy.push(this.user);
+    this.channel.conversations.push(this.thread);
+    this.channel.member.push(this.user);
+    const data = this.channel.toJson();
+    await this.dataService.setDocument('channels',`${this.channel.id}`, data);
   }
 
   async getUser() {

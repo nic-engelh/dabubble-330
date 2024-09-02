@@ -67,7 +67,7 @@ section {
     gap: 15px;
     > p {
       font-weight: 400;
-      font-size: 18px;
+      font-size: 17px;
     }
   }
 
@@ -95,16 +95,8 @@ section {
 }
 
 .channel-tag-box {
-  height: 50px;
-  width: 50px;
-  position: relative;
-  > .status-symbol {
-    height: 14px;
-    width: 14px;
-    position: absolute;
-    top: 40px;
-    left: 32px;
-  }
+  height: 24px;
+  width: 24px;
 }
 
 .channel-img {
