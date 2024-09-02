@@ -24,3 +24,7 @@ body {
   text-decoration: none;
   color: inherit;
 }
+
+.svg-filter-bubble-purple {
+  filter: invert(45%) sepia(90%) saturate(600%) hue-rotate(200deg) brightness(95%);
+}
