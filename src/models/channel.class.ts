@@ -32,6 +32,10 @@ export class Channel {
         updatedAt: this.updatedAt.toISOString(),
       };
     }
+
+    updateTimestamp () {
+      this.updatedAt = new Date();
+    }
   }
 
 
