@@ -6,6 +6,7 @@ import { DesktopComponent } from './components/desktop/desktop.component';
 import { ErrorComponent } from './components/error/error.component';
 import { ChannelComponent } from './components/channel/channel.component';
 import { TestMessengerComponent } from './components/test-messenger/test-messenger.component';
+import { UserAuthenticationComponent } from './components/user-authentication/user-authentication.component';
 
 
 export const routes: Routes = [
@@ -33,6 +34,10 @@ export const routes: Routes = [
   {
     path: 'testing',
     component: TestMessengerComponent
+  },
+  {
+    path: 'auth',
+    component: UserAuthenticationComponent
   },
 
 ];
