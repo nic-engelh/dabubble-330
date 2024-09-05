@@ -1,1 +1,38 @@
-<p>log-in works!</p>
+<section>
+
+
+  <div class="login-container">
+    <h2>Login</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Email Input Field -->
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" formControlName="email" class="form-control" />
+        <div *ngIf="email?.invalid && (email?.touched || email?.dirty)" class="error">
+          <small *ngIf="email?.errors?.['required']">Email is required.</small>
+          <small *ngIf="email?.errors?.['email']">Enter a valid email.</small>
+        </div>
+      </div>
+
+      <!-- Password Input Field -->
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" formControlName="password" class="form-control" />
+        <div *ngIf="password?.invalid && (password?.touched || password?.dirty)" class="error">
+          <small *ngIf="password?.errors?.['required']">Password is required.</small>
+          <small *ngIf="password?.errors?.['minlength']">
+            Password must be at least 6 characters long.
+          </small>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
+    </form>
+  </div>
+
+
+
+</section>
+
