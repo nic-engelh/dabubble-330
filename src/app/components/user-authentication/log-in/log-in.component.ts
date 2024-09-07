@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
+  FormControl,
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -20,6 +21,9 @@ import { RouterModule, Router } from '@angular/router';
 export class LogInComponent {
   loginForm: FormGroup;
   subscription = new Subscription();
+  isHidden: boolean = false;
+  inputControl = new FormControl('');
+  isTyping = false;
 
   constructor(
     private fb: FormBuilder,
@@ -70,5 +74,9 @@ export class LogInComponent {
 
     // Navigate to main chat page
     this.router.navigate(['/desktop']);
+  }
+
+  onInput() {
+    this.isTyping = this.inputControl.value !== '';
   }
 }

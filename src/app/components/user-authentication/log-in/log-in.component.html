@@ -10,13 +10,15 @@
       <!-- Email Input Field -->
       <div class="form-group">
         <div class="form-input-box">
-          <img class="input-icon" src="/assets/img/mail.svg" alt="Email-Symbol" />
+          <img [hidden]="isTyping" class="input-icon" src="/assets/img/mail.svg" alt="Email-Symbol" />
           <input
             placeholder="beispielname@email.com"
             type="email"
             id="email"
             formControlName="email"
             class="form-control bubble-form-input"
+            [formControl]="inputControl"
+            (input)="onInput()"
           />
         </div>
         <div
@@ -31,13 +33,15 @@
       <!-- Password Input Field -->
       <div class="form-group">
         <div class="form-input-box">
-          <img class="input-icon" src="/assets/img/lock.svg" alt="Password-Symbol" />
+          <img [hidden]="isTyping" class="input-icon" src="/assets/img/lock.svg" alt="Password-Symbol" />
           <input
             placeholder="Passwort"
             type="password"
             id="password"
             formControlName="password"
             class="form-control bubble-form-input"
+            [formControl]="inputControl"
+            (input)="onInput()"
           />
         </div>
 
