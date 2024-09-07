@@ -37,4 +37,8 @@ export const routes: Routes = [
     path: 'auth',
     component: UserAuthenticationComponent,
   },
+  {
+    path: 'direct',
+    component: DirectMessageComponent,
+  },
 ];

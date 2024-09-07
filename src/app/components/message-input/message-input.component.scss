@@ -1,5 +1,8 @@
 .message-container {
+  position: fixed;
+  bottom: 0;
   border: 1px solid grey;
+  width: 70svw;
   min-width: 320px;
   border-radius: 20px;
   height: 145px;

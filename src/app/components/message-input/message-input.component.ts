@@ -72,7 +72,7 @@ export class MessageInputComponent implements OnInit {
     if (this.chatForm.valid) {
       // Formularwert auslesen
       const messageContent = this.chatForm.get('message')?.value;
-
+      this.messages.push(messageContent);
       // Erstelle die Nachricht mit dem MessageService
       const newMessage = this.messageService.createMessage(
         this.threadId, // ID des Gesprächs
