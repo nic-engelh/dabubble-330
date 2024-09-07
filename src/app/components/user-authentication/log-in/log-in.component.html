@@ -1,0 +1,91 @@
+<section>
+  <div class="login-container">
+    <span class="header">Anmeldung</span>
+    <span class="sub-header">
+      Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
+      verwendest.
+    </span>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Email Input Field -->
+      <div class="form-group">
+        <div class="form-input-box">
+          <img class="input-icon" src="/assets/img/mail.svg" alt="Email-Symbol" />
+          <input
+            placeholder="beispielname@email.com"
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control bubble-form-input"
+          />
+        </div>
+        <div
+          *ngIf="email?.invalid && (email?.touched || email?.dirty)"
+          class="error"
+        >
+          <small *ngIf="email?.errors?.['required']">Email is required.</small>
+          <small *ngIf="email?.errors?.['email']">Enter a valid email.</small>
+        </div>
+      </div>
+
+      <!-- Password Input Field -->
+      <div class="form-group">
+        <div class="form-input-box">
+          <img class="input-icon" src="/assets/img/lock.svg" alt="Password-Symbol" />
+          <input
+            placeholder="Passwort"
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control bubble-form-input"
+          />
+        </div>
+
+        <div
+          *ngIf="password?.invalid && (password?.touched || password?.dirty)"
+          class="error"
+        >
+          <small *ngIf="password?.errors?.['required']"
+            >Password is required.</small
+          >
+          <small *ngIf="password?.errors?.['minlength']">
+            Password must be at least 6 characters long.
+          </small>
+        </div>
+      </div>
+      <a class="lost-password-link undecorate" href=""><p>Password vergessen?</p></a>
+
+      <div class="line-box">
+        <div class="solid-line"></div>
+        <span>ODER</span>
+      </div>
+
+      <div class="google-login">
+        <button class="bubble-form-input unbuttonize">
+          <img src="/assets/img/google.svg" alt="Google Symbol" />
+          <span>Anmelden mit Google</span>
+        </button>
+      </div>
+      <!-- Submit Button -->
+      <div class="button-box">
+        <button
+        type="submit"
+        class="bubble-full-button"
+        [disabled]="loginForm.invalid"
+      >
+        Anmelden
+      </button>
+      <button class="unbuttonize bubble-empty-button">
+        Gäste-Login
+      </button>
+
+      </div>
+
+    </form>
+  </div>
+
+  <div>
+    <p>Neu bei DABubble?</p>
+    <button>Konto erstellen</button>
+  </div>
+</section>

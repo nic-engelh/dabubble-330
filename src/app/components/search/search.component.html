@@ -1,1 +1,15 @@
-<p>search works!</p>
+
+<section>
+  <div>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+      <div class="search-bar">
+        <input formControlName="search" type="text" placeholder="Search...">
+        <button type="submit" class="search-button">
+          <img src="/assets/img/search_icon.svg" alt="Search-Symbol">
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+

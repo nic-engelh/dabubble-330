@@ -99,7 +99,7 @@ export class DataService {
           // Emits the data to the observable subscribers.
           Subscriber.next(data);
           // Logs the entire query snapshot to the console for debugging purposes.
-          console.log(querySnap);
+          // console.log(querySnap);
         },
         // Error callback: Emits an error to the observable subscribers if the onSnapshot fails.
         (error) => Subscriber.error(error)

@@ -1,4 +1,13 @@
-@import '../../../styles/_breakpoints.scss';
+@import "../../../styles/_breakpoints.scss";
+
+@mixin overflow-padding($selector) {
+  #{$selector} {
+    // If the element has overflow set to 'auto' or 'scroll', apply padding
+    @if (overflow == auto) or (overflow == scroll) {
+      padding-top: 40px;
+    }
+  }
+}
 
 section {
   max-width: 306px;
@@ -12,19 +21,20 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  >img {
+  > img {
     height: 24px;
     width: 24px;
   }
   > p {
     font-weight: 700;
     font-size: 20px;
-    font-family: 'Nunito';
+    font-family: "Nunito";
     margin-left: 10px;
   }
   &:hover {
-    color:#535AF1;
-    filter: invert(45%) sepia(90%) saturate(600%) hue-rotate(200deg) brightness(95%);
+    color: #535af1;
+    filter: invert(45%) sepia(90%) saturate(600%) hue-rotate(200deg)
+      brightness(95%);
   }
 }
 
@@ -40,7 +50,6 @@ section {
   > img {
     transform: rotate(-90deg);
   }
-
 }
 
 .direct-message-list-container {
@@ -48,7 +57,6 @@ section {
   max-height: 490px;
   height: 100%;
   padding: 3px 0px 3px 0px;
-  padding-top: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -57,6 +65,8 @@ section {
   overflow: auto;
   transition: transform 0.3s ease;
 }
+
+@include overflow-padding('.direct-message-list-container');
 
 .direct-message-item {
   width: 100%;
@@ -71,28 +81,26 @@ section {
       font-size: 18px;
     }
   }
-
 }
 
 .direct-message-item:hover {
   width: fit-content;
-  background-color:#ECEEFE;
+  background-color: #eceefe;
   border-radius: 30px;
   padding: 4px 20px 4px 20px;
 }
 
 .direct-message-item:active {
   width: fit-content;
-  background-color:#ECEEFE;
+  background-color: #eceefe;
   border-radius: 30px;
   padding: 4px 20px 4px 20px;
   > a {
-    >p {
-      color: #535AF1;
+    > p {
+      color: #535af1;
       font-weight: 700;
     }
   }
-
 }
 
 .avatar-box {
@@ -113,11 +121,11 @@ section {
   height: 100%;
 }
 
-
 .hover-box {
-  background-color:#ECEEFE;
+  background-color: #eceefe;
   border-radius: 30px;
   padding: 4px 20px 4px 20px;
 }
+
 
 
