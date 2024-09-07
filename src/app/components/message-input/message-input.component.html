@@ -1,11 +1,11 @@
 <div class="message-container">
-  <form (ngSubmit)="sendMessage()">
+  <form [formGroup]="chatForm" (ngSubmit)="sendMessage()">
     <div>
       <input
         [(ngModel)]="formInputValues"
-        [ngModelOptions]="{ standalone: true }"
         type="text"
         placeholder="Nachricht an Member"
+        formControlName="message"
       />
       <span class="underline"></span>
     </div>
@@ -23,7 +23,7 @@
         </button>
       </div>
       <div class="send-btn">
-        <button>
+        <button type="submit" [disabled]="chatForm.invalid">
           <img src="assets/img/send.png" alt="" class="send-img" />
         </button>
       </div>
