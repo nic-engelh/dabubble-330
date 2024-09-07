@@ -10,15 +10,14 @@ export class MessageService {
   constructor(private dataService: DataService) {}
 
   // This function creates a new message in the database. It might call DataService to perform the actual database operation.
-  async createMessage(
+  createMessage(
     conversationId: string,
     messageText: string,
     sender: User
-  ): Promise<Message> {
+  ): Message {
     let message = new Message();
     message.content = messageText;
     message.sender = sender;
-    message = message;
     console.log('Message', message);
     //
     // newMessage.user = inputVal.user

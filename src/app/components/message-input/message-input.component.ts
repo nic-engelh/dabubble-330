@@ -43,9 +43,7 @@ export class MessageInputComponent implements OnInit {
   }
 
   sendMessage() {
-    let newMessage: any; // Message Datatyp
-
-    newMessage = this.messageService.createMessage(
+    const newMessage = this.messageService.createMessage(
       this.threadId,
       this.formInputValues,
       this.user
