@@ -1,8 +1,20 @@
-<div *ngFor="let message of messages">
-  <div class="message">
-    <p>{{ message.sender }}: {{ message.content }}</p>
-    <small>{{ message.timestamp | date : "short" }}</small>
+<!-- <div *ngIf="messages$ | async as messages" class="messages-container">
+  <div *ngFor="let message of messages">
+    <p class="text">{{ message.content }}</p>
+    <small>{{ message.sender }}</small>
+    <span>{{ message.timestamp | date : "short" }}</span>
+  </div>
+</div> -->
+<div *ngIf="messages$ | async as messages; else noMessages">
+  <div *ngFor="let message of messages">
+    <p>{{ message.content }}</p>
+    <small>Sender: {{ message.sender }}</small>
+    <small>Time: {{ message.timestamp | date : "short" }}</small>
+    <small>Status: {{ message.isRead ? "Read" : "Unread" }}</small>
   </div>
 </div>
+<ng-template #noMessages>
+  <p>Keine Nachrichten vorhanden.</p>
+</ng-template>
 
 <app-message-input></app-message-input>

@@ -70,29 +70,25 @@ export class MessageInputComponent implements OnInit {
 
   sendMessage() {
     if (this.chatForm.valid) {
-      // Formularwert auslesen
       const messageContent = this.chatForm.get('message')?.value;
-      // this.messages.push(messageContent);
-      // Erstelle die Nachricht mit dem MessageService
       const newMessage = this.messageService.createMessage(
-        this.threadId, // ID des Gesprächs
-        messageContent, // Der eigentliche Nachrichteninhalt (als string)
-        this.user // Aktueller Benutzer, der die Nachricht sendet
+        this.threadId,
+        messageContent,
+        this.user
       );
 
-      // Nachricht zur Konversation hinzufügen
       this.messagingService
         .setMessagetoConversation(this.threadId, newMessage)
         .then(() => {
           console.log('Nachricht erfolgreich gesendet!');
-          this.chatForm.reset(); // Formular nach erfolgreichem Absenden zurücksetzen
+          this.chatForm.reset();
         })
         .catch((error) => {
           console.error('Fehler beim Senden der Nachricht:', error);
         });
     }
   }
-
-  //function getUserSender(){}
-  // function needs to find Sender from Conversation => active USER === Sender
 }
+
+//function getUserSender(){}
+// function needs to find Sender from Conversation => active USER === Sender
