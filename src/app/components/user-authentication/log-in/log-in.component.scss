@@ -1,5 +1,11 @@
 @import '../../../../styles/_breakpoints.scss';
 
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .login-container {
   border-radius: 30px;
   padding: 35px 20px 35px 20px;
@@ -145,3 +151,27 @@ img.input-icon.touched {
   font-weight: 400;
   line-height: 19.1px;
 }
+
+.background-unset {
+  background-color: unset;
+}
+
+.register-link-box {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  max-width: 204px;
+  width: 100%;
+  > p {
+    font-family: Nunito;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24.55px;
+  }
+  > button {
+    text-align: center;
+  }
+}
+
+
