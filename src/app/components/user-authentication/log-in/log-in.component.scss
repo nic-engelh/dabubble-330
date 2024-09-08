@@ -87,6 +87,7 @@ form {
   color: #797EF3;
   font-weight: 400;
   font-size: 17px;
+  cursor: pointer;
 }
 
 
@@ -114,6 +115,7 @@ form {
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    cursor: pointer;
     > span {
       font-size: 17px;
       font-weight: 400px;

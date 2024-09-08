@@ -52,6 +52,7 @@ body {
   font-size: 18px;
   font-weight: 700;
   flex-grow: 1;
+  cursor: pointer;
 }
 
 .bubble-empty-button {
@@ -69,4 +70,5 @@ body {
   text-align: center;
   flex-grow: 1;
   white-space: nowrap;
+  cursor: pointer;
 }
