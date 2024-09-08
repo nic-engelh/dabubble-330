@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DataService } from '../../services/data-service/data.service';
 import { Message } from '../../../models/message.class';
 import { User } from '../../../models/user.class';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -32,12 +33,20 @@ export class MessageService {
   //This function creates a new message in the database. It might call DataService to perform the actual database operation.
 
   //This function retrieves messages for a conversation from the database. It might call DataService to perform the actual database operation.
-  async getMessagesForConversation(conversationId: string) {
-    return new Message(); //Promise<Message[]
+  getMessagesForConversation(conversationId: string): Observable<Message[]> {
+    return this.dataService.getSubcollectionUpdates(
+      'threads',
+      conversationId,
+      'conversationMessages'
+    );
   }
+
+  async updateMessagesConversation() {}
 
   //This function deletes a message from the database. It might call DataService to perform the actual database operation.
   async deleteMessage(messageId: string): Promise<void> {
     // return; // Promise<void>
   }
 }
+// this service does everything about the message
+// for example CRUD Message to every Message!!!

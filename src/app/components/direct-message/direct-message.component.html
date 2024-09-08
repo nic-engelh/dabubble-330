@@ -1,9 +1,7 @@
-<div class="chat-container">
-  <!-- Nachrichtenausgabe -->
-  <div class="chat-box">
-    <!-- <div *ngFor="let message of messages" class="message">
-      {{ message }}
-    </div> -->
+<div *ngFor="let message of messages">
+  <div class="message">
+    <p>{{ message.sender }}: {{ message.content }}</p>
+    <small>{{ message.timestamp | date : "short" }}</small>
   </div>
 </div>
 

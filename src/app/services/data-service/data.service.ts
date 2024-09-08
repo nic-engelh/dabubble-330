@@ -11,6 +11,7 @@ import {
 import { collection, getFirestore } from 'firebase/firestore';
 import { Observable, Subscriber } from 'rxjs';
 import { Message } from '../../../models/message.class';
+import { User } from '../../../models/user.class';
 
 @Injectable({
   providedIn: 'root',
@@ -107,27 +108,77 @@ export class DataService {
     });
   }
 
+  // getSubcollectionUpdates(
+  //   mainCollectionName: string,
+  //   mainDocumentId: string,
+  //   subCollectionName: string
+  // ): Observable<any> {
+  //   const subcollectionRef = collection(
+  //     this.database,
+  //     `${mainCollectionName}/${mainDocumentId}/${subCollectionName}`
+  //   );
+  //   return new Observable((Subscriber) => {
+  //     onSnapshot(
+  //       subcollectionRef,
+  //       (querySnapshot) => {
+  //         const data = querySnapshot.docs.map((documentSnapshot) => ({
+  //           id: documentSnapshot.id,
+  //           ...documentSnapshot.data(),
+  //         }));
+  //         Subscriber.next(data);
+  //       },
+  //       (error) => Subscriber.error(error)
+  //     );
+  //   });
+  // }
   getSubcollectionUpdates(
     mainCollectionName: string,
     mainDocumentId: string,
     subCollectionName: string
-  ): Observable<any> {
+  ): Observable<Message[]> {
     const subcollectionRef = collection(
       this.database,
       `${mainCollectionName}/${mainDocumentId}/${subCollectionName}`
     );
-    return new Observable((Subscriber) => {
-      onSnapshot(
+
+    return new Observable((subscriber) => {
+      const unsubscribe = onSnapshot(
         subcollectionRef,
         (querySnapshot) => {
-          const data = querySnapshot.docs.map((documentSnapshot) => ({
-            id: documentSnapshot.id,
-            ...documentSnapshot.data(),
-          }));
-          Subscriber.next(data);
+          const messages = querySnapshot.docs.map((docSnapshot) => {
+            const data = docSnapshot.data();
+            console.log('Firestore-Daten:', data); // Debugging
+
+            // Prüfen und Erstellen des Benutzers
+            const sender = new User(
+              data['sender']['id'],
+              data['sender']['name'],
+              data['sender']['email']
+            );
+
+            // Rückgabe eines neuen Message-Objekts
+            return new Message(
+              docSnapshot.id,
+              data['content'],
+              sender,
+              new Date(data['timestamp']),
+              data['isRead']
+            );
+          });
+
+          // Nachrichten weitergeben
+          subscriber.next(messages);
         },
-        (error) => Subscriber.error(error)
+        (error) => {
+          console.error('Firestore-Abfragefehler:', error);
+          subscriber.error(error);
+        }
       );
+
+      return () => {
+        console.log('Unsubscribing from Firestore updates');
+        unsubscribe();
+      };
     });
   }
 }
