@@ -53,13 +53,22 @@ form {
     width: 100%;
   }
   > input {
-    padding-left: 30px;
+    padding-left: 100px;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: start;
+    font-family: 'Nunito';
+    outline: 0;
+    &:active {
+      color: black;
+      outline: 0;
+      border: 1px solid #535AF1 !important;
+    }
   }
   > input::placeholder {
     color: #686868;
     font-size: 18px;
     font-weight: 500;
-    padding-left: 70px;
     text-align: start;
   }
   > .input-icon {
@@ -79,7 +88,7 @@ form {
   position: relative;
   width: 100%;
   >.solid-line {
-    border-bottom: 1px solid #ADB0D9
+    border-bottom: 1px solid #ADB0D9;
   }
   > span {
     position: absolute;
@@ -116,4 +125,23 @@ form {
   gap: 20px;
 }
 
+.form-control:hover {
+  border: 1px solid #686868;
+}
 
+.form-control:focus {
+  outline: 0;
+  border: 1px solid #535AF1 !important;
+}
+
+img.input-icon.touched {
+  filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+}
+
+.error {
+  color: #ED1E79;
+  font-family: Nunito;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.1px;
+}

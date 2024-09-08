@@ -10,38 +10,54 @@
       <!-- Email Input Field -->
       <div class="form-group">
         <div class="form-input-box">
-          <img [hidden]="isTyping" class="input-icon" src="/assets/img/mail.svg" alt="Email-Symbol" />
+          <img
+            [class.touched]="loginForm.get('email')?.dirty || emailFocused"
+            class="input-icon"
+            src="/assets/img/mail.svg"
+            alt="Email-Symbol"
+          />
           <input
             placeholder="beispielname@email.com"
             type="email"
             id="email"
             formControlName="email"
             class="form-control bubble-form-input"
-            [formControl]="inputControl"
-            (input)="onInput()"
+            autocomplete="off"
+            (focus)="emailFocused = true"
+            (blur)="emailFocused = false"
           />
         </div>
         <div
           *ngIf="email?.invalid && (email?.touched || email?.dirty)"
           class="error"
         >
-          <small *ngIf="email?.errors?.['required']">Email is required.</small>
-          <small *ngIf="email?.errors?.['email']">Enter a valid email.</small>
+          <small *ngIf="email?.errors?.['required']"
+            >*Eine E-Mail-Adresse wird benötigt.</small
+          >
+          <small *ngIf="email?.errors?.['email']"
+            >*Diese E-Mail-Adresse ist leidder ungültig.</small
+          >
         </div>
       </div>
 
       <!-- Password Input Field -->
       <div class="form-group">
         <div class="form-input-box">
-          <img [hidden]="isTyping" class="input-icon" src="/assets/img/lock.svg" alt="Password-Symbol" />
+          <img
+            class="input-icon"
+            [class.touched]="loginForm.get('password')?.dirty || passwordFocused"
+            src="/assets/img/lock.svg"
+            alt="Password-Symbol"
+          />
           <input
             placeholder="Passwort"
             type="password"
             id="password"
             formControlName="password"
             class="form-control bubble-form-input"
-            [formControl]="inputControl"
-            (input)="onInput()"
+            autocomplete="off"
+            (focus)="passwordFocused = true"
+            (blur)="passwordFocused = false"
           />
         </div>
 
@@ -50,14 +66,16 @@
           class="error"
         >
           <small *ngIf="password?.errors?.['required']"
-            >Password is required.</small
+            >Ein Passwort wird benötigt.</small
           >
           <small *ngIf="password?.errors?.['minlength']">
-            Password must be at least 6 characters long.
+            Das Password muss mindestens sechs Zeichen beinhalten.
           </small>
         </div>
       </div>
-      <a class="lost-password-link undecorate" href=""><p>Password vergessen?</p></a>
+      <a class="lost-password-link undecorate" href=""
+        ><p>Password vergessen?</p></a
+      >
 
       <div class="line-box">
         <div class="solid-line"></div>
@@ -73,18 +91,14 @@
       <!-- Submit Button -->
       <div class="button-box">
         <button
-        type="submit"
-        class="bubble-full-button"
-        [disabled]="loginForm.invalid"
-      >
-        Anmelden
-      </button>
-      <button class="unbuttonize bubble-empty-button">
-        Gäste-Login
-      </button>
-
+          type="submit"
+          class="bubble-full-button"
+          [disabled]="loginForm.invalid"
+        >
+          Anmelden
+        </button>
+        <button class="unbuttonize bubble-empty-button">Gäste-Login</button>
       </div>
-
     </form>
   </div>
 
