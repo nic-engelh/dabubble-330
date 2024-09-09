@@ -36,12 +36,12 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // this.messages$ = this.dataService.getSubcollectionUpdates(
-    //   'conversations',
-    //   this.conversationId,
-    //   'messages'
-    // );
-    this.messages$ = this.dataService.getCollectionUpdates('messages');
+    this.messages$ = this.dataService.getSubcollectionUpdates(
+      'threads',
+      this.conversationId,
+      'conversationMessages'
+    );
+    // this.messages$ = this.dataService.getCollectionUpdates('messages');
   }
 
   ngOnDestroy() {

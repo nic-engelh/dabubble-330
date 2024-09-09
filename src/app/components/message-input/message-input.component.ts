@@ -56,38 +56,38 @@ export class MessageInputComponent implements OnInit {
     // input === string;
   }
 
-  // sendMessage() {
-  //   if (this.chatForm.valid) {
-  //     const newMessage = this.messageService.createMessage(
-  //       this.threadId,
-  //       this.formInputValues,
-  //       this.user
-  //     );
-
-  //     this.messagingService.setMessagetoConversation(this.threadId, newMessage);
-  //   }
-  // }
-
   sendMessage() {
     if (this.chatForm.valid) {
-      const messageContent = this.chatForm.get('message')?.value;
       const newMessage = this.messageService.createMessage(
         this.threadId,
-        messageContent,
+        this.formInputValues,
         this.user
       );
 
-      this.messagingService
-        .setMessagetoConversation(this.threadId, newMessage)
-        .then(() => {
-          console.log('Nachricht erfolgreich gesendet!');
-          this.chatForm.reset();
-        })
-        .catch((error) => {
-          console.error('Fehler beim Senden der Nachricht:', error);
-        });
+      this.messagingService.setMessagetoConversation(this.threadId, newMessage);
     }
   }
+
+  // sendMessage() {
+  //   if (this.chatForm.valid) {
+  //     const messageContent = this.chatForm.get('message')?.value;
+  //     const newMessage = this.messageService.createMessage(
+  //       this.threadId,
+  //       messageContent,
+  //       this.user
+  //     );
+
+  //     this.messagingService
+  //       .setMessagetoConversation(this.threadId, newMessage)
+  //       .then(() => {
+  //         console.log('Nachricht erfolgreich gesendet!');
+  //         this.chatForm.reset();
+  //       })
+  //       .catch((error) => {
+  //         console.error('Fehler beim Senden der Nachricht:', error);
+  //       });
+  //   }
+  // }
 }
 
 //function getUserSender(){}
