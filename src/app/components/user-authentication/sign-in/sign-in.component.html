@@ -1,1 +1,123 @@
-<p>sign-in works!</p>
+<section>
+  <div class="signin-container">
+    <span class="header">Konto erstellen</span>
+    <span class="sub-header">
+      Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues
+      DABubble-Konto.
+    </span>
+
+    <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+      <!-- Full Name Input Field -->
+      <div class="form-group">
+        <div class="form-input-box">
+          <img
+            [class.touched]="signInForm.get('name')?.dirty || nameFocused"
+            class="input-icon"
+            src="/assets/img/person_filled.svg"
+            alt="Person-Symbol"
+          />
+          <input
+            placeholder="Name und Nachname"
+            type="name"
+            id="name"
+            formControlName="name"
+            class="form-control bubble-form-input"
+            autocomplete="off"
+            (focus)="nameFocused = true"
+            (blur)="nameFocused = false"
+          />
+        </div>
+        <div
+          *ngIf="name?.invalid && (name?.touched || name?.dirty)"
+          class="error"
+        >
+          <small *ngIf="name?.errors?.['required']"
+            >Bitte geben Sie einen Namen ein.</small
+          >
+        </div>
+      </div>
+
+      <!-- Email Input Field -->
+      <div class="form-group">
+        <div class="form-input-box">
+          <img
+            [class.touched]="signInForm.get('email')?.dirty || emailFocused"
+            class="input-icon"
+            src="/assets/img/mail.svg"
+            alt="Email-Symbol"
+          />
+          <input
+            placeholder="beispielname@email.com"
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control bubble-form-input"
+            autocomplete="off"
+            (focus)="emailFocused = true"
+            (blur)="emailFocused = false"
+          />
+        </div>
+        <div
+          *ngIf="email?.invalid && (email?.touched || email?.dirty)"
+          class="error"
+        >
+          <small *ngIf="email?.errors?.['required']"
+            >*Eine E-Mail-Adresse wird benötigt.</small
+          >
+          <small *ngIf="email?.errors?.['email']"
+            >*Diese E-Mail-Adresse ist leidder ungültig.</small
+          >
+        </div>
+      </div>
+
+      <!-- Password Input Field -->
+      <div class="form-group">
+        <div class="form-input-box">
+          <img
+            class="input-icon"
+            [class.touched]="
+              signInForm.get('password')?.dirty || passwordFocused
+            "
+            src="/assets/img/lock.svg"
+            alt="Password-Symbol"
+          />
+          <input
+            placeholder="Passwort"
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control bubble-form-input"
+            autocomplete="off"
+            (focus)="passwordFocused = true"
+            (blur)="passwordFocused = false"
+          />
+        </div>
+
+        <div
+          *ngIf="password?.invalid && (password?.touched || password?.dirty)"
+          class="error"
+        >
+          <small *ngIf="password?.errors?.['required']"
+            >Ein Passwort wird benötigt.</small
+          >
+          <small *ngIf="password?.errors?.['minlength']">
+            Das Password muss mindestens sechs Zeichen beinhalten.
+          </small>
+        </div>
+      </div>
+      <div class="data-privacy-container">
+        <!-- Datenschutzerklärung hier -->
+      </div>
+      <!-- Submit Button -->
+      <div class="button-box">
+        <button
+          type="submit"
+          class="bubble-full-button btn-small"
+          [disabled]="signInForm.invalid"
+        >
+          Weiter
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

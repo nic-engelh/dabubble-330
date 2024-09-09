@@ -7,7 +7,8 @@ import { ErrorComponent } from './components/error/error.component';
 import { ChannelComponent } from './components/channel/channel.component';
 import { TestMessengerComponent } from './components/test-messenger/test-messenger.component';
 import { UserAuthenticationComponent } from './components/user-authentication/user-authentication.component';
-
+import { LogInComponent } from './components/user-authentication/log-in/log-in.component';
+import { SignInComponent } from './components/user-authentication/sign-in/sign-in.component';
 
 export const routes: Routes = [
 
@@ -38,6 +39,14 @@ export const routes: Routes = [
   {
     path: 'auth',
     component: UserAuthenticationComponent
+  },
+  {
+    path: 'auth',
+    component: UserAuthenticationComponent,
+    children: [
+      { path: 'log-in', component: LogInComponent },
+      { path: 'sign-in', component: SignInComponent },
+    ],
   },
 
 ];
