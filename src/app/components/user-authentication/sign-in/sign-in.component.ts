@@ -34,7 +34,7 @@ export class SignInComponent {
     this.signInForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      name: ['', [Validators.required] ],
+      name: ['', [Validators.required, Validators.pattern(/^(?:\p{L}+(?:[',. -]\p{L}+)*)?$/u)]],
     });
   }
 
