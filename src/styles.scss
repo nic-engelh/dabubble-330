@@ -53,6 +53,13 @@ body {
   font-weight: 700;
   flex-grow: 1;
   cursor: pointer;
+  outline: 0px;
+  border: unset;
+}
+
+.bubble-full-button:hover {
+  background-color: #797EF3;
+
 }
 
 .bubble-empty-button {
@@ -71,4 +78,9 @@ body {
   flex-grow: 1;
   white-space: nowrap;
   cursor: pointer;
+}
+
+.bubble-empty-button:hover {
+  color: white;
+  background-color: #797EF3;
 }

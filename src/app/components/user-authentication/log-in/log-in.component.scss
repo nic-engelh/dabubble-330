@@ -176,4 +176,15 @@ img.input-icon.touched {
   }
 }
 
+.button-register {
+
+  color: #797EF3;
+  cursor: pointer;
+  &:hover {
+    color: #444DF2;
+    border: 1px solid #ADB0D9;
+  }
+
+}
+
 
