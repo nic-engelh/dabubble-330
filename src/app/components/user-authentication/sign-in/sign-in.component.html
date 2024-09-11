@@ -1,10 +1,14 @@
 <section>
   <div class="signin-container">
-    <span class="header">Konto erstellen</span>
-    <span class="sub-header">
-      Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues
-      DABubble-Konto.
-    </span>
+    <div>
+      <div class="btn-return"></div>
+      <span class="header">Konto erstellen</span>
+      <span class="sub-header">
+        Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues
+        DABubble-Konto.
+      </span>
+    </div>
+
 
     <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
       <!-- Full Name Input Field -->
