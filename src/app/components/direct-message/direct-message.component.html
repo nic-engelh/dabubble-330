@@ -1,19 +1,22 @@
 <div class="messageBox">
   <div class="chatBox">
-    <div
-      *ngIf="messages$ | async as messages; else noMessages"
-      class="chatContent"
-    >
-      <div *ngFor="let message of messages" class="chatText">
-        <small>Sender: {{ message.sender }}</small>
-        <p>{{ message.content }}</p>
-        <small>Time: {{ message.timestamp | date : "short" }}</small>
-        <small>Status: {{ message.isRead ? "Read" : "Unread" }}</small>
+    <div *ngIf="messages$ | async as groupedMessages" class="chatContent">
+      <!-- Iteriere über die Gruppierungen nach Datum -->
+      <div *ngFor="let date of groupedMessages | keyvalue">
+        <!-- Datum anzeigen -->
+        <h3>{{ date.key }}</h3>
+        <!-- Nachrichten für dieses Datum anzeigen -->
+        <div *ngFor="let message of date.value" class="chatText">
+          <small>{{ message.timestamp | date : "HH:mm" }}</small>
+          <small>Sender: {{ message.sender }}</small>
+          <p>{{ message.content }}</p>
+          <small>Status: {{ message.isRead ? "Read" : "Unread" }}</small>
+        </div>
       </div>
+      <ng-template #noMessages>
+        <p>Keine Nachrichten vorhanden.</p>
+      </ng-template>
     </div>
-    <ng-template #noMessages>
-      <p>Keine Nachrichten vorhanden.</p>
-    </ng-template>
   </div>
   <app-message-input></app-message-input>
 </div>

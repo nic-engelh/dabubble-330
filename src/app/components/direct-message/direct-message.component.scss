@@ -1,16 +1,17 @@
 .messageBox {
-  width: 100%;
+  width: 95svw;
   max-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin: 35px 0;
+  border-radius: 20px;
+  background-color: #fff;
 
   .chatBox {
     overflow-y: scroll;
     box-sizing: border-box;
-    // justify-content: center;
-    // align-items: center;
     height: 75vh;
-    width: 100%;
 
     .chatContent {
       display: flex;
