@@ -10,6 +10,7 @@ import {
 import { AuthenticationService } from '../../../services/authentication-service/authentication.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { UserDataService } from '../../../services/user-data/user-data.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -29,6 +30,7 @@ export class SignInComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
+    private userService: UserDataService,
     private router: Router
   ) {
     this.signInForm = this.fb.group({
@@ -51,7 +53,7 @@ export class SignInComponent {
           const token = response.token;
           console.log('sign-in successful', response);
           console.log('signed-in user:', user);
-          this.handleSuccessfulRegister();
+          this.handleSuccessfulRegister(userName);
         })
         .catch((error) => {
           // Handle errors here
@@ -60,9 +62,6 @@ export class SignInComponent {
     } else {
       console.log('Form is invalid');
     }
-
-    // navigate to AvatarSelection
-
   }
 
 
@@ -79,10 +78,9 @@ export class SignInComponent {
   }
 
 
-  handleSuccessfulRegister() {
-
+  handleSuccessfulRegister(userName:string) {
+    this.userService.updateDisplayName(userName)
+    //! change route to avatar-selection
     this.router.navigate(['/auth/log-in']);
   }
-
-
 }
