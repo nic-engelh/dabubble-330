@@ -1,3 +1,4 @@
+import { AvatarSelectionComponent } from './components/user-authentication/avatar-selection/avatar-selection.component';
 import { Routes, RouterModule } from '@angular/router';
 import { DirectMessageComponent } from './components/direct-message/direct-message.component';
 import { DirectMessageListComponent } from './components/direct-message-list/direct-message-list.component';
@@ -45,6 +46,7 @@ export const routes: Routes = [
     children: [
       { path: 'log-in', component: LogInComponent },
       { path: 'sign-in', component: SignInComponent },
+      { path: 'avatar', component:  AvatarSelectionComponent},
     ],
   },
 
