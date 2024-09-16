@@ -37,7 +37,6 @@ export class AvatarSelectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   onAvatarSelect(avatar: string): void {
@@ -65,8 +64,9 @@ export class AvatarSelectionComponent implements OnInit {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             this.uploadedAvatarUrl = downloadURL;
+            console.log(this.uploadedAvatarUrl);
             this.avatarForm.patchValue({ customAvatar: downloadURL });
-            this.saveAvatarAtProfile(this.uploadedAvatarUrl);
+
           });
         }
       );
@@ -85,6 +85,12 @@ export class AvatarSelectionComponent implements OnInit {
     if (this.avatarForm.valid) {
       console.log('Form submitted:', this.avatarForm.value);
       // Here you would typically send the form data to your backend
+      //! this.saveAvatarAtProfile(this.uploadedAvatarUrl);
     }
+  }
+
+  setAvatarOnDefault() {
+    this.uploadedAvatarUrl = null;
+    this.selectedAvatar = `profile.svg`;
   }
 }

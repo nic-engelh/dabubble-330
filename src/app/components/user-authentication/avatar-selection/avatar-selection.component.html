@@ -11,11 +11,16 @@
         @if (selectedAvatar) {
         <img
           class="selected-avatar"
+          (click)="setAvatarOnDefault()"
           [src]="'assets/img/avatars/' + selectedAvatar"
           [alt]="selectedAvatar"
         />
+        } @else if (uploadedAvatarUrl) {
+          <img class="selected-avatar"
+          (click)="setAvatarOnDefault()"
+          [src]="uploadedAvatarUrl" alt="Uploaded Avatar">
         } @else {
-        <img class="selected-avatar" src="assets/img/profile.svg" alt="" />
+          <img class="selected-avatar" src="assets/img/profile.svg" alt="Unisex Profil" />
         }
         <span>userName</span>
       </div>
@@ -56,7 +61,7 @@
       </button>
       </div>
     </form>
-    <div class="modal-created">
+    <div class="hidden modal-created">
       <img src="" alt="" />
     </div>
   </div>

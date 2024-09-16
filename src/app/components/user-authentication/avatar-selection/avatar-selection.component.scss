@@ -147,6 +147,15 @@ img.input-icon.touched {
 .selected-avatar {
   width: 120px;
   height: 120px;
+  border: 4px solid white;
+  border-radius: 100px;
+  cursor: pointer;
+    &:hover {
+      border: 4px solid #E6E6E6;
+    }
+    &:active {
+      border: 4px solid #ECEEFE;
+    }
 }
 
 .main-avatar-container {
