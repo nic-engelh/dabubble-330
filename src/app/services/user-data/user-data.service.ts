@@ -1,52 +1,92 @@
-import { Injectable } from '@angular/core';
-import { getAuth, updateEmail, updateProfile, updatePassword, User } from '@angular/fire/auth';
+import { Injectable, inject } from '@angular/core';
+import {
+  Auth,
+  User,
+  getAuth,
+  updateEmail,
+  updateProfile,
+  updatePassword,
+  onAuthStateChanged,
+} from '@angular/fire/auth';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserDataService {
-  private user: User | null = null;
+  private auth: Auth = inject(Auth);
+  private userSubject: BehaviorSubject<User | null> =
+    new BehaviorSubject<User | null>(null);
+  user$: Observable<User | null> = this.userSubject.asObservable();
 
   constructor() {
-    this.user = getAuth().currentUser;
+    // Listen for authentication state changes
+    onAuthStateChanged(this.auth, (user) => {
+      this.userSubject.next(user);
+    });
   }
 
-  updateDisplayName(newDisplayName: string) {
-    if (this.user) {
-      updateProfile(this.user, {
-        displayName: newDisplayName,
-      });
+  async updateDisplayName(newDisplayName: string): Promise<void> {
+    const user = this.auth.currentUser;
+    if (user) {
+      try {
+        await updateProfile(user, { displayName: newDisplayName });
+        console.log('Display name updated successfully');
+      } catch (error) {
+        console.error('Error updating display name:', error);
+        throw error;
+      }
+    } else {
+      throw new Error('No authenticated user');
     }
   }
 
-  updateEmail(newEmail: string) {
-    if (this.user) {
-      updateEmail(this.user, newEmail);
+  async updateEmail(newEmail: string): Promise<void> {
+    const user = this.auth.currentUser;
+    if (user) {
+      try {
+        await updateEmail(user, newEmail);
+        console.log('Email updated successfully');
+      } catch (error) {
+        console.error('Error updating email:', error);
+        throw error;
+      }
+    } else {
+      throw new Error('No authenticated user');
     }
   }
 
-  updatePhotoURL(newPhotoURL: string) {
-    if (this.user) {
-      updateProfile(this.user, {
-        photoURL: newPhotoURL,
-      });
-
+  async updatePhotoURL(newPhotoURL: string): Promise<void> {
+    const user = this.auth.currentUser;
+    if (user) {
+      try {
+        await updateProfile(user, { photoURL: newPhotoURL });
+        console.log('Photo URL updated successfully');
+      } catch (error) {
+        console.error('Error updating photo URL:', error);
+        throw error;
+      }
+    } else {
+      throw new Error('No authenticated user');
     }
   }
 
   getUserUID(): string | null {
-    return this.user?.uid ?? null;
+    return this.auth.currentUser?.uid ?? null;
   }
 
-  updatePassword(newPassword: string) {
-    if (this.user) {
-      updatePassword(this.user, newPassword)
-      .then(() => {
-        console.log('User password updated successfully.');
-      })
-      .catch((error) => {
-        console.error('Error updating user password:', error);
-      });
+  async updatePassword(newPassword: string): Promise<void> {
+    const user = this.auth.currentUser;
+    if (user) {
+      try {
+        await updatePassword(user, newPassword);
+        console.log('Password updated successfully');
+      } catch (error) {
+        console.error('Error updating password:', error);
+        throw error;
+      }
+    } else {
+      throw new Error('No authenticated user');
     }
   }
 }

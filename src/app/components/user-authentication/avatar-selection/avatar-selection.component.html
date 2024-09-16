@@ -1,43 +1,63 @@
 <section>
-  <div class="avatar-selection-container">
+  <div class="main-avatar-selection-container">
     <div>
       <a href="/auth/sign-in">
         <div class="btn-return"></div>
       </a>
       <span class="header">Wähle deinen Avatar</span>
     </div>
-
     <form [formGroup]="avatarForm" (ngSubmit)="onSubmit()">
       <div class="main-avatar-container">
         @if (selectedAvatar) {
-          <img class="selected-avatar"  [src]="'assets/img/avatars/' + selectedAvatar" [alt]="selectedAvatar">
+        <img
+          class="selected-avatar"
+          [src]="'assets/img/avatars/' + selectedAvatar"
+          [alt]="selectedAvatar"
+        />
         } @else {
-          <img class="selected-avatar" src="assets/img/profile.svg" alt="">
+        <img class="selected-avatar" src="assets/img/profile.svg" alt="" />
         }
         <span>userName</span>
       </div>
 
-
-      <div>
-        <h3>Choose your avatar... </h3>
+      <div class="select-avatar-box">
+        <span>Aus der Liste wählen...</span>
         <div class="avatar-grid">
-          <div *ngFor="let avatar of avatars" (click)="onAvatarSelect(avatar)" [class.selected]="selectedAvatar === avatar">
-            <img [src]="'assets/img/avatars/' + avatar" [alt]="avatar">
+          <div
+            *ngFor="let avatar of avatars"
+            (click)="onAvatarSelect(avatar)"
+            [class.selected]="selectedAvatar === avatar"
+          >
+            <img class="" [src]="'assets/img/avatars/' + avatar" [alt]="avatar" />
           </div>
         </div>
       </div>
-
-      <div>
-        <h3>Or you can</h3>
-        <input type="file" (change)="onFileSelected($event)" accept="image/*">
-        <div *ngIf="uploadPercent">Upload Progress: {{ uploadPercent | number:'1.0-0' }}%</div>
-        <img *ngIf="uploadedAvatarUrl" [src]="uploadedAvatarUrl" alt="Uploaded Avatar">
+      <div class="upload-box">
+        <span>eigenes Bild verwenden</span>
+        <input
+          class="hidden"
+          #fileInput
+          type="file"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+        />
+        <button type="button" class="btn-secondary" (click)="fileInput.click()">
+          Datei hochladen
+        </button>
       </div>
 
-      <button class="btn-small" type="submit" [disabled]="!avatarForm.valid">Weiter</button>
+      <div class="button-box">
+        <button
+        class="unbottunize btn-small bubble-full-button"
+        type="submit"
+        [disabled]="!avatarForm.valid"
+      >
+        Weiter
+      </button>
+      </div>
     </form>
     <div class="modal-created">
-      <img src="" alt="">
+      <img src="" alt="" />
     </div>
   </div>
 </section>

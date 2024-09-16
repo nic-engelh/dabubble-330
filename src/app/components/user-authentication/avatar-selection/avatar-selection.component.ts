@@ -1,3 +1,4 @@
+import { UserDataService } from './../../../services/user-data/user-data.service';
 import { RouterModule } from '@angular/router';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -27,7 +28,7 @@ export class AvatarSelectionComponent implements OnInit {
   uploadPercent: number | null = null;
   uploadedAvatarUrl: string | null = null;
 
-  constructor() {
+  constructor( private userDataService: UserDataService ) {
     this.avatarForm = this.fb.group({
       avatarType: ['predefined', Validators.required],
       predefinedAvatar: [null, Validators.required],
@@ -65,9 +66,18 @@ export class AvatarSelectionComponent implements OnInit {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             this.uploadedAvatarUrl = downloadURL;
             this.avatarForm.patchValue({ customAvatar: downloadURL });
+            this.saveAvatarAtProfile(this.uploadedAvatarUrl);
           });
         }
       );
+    }
+  }
+
+  async saveAvatarAtProfile(URL: string) {
+    let response;
+    if (URL) {
+     response = await this.userDataService.updatePhotoURL(URL);
+     console.log(response);
     }
   }
 
