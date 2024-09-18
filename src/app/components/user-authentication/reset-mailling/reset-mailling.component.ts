@@ -44,41 +44,16 @@ export class ResetMaillingComponent {
     if (this.resetMailForm.valid) {
       const email = this.resetMailForm.get('email')?.value;
       console.log('Form Submitted', this.resetMailForm.value);
-
-
-      //* function for sending the reset email from firebase/auth
-      //* checking if email exists with in the auth/user-database
-
-
-      sendPasswordResetEmail(this.auth, email)
-      .then(() => {
-        console.log("Succesfully send reset e-mail.");
-
-      })
-      .catch((error) => {
-        console.error(error)
-      });
-
-
+      this.userService.resetPassword(email);
+      //! show email send modal
+      this.router.navigate(['/auth/log-in']);
     } else {
       console.log('Form is invalid');
     }
   }
 
-
-
   // Getters for easy access to form fields in the template
   get email() {
     return this.resetMailForm.get('email');
   }
-
-  handleSuccessfulRegister(userName:string) {
-    this.userService.updateDisplayName(userName)
-    //! change route to avatar-selection
-    this.router.navigate(['/auth/log-in']);
-  }
-
-
-
-
 }

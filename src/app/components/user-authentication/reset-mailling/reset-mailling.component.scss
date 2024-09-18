@@ -151,14 +151,17 @@ img.input-icon.touched {
   max-width: fit-content !important;
 }
 
-
 .info-box {
-
   > span {
     font-size: 20px;
     color: #686868;
     font-weight: 400;
     text-align: center;
   }
+}
 
+.submit-button:disabled {
+  background-color: #686868;
+  color: white;
+  cursor: not-allowed;
 }

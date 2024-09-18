@@ -7,6 +7,7 @@ import {
   updateProfile,
   updatePassword,
   onAuthStateChanged,
+  sendPasswordResetEmail,
 } from '@angular/fire/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -88,5 +89,39 @@ export class UserDataService {
     } else {
       throw new Error('No authenticated user');
     }
+  }
+
+  async resetPassword(email: string): Promise<void> {
+    if (!email) {
+      return Promise.reject(new Error('Please provide a valid email.'));
+    }
+    //! Link in der Restmail ändern
+    return sendPasswordResetEmail(this.auth, email)
+      .then(() => {
+        console.log('A password reset link has been sent to your email.');
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case 'auth/invalid-email':
+            console.log('Invalid email address.');
+            break;
+          case 'auth/user-not-found':
+            console.log('No user found with this email.');
+            break;
+          case 'auth/too-many-requests':
+            console.log('Too many requests. Please try again later.');
+            break;
+          case 'auth/network-request-failed':
+            console.log('Network error. Please check your connection.');
+            break;
+          case 'auth/operation-not-allowed':
+            console.log('Password reset is disabled for this project.');
+            break;
+          default:
+            console.log('Error: ' + error.message);
+            break;
+        }
+        throw error;
+      });
   }
 }
