@@ -1,3 +1,4 @@
+import { ResetMaillingComponent } from './components/user-authentication/reset-mailling/reset-mailling.component';
 import { AvatarSelectionComponent } from './components/user-authentication/avatar-selection/avatar-selection.component';
 import { Routes, RouterModule } from '@angular/router';
 import { DirectMessageComponent } from './components/direct-message/direct-message.component';
@@ -47,6 +48,7 @@ export const routes: Routes = [
       { path: 'log-in', component: LogInComponent },
       { path: 'sign-in', component: SignInComponent },
       { path: 'avatar', component:  AvatarSelectionComponent},
+      { path: 'reset-mail', component:  ResetMaillingComponent},
     ],
   },
 

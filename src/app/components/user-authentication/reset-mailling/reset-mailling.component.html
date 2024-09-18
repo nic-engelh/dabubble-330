@@ -1,1 +1,65 @@
-<p>reset-mailling works!</p>
+<section>
+  <div class="reset-mail-container">
+    <div>
+      <a href="/auth/log-in">
+        <div class="btn-return"></div>
+      </a>
+      <span class="header">Passwort zurücksetzen</span>
+      <span class="sub-header">
+        Bitte geben Sie ihre E-Mail-Adresse ein.
+      </span>
+    </div>
+
+
+    <form [formGroup]="resetMailForm" (ngSubmit)="onSubmit()">
+      <!-- Email Input Field -->
+      <div class="form-group">
+        <div class="form-input-box">
+          <img
+            [class.touched]="resetMailForm.get('email')?.dirty || emailFocused"
+            class="input-icon"
+            src="/assets/img/mail.svg"
+            alt="Email-Symbol"
+          />
+          <input
+            placeholder="beispielname@email.com"
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control bubble-form-input"
+            autocomplete="off"
+            (focus)="emailFocused = true"
+            (blur)="emailFocused = false"
+          />
+        </div>
+        <div
+          *ngIf="email?.invalid && (email?.touched || email?.dirty)"
+          class="error"
+        >
+          <small *ngIf="email?.errors?.['required']"
+            >*Eine E-Mail-Adresse wird benötigt.</small
+          >
+          <small *ngIf="email?.errors?.['email']"
+            >*Diese E-Mail-Adresse ist leider ungültig.</small
+          >
+        </div>
+      </div>
+      <div class="info-box">
+        <span>
+          Wir senden Ihnen eine E-Mail, über die Sie Ihr Passwort ändern können.
+        </span>
+      </div>
+      <!-- Submit Button -->
+      <div class="button-box">
+        <button
+          type="submit"
+          class="bubble-full-button btn-fit-size"
+          [disabled]="resetMailForm.invalid"
+        >
+          E-Mail senden
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
