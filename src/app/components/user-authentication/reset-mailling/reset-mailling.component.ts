@@ -40,11 +40,17 @@ export class ResetMaillingComponent {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.resetMailForm.valid) {
       const email = this.resetMailForm.get('email')?.value;
       console.log('Form Submitted', this.resetMailForm.value);
-      this.userService.resetPassword(email);
+      try {
+        await this.userService.resetPassword(email);
+      } catch (error: any) {
+        this.router.navigate(['/error'], {
+          state: { error: error.message }
+        });
+      }
       //! show email send modal
       this.router.navigate(['/auth/log-in']);
     } else {
