@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DataService } from '../../services/data-service/data.service';
 import { Message } from '../../../models/message.class';
 import { User } from '../../../models/user.class';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -32,12 +33,53 @@ export class MessageService {
   //This function creates a new message in the database. It might call DataService to perform the actual database operation.
 
   //This function retrieves messages for a conversation from the database. It might call DataService to perform the actual database operation.
-  async getMessagesForConversation(conversationId: string) {
-    return new Message(); //Promise<Message[]
+  getMessagesForConversation(conversationId: string): Observable<Message[]> {
+    return this.dataService.getSubcollectionUpdates(
+      'threads',
+      conversationId,
+      'conversationMessages'
+    );
   }
 
-  //This function deletes a message from the database. It might call DataService to perform the actual database operation.
-  async deleteMessage(messageId: string): Promise<void> {
-    // return; // Promise<void>
+  // Neu: Nachricht aktualisieren
+  updateMessage(message: Message, conversationId: string): Promise<void> {
+    return this.dataService.updateDocumentInSubcollection(
+      'threads',
+      conversationId, // conversationId wird separat übergeben
+      'conversationMessages',
+      message.id,
+      message.toJson() // speichere die Änderungen
+    );
   }
+
+  // Neu: Reaktion hinzufügen
+  addReaction(
+    conversationId: string,
+    messageId: string,
+    reaction: string
+  ): Promise<void> {
+    return this.dataService.updateDocumentInSubcollection(
+      'threads',
+      conversationId,
+      'conversationMessages',
+      messageId,
+      { reactions: reaction }
+    );
+  }
+
+  // Nachricht löschen
+  deleteMessage(messageId: string, conversationId: string): Promise<void> {
+    return this.dataService.deleteDocumentFromSubcollection(
+      'threads',
+      conversationId,
+      'conversationMessages',
+      messageId
+    );
+  }
+
+  async updateMessagesConversation() {}
+
+  //This function deletes a message from the database. It might call DataService to perform the actual database operation.
 }
+// this service does everything about the message
+// for example CRUD Message to every Message!!!

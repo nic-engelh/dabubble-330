@@ -1,0 +1,49 @@
+.messageBox {
+  width: 100%;
+  max-width: 100svw;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 35px 0;
+  border-radius: 20px;
+  background-color: #fff;
+
+  .chatBox {
+    overflow-y: scroll;
+    box-sizing: border-box;
+    height: 75vh;
+
+    .chatContent {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .dateWrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .lineDate {
+        height: 1px;
+        width: 100px;
+        background-color: grey;
+      }
+
+      .dateHeader {
+        border: 1px solid grey;
+        border-radius: 30px;
+        padding: 5px;
+        margin: 30px 0;
+      }
+      .chatText {
+        border-radius: 20px 0 20px 20px;
+        background-color: #797ef3;
+        margin: 8px;
+        padding: 8px;
+      }
+    }
+  }
+}

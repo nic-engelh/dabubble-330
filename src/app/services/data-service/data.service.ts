@@ -8,9 +8,15 @@ import {
   getDoc,
   onSnapshot,
 } from '@angular/fire/firestore';
-import { collection, getFirestore } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  getFirestore,
+  updateDoc,
+} from 'firebase/firestore';
 import { Observable, Subscriber } from 'rxjs';
 import { Message } from '../../../models/message.class';
+import { User } from '../../../models/user.class';
 
 @Injectable({
   providedIn: 'root',
@@ -105,6 +111,37 @@ export class DataService {
         (error) => Subscriber.error(error)
       );
     });
+  }
+
+  // Neu: Dokument in Subcollection aktualisieren
+  async updateDocumentInSubcollection(
+    collectionName: string,
+    documentId: string,
+    subcollectionName: string,
+    subdocumentId: string,
+    data: any
+  ): Promise<void> {
+    const collectionRef = collection(this.database, collectionName);
+    const documentRef = doc(collectionRef, documentId);
+    const subcollectionRef = collection(documentRef, subcollectionName);
+    const subdocumentRef = doc(subcollectionRef, subdocumentId);
+
+    // Hier wird das Dokument aktualisiert
+    await setDoc(subdocumentRef, data, { merge: true });
+  }
+
+  // Neu: Dokument aus Subcollection löschen
+  async deleteDocumentFromSubcollection(
+    collectionName: string,
+    documentId: string,
+    subcollectionName: string,
+    subdocumentId: string
+  ): Promise<void> {
+    const subdocumentRef = doc(
+      this.database,
+      `${collectionName}/${documentId}/${subcollectionName}/${subdocumentId}`
+    );
+    await deleteDoc(subdocumentRef);
   }
 
   getSubcollectionUpdates(

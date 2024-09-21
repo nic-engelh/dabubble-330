@@ -1,1 +1,56 @@
-<p>direct-message works!</p>
+<div class="messageBox">
+  <div class="chatBox">
+    <div *ngIf="messages$ | async as groupedMessages" class="chatContent">
+      <!-- Iteriere über die Gruppierungen nach Datum -->
+      <div *ngFor="let group of groupedMessages | keyvalue : sortByDate">
+        <!-- Datum anzeigen -->
+        <div class="dateWrapper">
+          <div class="lineDate"></div>
+          <div class="dateHeader">
+            <span>{{ group.key | date : "EEEE, dd MMMM yyyy" }}</span>
+          </div>
+          <div class="lineDate"></div>
+        </div>
+
+        <!-- Nachrichten für dieses Datum anzeigen -->
+        <div
+          *ngFor="let message of group.value"
+          class="chatText"
+          (mouseenter)="onMouseEnter(message.id)"
+          (mouseleave)="onMouseLeave()"
+        >
+          <small>{{ message.timestamp | date : "HH:mm" }}</small>
+          <small>Sender: {{ message.sender }}</small>
+          <p>{{ message.content }}</p>
+
+          <!-- Drei-Punkte-Menü, erscheint beim Hover -->
+          <div class="menu" *ngIf="hoveredMessageId === message.id">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+
+            <!-- Menü für Bearbeitung und Reaktionen -->
+            <div class="menu-content">
+              <button (click)="editMessage(message, conversationId)">
+                Bearbeiten
+              </button>
+              <button (click)="deleteMessage(message, conversationId)">
+                Löschen
+              </button>
+              <button (click)="addReaction(message)">
+                Reaktion hinzufügen
+              </button>
+            </div>
+          </div>
+          <small>Status: {{ message.isRead ? "Read" : "Unread" }}</small>
+        </div>
+      </div>
+
+      <!-- Keine Nachrichten -->
+      <ng-template #noMessages>
+        <p>Keine Nachrichten vorhanden.</p>
+      </ng-template>
+    </div>
+  </div>
+  <app-message-input></app-message-input>
+</div>

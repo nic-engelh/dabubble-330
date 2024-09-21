@@ -43,15 +43,7 @@ export const routes: Routes = [
     component: UserAuthenticationComponent,
   },
   {
-    path: 'auth',
-    component: UserAuthenticationComponent,
-    children: [
-      { path: 'log-in', component: LogInComponent },
-      { path: 'sign-in', component: SignInComponent },
-      { path: 'avatar', component:  AvatarSelectionComponent},
-      { path: 'reset-mail', component:  ResetMaillingComponent},
-      { path: 'reset-password', component:  PasswordResetComponent}
-    ],
+    path: 'direct',
+    component: DirectMessageComponent,
   },
-
 ];
