@@ -45,7 +45,7 @@ export class ResetMaillingComponent {
       const email = this.resetMailForm.get('email')?.value;
       console.log('Form Submitted', this.resetMailForm.value);
       try {
-        await this.userService.resetPassword(email);
+        await this.userService.sendResetPasswordMail(email);
       } catch (error: any) {
         this.router.navigate(['/error'], {
           state: { error: error.message }

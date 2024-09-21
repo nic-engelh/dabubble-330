@@ -45,7 +45,9 @@
         <div class="form-input-box">
           <img
             class="input-icon"
-            [class.touched]="loginForm.get('password')?.dirty || passwordFocused"
+            [class.touched]="
+              loginForm.get('password')?.dirty || passwordFocused
+            "
             src="/assets/img/lock.svg"
             alt="Password-Symbol"
           />

@@ -8,6 +8,8 @@ import {
   updatePassword,
   onAuthStateChanged,
   sendPasswordResetEmail,
+  confirmPasswordReset,
+  verifyPasswordResetCode,
 } from '@angular/fire/auth';
 import { FirebaseError } from 'firebase/app';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -92,8 +94,33 @@ export class UserDataService {
     }
   }
 
-  async resetPassword(email: string): Promise<void> {
+  async resetPassword(user: User, newPassword: string): Promise<void> {
+    if (user) {
+      try {
+        await updatePassword(user, newPassword);
+        console.log('Password updated successfully');
+      } catch (error) {
+        console.error('Error updating password:', error);
+        throw error;
+      }
+    } else {
+      throw new Error('No authenticated user');
+    }
+  }
+
+  async confirmPasswordReset(actionCode: string, newPassword: string): Promise<void> {
+    return confirmPasswordReset(this.auth, actionCode, newPassword);
+  }
+
+  async verifyPasswordResetCode(actionCode: string): Promise<string> {
+    return verifyPasswordResetCode( this.auth, actionCode);
+  }
+
+
+  async sendResetPasswordMail(email: string): Promise<void> {
      const response =  await sendPasswordResetEmail(this.auth, email);
      return response
+
+     //! TODO: improve error catching
   }
 }

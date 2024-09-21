@@ -1,3 +1,4 @@
+import { PasswordResetComponent } from './components/user-authentication/password-reset/password-reset.component';
 import { ResetMaillingComponent } from './components/user-authentication/reset-mailling/reset-mailling.component';
 import { AvatarSelectionComponent } from './components/user-authentication/avatar-selection/avatar-selection.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -49,6 +50,7 @@ export const routes: Routes = [
       { path: 'sign-in', component: SignInComponent },
       { path: 'avatar', component:  AvatarSelectionComponent},
       { path: 'reset-mail', component:  ResetMaillingComponent},
+      { path: 'reset-password', component:  PasswordResetComponent}
     ],
   },
 
