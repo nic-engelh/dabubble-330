@@ -1,29 +1,31 @@
 .message-container {
-  position: fixed;
+  position: relative;
   bottom: 0;
-  margin-left: 20px;
-  margin-right: 20px;
+  left: 0;
+  right: 20px;
   border: 1px solid grey;
-  width: 95svw;
+  width: 100%;
+  // max-width: 100svw;
   min-width: 320px;
   border-radius: 20px;
   height: 145px;
-  padding: 20px;
+  // padding: 20px;
   display: flex;
   align-items: center;
 
   form {
     min-width: 320px;
     width: 100%;
+    padding: 20px;
     input {
       margin-bottom: 40px;
       border: none;
-      width: 100%;
+      width: 95%;
       height: 25px;
       font-size: 18px;
       &:focus {
         outline: unset;
-        border-bottom: 2px solid blue;
+        // border-bottom: 2px solid blue;
         transition: all 0.2s ease-in-out;
       }
     }

@@ -66,6 +66,7 @@ export class MessageInputComponent implements OnInit {
 
       this.messagingService.setMessagetoConversation(this.threadId, newMessage);
     }
+    this.chatForm.reset();
   }
 
   // sendMessage() {

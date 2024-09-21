@@ -44,20 +44,102 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
       )
       .pipe(
         // Gruppiere Nachrichten nach Datum
-        map((messages: Message[]) => this.groupMessagesByDate(messages))
+        map((messages: Message[]) =>
+          this.sortAndGroupMessagesByDayMonthYear(messages)
+        )
       );
     // this.messages$ = this.dataService.getCollectionUpdates('messages');
   }
 
-  groupMessagesByDate(messages: Message[]): { [date: string]: Message[] } {
-    return messages.reduce((groupedMessages, message) => {
-      const date = new Date(message.timestamp).toDateString(); // Nur Datum (ohne Zeit)
-      if (!groupedMessages[date]) {
-        groupedMessages[date] = [];
+  sortByDate(a: any, b: any) {
+    const dateA = new Date(a.key);
+    const dateB = new Date(b.key);
+    return dateA > dateB ? 1 : dateA < dateB ? -1 : 0;
+  }
+
+  // Nachrichten nach Zeit sortieren und nach Tag/Monat/Jahr gruppieren
+  sortAndGroupMessagesByDayMonthYear(messages: Message[]): {
+    [dayMonthYear: string]: Message[];
+  } {
+    // Sortiere Nachrichten nach ihrem timestamp (neuste zuerst)
+    const sortedMessages = messages.sort(
+      (a, b) =>
+        new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+
+    // Gruppiere nach Tag/Monat/Jahr
+    return sortedMessages.reduce((groupedMessages, message) => {
+      const date = new Date(message.timestamp);
+
+      // Sortierschlüssel: Jahr + Monat + Tag für korrekte Sortierung
+      const sortKey = `${date.getFullYear()}-${(
+        '0' +
+        (date.getMonth() + 1)
+      ).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
+
+      // Füge Nachricht zur richtigen Gruppe hinzu
+      if (!groupedMessages[sortKey]) {
+        groupedMessages[sortKey] = [];
       }
-      groupedMessages[date].push(message);
+      groupedMessages[sortKey].push(message);
+
       return groupedMessages;
-    }, {} as { [date: string]: Message[] });
+    }, {} as { [key: string]: Message[] });
+  }
+
+  hoveredMessageId: string | null = null;
+
+  onMouseEnter(messageId: string) {
+    this.hoveredMessageId = messageId;
+  }
+
+  onMouseLeave() {
+    this.hoveredMessageId = null;
+  }
+
+  // Zeigt das Menü für die angeklickte Nachricht an
+  toggleMenu(message: Message) {
+    message.showMenu = !message.showMenu;
+  }
+
+  // Bearbeitungslogik
+  editMessage(message: Message, conversationId: string) {
+    const newContent = prompt('Bearbeiten Sie die Nachricht:', message.content);
+    if (newContent !== null && newContent.trim() !== '') {
+      message.content = newContent;
+      this.messageService
+        .updateMessage(message, conversationId) // conversationId wird hier übergeben
+        .then(() => {
+          console.log('Nachricht erfolgreich aktualisiert');
+        })
+        .catch((error) => {
+          console.error('Fehler beim Aktualisieren der Nachricht:', error);
+        });
+    }
+  }
+  // Reaktion hinzufügen
+  addReaction(message: Message) {
+    const reaction = prompt('Fügen Sie eine Reaktion hinzu:');
+    if (reaction !== null && reaction.trim() !== '') {
+      // Hier könntest du eine Reaktion zur Nachricht hinzufügen, z.B. in einer separaten Reaktionsliste
+      console.log('Reaktion hinzugefügt:', reaction);
+    }
+  }
+
+  deleteMessage(message: Message, conversationId: string) {
+    const confirmDelete = confirm(
+      'Möchten Sie diese Nachricht wirklich löschen?'
+    );
+    if (confirmDelete) {
+      this.messageService
+        .deleteMessage(message.id, conversationId) // message.id und conversationId übergeben
+        .then(() => {
+          console.log('Nachricht erfolgreich gelöscht');
+        })
+        .catch((error) => {
+          console.error('Fehler beim Löschen der Nachricht:', error);
+        });
+    }
   }
 
   ngOnDestroy() {

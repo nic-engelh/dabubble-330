@@ -41,12 +41,45 @@ export class MessageService {
     );
   }
 
+  // Neu: Nachricht aktualisieren
+  updateMessage(message: Message, conversationId: string): Promise<void> {
+    return this.dataService.updateDocumentInSubcollection(
+      'threads',
+      conversationId, // conversationId wird separat übergeben
+      'conversationMessages',
+      message.id,
+      message.toJson() // speichere die Änderungen
+    );
+  }
+
+  // Neu: Reaktion hinzufügen
+  addReaction(
+    conversationId: string,
+    messageId: string,
+    reaction: string
+  ): Promise<void> {
+    return this.dataService.updateDocumentInSubcollection(
+      'threads',
+      conversationId,
+      'conversationMessages',
+      messageId,
+      { reactions: reaction }
+    );
+  }
+
+  // Nachricht löschen
+  deleteMessage(messageId: string, conversationId: string): Promise<void> {
+    return this.dataService.deleteDocumentFromSubcollection(
+      'threads',
+      conversationId,
+      'conversationMessages',
+      messageId
+    );
+  }
+
   async updateMessagesConversation() {}
 
   //This function deletes a message from the database. It might call DataService to perform the actual database operation.
-  async deleteMessage(messageId: string): Promise<void> {
-    // return; // Promise<void>
-  }
 }
 // this service does everything about the message
 // for example CRUD Message to every Message!!!

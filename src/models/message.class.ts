@@ -7,7 +7,9 @@ export class Message {
     public content: string = '',
     public sender: User = new User(),
     public timestamp: Date = new Date(),
-    public isRead: boolean = false
+    public isRead: boolean = false,
+    public showMenu: boolean = false,
+    public conversationId: string = ''
   ) {
     this.id = uuidv4();
   }
@@ -19,6 +21,7 @@ export class Message {
       sender: this.sender.toJson(),
       timestamp: this.timestamp.toISOString(),
       isRead: this.isRead,
+      conversationId: this.conversationId,
     };
   }
 }

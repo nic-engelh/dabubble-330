@@ -8,7 +8,12 @@ import {
   getDoc,
   onSnapshot,
 } from '@angular/fire/firestore';
-import { collection, getFirestore } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  getFirestore,
+  updateDoc,
+} from 'firebase/firestore';
 import { Observable, Subscriber } from 'rxjs';
 import { Message } from '../../../models/message.class';
 import { User } from '../../../models/user.class';
@@ -108,6 +113,37 @@ export class DataService {
     });
   }
 
+  // Neu: Dokument in Subcollection aktualisieren
+  async updateDocumentInSubcollection(
+    collectionName: string,
+    documentId: string,
+    subcollectionName: string,
+    subdocumentId: string,
+    data: any
+  ): Promise<void> {
+    const collectionRef = collection(this.database, collectionName);
+    const documentRef = doc(collectionRef, documentId);
+    const subcollectionRef = collection(documentRef, subcollectionName);
+    const subdocumentRef = doc(subcollectionRef, subdocumentId);
+
+    // Hier wird das Dokument aktualisiert
+    await setDoc(subdocumentRef, data, { merge: true });
+  }
+
+  // Neu: Dokument aus Subcollection löschen
+  async deleteDocumentFromSubcollection(
+    collectionName: string,
+    documentId: string,
+    subcollectionName: string,
+    subdocumentId: string
+  ): Promise<void> {
+    const subdocumentRef = doc(
+      this.database,
+      `${collectionName}/${documentId}/${subcollectionName}/${subdocumentId}`
+    );
+    await deleteDoc(subdocumentRef);
+  }
+
   getSubcollectionUpdates(
     mainCollectionName: string,
     mainDocumentId: string,
@@ -131,54 +167,4 @@ export class DataService {
       );
     });
   }
-  // getSubcollectionUpdates(
-  //   mainCollectionName: string,
-  //   mainDocumentId: string,
-  //   subCollectionName: string
-  // ): Observable<Message[]> {
-  //   const subcollectionRef = collection(
-  //     this.database,
-  //     `${mainCollectionName}/${mainDocumentId}/${subCollectionName}`
-  //   );
-
-  //   return new Observable((subscriber) => {
-  //     const unsubscribe = onSnapshot(
-  //       subcollectionRef,
-  //       (querySnapshot) => {
-  //         const messages = querySnapshot.docs.map((docSnapshot) => {
-  //           const data = docSnapshot.data();
-  //           console.log('Firestore-Daten:', data); // Debugging
-
-  //           // Prüfen und Erstellen des Benutzers
-  //           const sender = new User(
-  //             data['sender']['id'],
-  //             data['sender']['name'],
-  //             data['sender']['email']
-  //           );
-
-  //           // Rückgabe eines neuen Message-Objekts
-  //           return new Message(
-  //             docSnapshot.id,
-  //             data['content'],
-  //             sender,
-  //             new Date(data['timestamp']),
-  //             data['isRead']
-  //           );
-  //         });
-
-  //         // Nachrichten weitergeben
-  //         subscriber.next(messages);
-  //       },
-  //       (error) => {
-  //         console.error('Firestore-Abfragefehler:', error);
-  //         subscriber.error(error);
-  //       }
-  //     );
-
-  //     return () => {
-  //       console.log('Unsubscribing from Firestore updates');
-  //       unsubscribe();
-  //     };
-  //   });
-  // }
 }
