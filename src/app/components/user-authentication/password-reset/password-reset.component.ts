@@ -37,7 +37,7 @@ export class PasswordResetComponent implements OnInit {
     this.resetPasswordForm = this.fb.group(
       {
         password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', [Validators.required]],
+        passwordConfirmation: ['', [Validators.required]],
       },
       { validator: this.passwordMatchValidator }
     );
