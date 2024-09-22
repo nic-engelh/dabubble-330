@@ -43,12 +43,15 @@ export class MessageService {
 
   // Neu: Nachricht aktualisieren
   updateMessage(message: Message, conversationId: string): Promise<void> {
+    console.log('Updating message with ID:', message.id);
+    console.log('Message data:', message.toJson());
     return this.dataService.updateDocumentInSubcollection(
       'threads',
       conversationId, // conversationId wird separat übergeben
       'conversationMessages',
       message.id,
-      message.toJson() // speichere die Änderungen
+      message.toJson()
+      // message.toJson() // speichere die Änderungen
     );
   }
 

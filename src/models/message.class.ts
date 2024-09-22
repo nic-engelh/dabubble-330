@@ -24,4 +24,15 @@ export class Message {
       conversationId: this.conversationId,
     };
   }
+  static fromData(data: any): Message {
+    return new Message(
+      data.id,
+      data.content,
+      User.fromData(data.sender), // Gehe davon aus, dass der User ebenfalls eine fromData() Methode hat
+      new Date(data.timestamp),
+      data.isRead,
+      data.showMenu,
+      data.conversationId
+    );
+  }
 }

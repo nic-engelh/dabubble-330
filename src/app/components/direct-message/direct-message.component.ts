@@ -103,12 +103,99 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
   }
 
   // Bearbeitungslogik
-  editMessage(message: Message, conversationId: string) {
+  // editMessage(message: Message, conversationId: string) {
+  //   const newContent = prompt('Bearbeiten Sie die Nachricht:', message.content);
+  //   if (newContent !== null && newContent.trim() !== '') {
+  //     message.content = newContent;
+  //     this.messageService
+  //       .updateMessage(message, conversationId) // conversationId wird hier übergeben
+  //       .then(() => {
+  //         console.log('Nachricht erfolgreich aktualisiert');
+  //       })
+  //       .catch((error) => {
+  //         console.error('Fehler beim Aktualisieren der Nachricht:', error);
+  //       });
+  //   }
+  // }
+  // editMessage(messageData: any, conversationId: string) {
+  //   // Prüfe, ob messageData korrekt zu einer Message-Instanz konvertiert wurde
+  //   const message = Message.fromData(messageData);
+
+  //   if (!(message instanceof Message)) {
+  //     console.error('message ist keine Instanz von Message');
+  //     return;
+  //   }
+
+  //   const newContent = prompt('Bearbeiten Sie die Nachricht:', message.content);
+  //   if (newContent !== null && newContent.trim() !== '') {
+  //     message.content = newContent;
+
+  //     this.messageService
+  //       .updateMessage(message, conversationId) // conversationId wird hier übergeben
+  //       .then(() => {
+  //         console.log('Nachricht erfolgreich aktualisiert');
+  //       })
+  //       .catch((error) => {
+  //         console.error('Fehler beim Aktualisieren der Nachricht:', error);
+  //       });
+  //   }
+  // }
+  // editMessage(messageData: any, conversationId: string) {
+  //   // Konvertiere messageData in eine Message-Instanz und stelle sicher, dass die ID korrekt ist
+  //   const message = new Message(
+  //     messageData.id, // Verwende die existierende ID
+  //     messageData.content,
+  //     new User(
+  //       messageData.sender.id,
+  //       messageData.sender.name,
+  //       messageData.sender.email
+  //     ),
+  //     new Date(messageData.timestamp),
+  //     messageData.isRead,
+  //     messageData.showMenu,
+  //     messageData.conversationId
+  //   );
+
+  //   const newContent = prompt('Bearbeiten Sie die Nachricht:', message.content);
+  //   if (newContent !== null && newContent.trim() !== '') {
+  //     message.content = newContent;
+
+  //     // Stelle sicher, dass die ID richtig übergeben wird
+  //     this.messageService
+  //       .updateMessage(message, conversationId)
+  //       .then(() => {
+  //         console.log('Nachricht erfolgreich aktualisiert');
+  //       })
+  //       .catch((error) => {
+  //         console.error('Fehler beim Aktualisieren der Nachricht:', error);
+  //       });
+  //   }
+  // }
+
+  editMessage(messageData: any, conversationId: string) {
+    // Erstelle eine Message-Instanz
+    const message = new Message(
+      messageData.id, // Verwende die existierende ID
+      messageData.content,
+      new User(
+        messageData.sender.id,
+        messageData.sender.name,
+        messageData.sender.email
+      ),
+      new Date(messageData.timestamp),
+      messageData.isRead,
+      messageData.showMenu,
+      messageData.conversationId || conversationId
+    );
+    console.log('Editing message:', message); // Debugging
     const newContent = prompt('Bearbeiten Sie die Nachricht:', message.content);
     if (newContent !== null && newContent.trim() !== '') {
+      // Aktualisiere nur den Inhalt der Nachricht
       message.content = newContent;
+
+      // Aktualisiere die Nachricht im Service
       this.messageService
-        .updateMessage(message, conversationId) // conversationId wird hier übergeben
+        .updateMessage(message, conversationId) // Konversation-ID übergeben
         .then(() => {
           console.log('Nachricht erfolgreich aktualisiert');
         })
@@ -117,6 +204,7 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
         });
     }
   }
+
   // Reaktion hinzufügen
   addReaction(message: Message) {
     const reaction = prompt('Fügen Sie eine Reaktion hinzu:');

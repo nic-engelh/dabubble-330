@@ -121,13 +121,23 @@ export class DataService {
     subdocumentId: string,
     data: any
   ): Promise<void> {
-    const collectionRef = collection(this.database, collectionName);
-    const documentRef = doc(collectionRef, documentId);
-    const subcollectionRef = collection(documentRef, subcollectionName);
-    const subdocumentRef = doc(subcollectionRef, subdocumentId);
+    try {
+      const collectionRef = collection(this.database, collectionName);
+      const documentRef = doc(collectionRef, documentId);
+      const subcollectionRef = collection(documentRef, subcollectionName);
+      const subdocumentRef = doc(subcollectionRef, subdocumentId);
 
-    // Hier wird das Dokument aktualisiert
-    await setDoc(subdocumentRef, data, { merge: true });
+      const docSnap = await getDoc(subdocumentRef);
+      if (!docSnap.exists()) {
+        console.error('Dokument existiert nicht:', subdocumentId);
+        return;
+      }
+
+      await setDoc(subdocumentRef, data, { merge: true });
+      console.log('Document successfully updated');
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren des Dokuments:', error);
+    }
   }
 
   // Neu: Dokument aus Subcollection löschen

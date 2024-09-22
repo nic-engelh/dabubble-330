@@ -1,12 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export class User {
-
   constructor(
-    public id: string = "",
-    public username: string = "",
-    public email: string = "",
-    public avatarUrl: string | undefined = "",
+    public id: string = '',
+    public username: string = '',
+    public email: string = '',
+    public avatarUrl: string | undefined = '',
     public createdAt: Date = new Date(),
     public updatedAt: Date = new Date()
   ) {
@@ -20,8 +19,10 @@ export class User {
       email: this.email,
       avatarUrl: this.avatarUrl,
       createdAt: this.createdAt.toISOString(),
-      updatedAt: this.updatedAt.toISOString()
+      updatedAt: this.updatedAt.toISOString(),
     };
   }
-
+  static fromData(data: any): User {
+    return new User(data.id, data.name, data.email);
+  }
 }
