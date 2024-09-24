@@ -33,6 +33,21 @@ export class DataService {
     await setDoc(documentRef, data);
   }
 
+  async documentExistsInSubcollection(
+    collectionName: string,
+    documentId: string,
+    subcollectionName: string,
+    subdocumentId: string
+  ): Promise<boolean> {
+    const collectionRef = collection(this.database, collectionName);
+    const documentRef = doc(collectionRef, documentId);
+    const subcollectionRef = collection(documentRef, subcollectionName);
+    const subdocumentRef = doc(subcollectionRef, subdocumentId);
+
+    const docSnap = await getDoc(subdocumentRef);
+    return docSnap.exists(); // Gibt true zurück, wenn das Dokument existiert
+  }
+
   async setDocumentToSubcollection(
     collectionName: string,
     documentId: string,
@@ -114,11 +129,62 @@ export class DataService {
   }
 
   // Neu: Dokument in Subcollection aktualisieren
+  // async updateDocumentInSubcollection(
+  //   collectionName: string,
+  //   documentId: string,
+  //   subcollectionName: string,
+  //   subdocumentId: string,
+  //   data: any
+  // ): Promise<void> {
+  //   try {
+  //     const collectionRef = collection(this.database, collectionName);
+  //     const documentRef = doc(collectionRef, documentId);
+  //     const subcollectionRef = collection(documentRef, subcollectionName);
+  //     const subdocumentRef = doc(subcollectionRef, subdocumentId);
+
+  //     const docSnap = await getDoc(subdocumentRef);
+  //     if (!docSnap.exists()) {
+  //       console.error('Dokument existiert nicht:', subdocumentId);
+  //       return;
+  //     }
+
+  //     await setDoc(subdocumentRef, data, { merge: true });
+  //     console.log('Document successfully updated');
+  //   } catch (error) {
+  //     console.error('Fehler beim Aktualisieren des Dokuments:', error);
+  //   }
+  // }
+
+  // async updateDocumentInSubcollection(
+  //   collectionName: string,
+  //   documentId: string,
+  //   subcollectionName: string,
+  //   subdocumentId: string,
+  //   data: any
+  // ): Promise<void> {
+  //   try {
+  //     const collectionRef = collection(this.database, collectionName);
+  //     const documentRef = doc(collectionRef, documentId);
+  //     const subcollectionRef = collection(documentRef, subcollectionName);
+  //     const subdocumentRef = doc(subcollectionRef, subdocumentId);
+
+  //     // Füge ein Debugging-Log hinzu
+  //     console.log('Updating document with ID:', subdocumentId);
+  //     console.log('Data to update:', data);
+
+  //     // Nutze `merge: true`, um die bestehenden Felder zu aktualisieren
+  //     await setDoc(subdocumentRef, data, { merge: true });
+  //     console.log('Document successfully updated');
+  //   } catch (error) {
+  //     console.error('Fehler beim Aktualisieren des Dokuments:', error);
+  //   }
+  // }
+
   async updateDocumentInSubcollection(
     collectionName: string,
     documentId: string,
     subcollectionName: string,
-    subdocumentId: string,
+    subdocumentId: string, // Hier sicherstellen, dass die gleiche ID verwendet wird
     data: any
   ): Promise<void> {
     try {
@@ -127,12 +193,14 @@ export class DataService {
       const subcollectionRef = collection(documentRef, subcollectionName);
       const subdocumentRef = doc(subcollectionRef, subdocumentId);
 
+      // Überprüfen, ob das Dokument existiert
       const docSnap = await getDoc(subdocumentRef);
       if (!docSnap.exists()) {
         console.error('Dokument existiert nicht:', subdocumentId);
-        return;
+        return; // Falls es nicht existiert, kein neues Dokument erstellen
       }
 
+      // Update das Dokument mit { merge: true }, um nur die Felder zu aktualisieren
       await setDoc(subdocumentRef, data, { merge: true });
       console.log('Document successfully updated');
     } catch (error) {

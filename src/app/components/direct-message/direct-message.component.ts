@@ -172,30 +172,44 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-  editMessage(messageData: any, conversationId: string) {
-    // Erstelle eine Message-Instanz
-    const message = new Message(
-      messageData.id, // Verwende die existierende ID
-      messageData.content,
-      new User(
-        messageData.sender.id,
-        messageData.sender.name,
-        messageData.sender.email
-      ),
-      new Date(messageData.timestamp),
-      messageData.isRead,
-      messageData.showMenu,
-      messageData.conversationId || conversationId
-    );
-    console.log('Editing message:', message); // Debugging
+  // editMessage(messageData: any, conversationId: string) {
+  //   const newContent = prompt(
+  //     'Bearbeiten Sie die Nachricht:',
+  //     messageData.content
+  //   );
+
+  //   if (newContent !== null && newContent.trim() !== '') {
+  //     // Nur den Inhalt der Nachricht aktualisieren
+  //     const updatedMessage = {
+  //       id: messageData.id, // Nachricht-ID beibehalten
+  //       content: newContent, // Nur den Inhalt aktualisieren
+  //       sender: messageData.sender, // Sender-Daten beibehalten
+  //       timestamp: new Date().toISOString(), // Optional: Zeitstempel aktualisieren
+  //       isRead: messageData.isRead, // Status beibehalten
+  //       conversationId: messageData.conversationId || conversationId, // Konversations-ID
+  //     };
+
+  //     console.log('Editing message:', updatedMessage); // Debugging
+
+  //     // Update die Nachricht im Service
+  //     this.messageService
+  //       .updateMessage(updatedMessage, conversationId)
+  //       .then(() => {
+  //         console.log('Nachricht erfolgreich aktualisiert');
+  //       })
+  //       .catch((error) => {
+  //         console.error('Fehler beim Aktualisieren der Nachricht:', error);
+  //       });
+  //   }
+  // }
+  editMessage(message: Message, conversationId: string) {
     const newContent = prompt('Bearbeiten Sie die Nachricht:', message.content);
     if (newContent !== null && newContent.trim() !== '') {
-      // Aktualisiere nur den Inhalt der Nachricht
       message.content = newContent;
 
-      // Aktualisiere die Nachricht im Service
+      // Stelle sicher, dass die ID gleich bleibt
       this.messageService
-        .updateMessage(message, conversationId) // Konversation-ID übergeben
+        .updateMessage(message, conversationId)
         .then(() => {
           console.log('Nachricht erfolgreich aktualisiert');
         })

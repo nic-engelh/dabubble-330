@@ -3,6 +3,7 @@ import { DataService } from '../../services/data-service/data.service';
 import { Message } from '../../../models/message.class';
 import { User } from '../../../models/user.class';
 import { Observable } from 'rxjs';
+import { collection, doc, getDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -41,17 +42,66 @@ export class MessageService {
     );
   }
 
-  // Neu: Nachricht aktualisieren
-  updateMessage(message: Message, conversationId: string): Promise<void> {
+  //   updateMessage(message: Message, conversationId: string): Promise<void> {
+  //     console.log('Updating message with ID:', message.id); // ID überprüfen
+  //     return this.dataService.updateDocumentInSubcollection(
+  //       'threads',
+  //       conversationId,
+  //       'conversationMessages',
+  //       message.id, // Verwende die ID der Nachricht
+  //       {
+  //         content: message.content,  // Übergebe nur die Felder, die du aktualisieren willst
+  //         timestamp: message.timestamp.toISOString(),
+  //         isRead: message.isRead
+  //       }
+  //     );
+  // }
+
+  // updateMessage(message: Message, conversationId: string): Promise<void> {
+  //   console.log('Updating message with ID:', message.id); // Gleiche ID sicherstellen
+
+  //   // Stelle sicher, dass message.timestamp ein Date ist
+  //   const timestamp =
+  //     message.timestamp instanceof Date
+  //       ? message.timestamp
+  //       : new Date(message.timestamp);
+
+  //   return this.dataService.updateDocumentInSubcollection(
+  //     'threads',
+  //     conversationId,
+  //     'conversationMessages',
+  //     message.id, // Verwende die existierende ID
+  //     {
+  //       content: message.content, // Nur die Felder aktualisieren
+  //       timestamp: timestamp.toISOString(),
+  //       isRead: message.isRead,
+  //     }
+  //   );
+  // }
+  async updateMessage(message: Message, conversationId: string): Promise<void> {
     console.log('Updating message with ID:', message.id);
-    console.log('Message data:', message.toJson());
-    return this.dataService.updateDocumentInSubcollection(
+
+    const exists = await this.dataService.documentExistsInSubcollection(
       'threads',
-      conversationId, // conversationId wird separat übergeben
+      conversationId,
+      'conversationMessages',
+      message.id
+    );
+
+    if (!exists) {
+      console.error(
+        'Dokument existiert nicht, aktualisiere nicht:',
+        message.id
+      );
+      return;
+    }
+
+    await this.dataService.updateDocumentInSubcollection(
+      'threads',
+      conversationId,
       'conversationMessages',
       message.id,
-      message.toJson()
-      // message.toJson() // speichere die Änderungen
+      message.toJson() // Hier wird die aktuelle Nachricht aktualisiert
     );
   }
 

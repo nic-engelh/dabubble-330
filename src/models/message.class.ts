@@ -24,6 +24,21 @@ export class Message {
       conversationId: this.conversationId,
     };
   }
+  // toJson() {
+  //   return {
+  //     id: this.id,
+  //     content: this.content,
+  //     sender: {
+  //       id: this.sender.id,
+  //       username: this.sender.username,
+  //       email: this.sender.email,
+  //       avatarUrl: this.sender.avatarUrl,
+  //     },
+  //     timestamp: this.timestamp.toISOString(),
+  //     isRead: this.isRead,
+  //     conversationId: this.conversationId,
+  //   };
+  // }
   static fromData(data: any): Message {
     return new Message(
       data.id,
