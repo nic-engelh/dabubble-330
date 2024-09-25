@@ -15,11 +15,13 @@ export class MessagingService {
   ) {}
 
   async setMessagetoConversation(threadId: string, messageData: Message) {
+    const messageId = messageData.id;
     const messageDataJson = messageData.toJson();
     await this.dataService.addDocumentToSubcollection(
       'threads',
       threadId,
       'conversationMessages',
+      messageId,
       messageDataJson
     );
   }

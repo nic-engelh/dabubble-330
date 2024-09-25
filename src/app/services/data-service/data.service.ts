@@ -77,7 +77,8 @@ export class DataService {
     mainCollectionName: string,
     mainDocumentId: string,
     subcollectionName: string,
-    data: any
+    subDocId: string,
+    data: any,
   ): Promise<void> {
     try {
       // Reference to the main document
@@ -85,7 +86,7 @@ export class DataService {
       // Reference to the subcollection
       const subcollectionRef = collection(mainDocRef, subcollectionName);
       // Generate a new document reference with a unique ID
-      const newDocRef = doc(subcollectionRef);
+      const newDocRef = doc(subcollectionRef, subDocId);
       // Set the document data (this will create the subcollection if it doesn't exist)
       await setDoc(newDocRef, data);
       console.log('Document added successfully to subcollection');
