@@ -101,7 +101,7 @@ export class MessageService {
       conversationId,
       'conversationMessages',
       message.id,
-      message.toJson() // Hier wird die aktuelle Nachricht aktualisiert
+      message // Hier wird die aktuelle Nachricht aktualisiert
     );
   }
 
