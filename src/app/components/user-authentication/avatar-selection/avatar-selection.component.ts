@@ -1,14 +1,26 @@
+import { AuthenticationService } from './../../../services/authentication-service/authentication.service';
 import { UserDataService } from './../../../services/user-data/user-data.service';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import {
+  Storage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from '@angular/fire/storage';
 import { CommonModule } from '@angular/common';
+import { ModalComponent } from '../../modal/modal.component';
 
 @Component({
   selector: 'app-avatar-selection',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ModalComponent],
   templateUrl: './avatar-selection.component.html',
   styleUrl: './avatar-selection.component.scss',
 })
@@ -27,8 +39,14 @@ export class AvatarSelectionComponent implements OnInit {
   selectedAvatar: string | null = null;
   uploadPercent: number | null = null;
   uploadedAvatarUrl: string | null = null;
+  message: string = `Konto erfolgreich erstellt!`;
+  showModal: boolean = false;
 
-  constructor( private userDataService: UserDataService ) {
+  constructor(
+    private userDataService: UserDataService,
+    private router: Router,
+    private authService: AuthenticationService
+  ) {
     this.avatarForm = this.fb.group({
       avatarType: ['predefined', Validators.required],
       predefinedAvatar: [null, Validators.required],
@@ -36,8 +54,7 @@ export class AvatarSelectionComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onAvatarSelect(avatar: string): void {
     this.selectedAvatar = avatar;
@@ -63,10 +80,10 @@ export class AvatarSelectionComponent implements OnInit {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            //! find a solution to uploadedAvatarURL not being null
             this.uploadedAvatarUrl = downloadURL;
             console.log(this.uploadedAvatarUrl);
             this.avatarForm.patchValue({ customAvatar: downloadURL });
-
           });
         }
       );
@@ -76,16 +93,28 @@ export class AvatarSelectionComponent implements OnInit {
   async saveAvatarAtProfile(URL: string) {
     let response;
     if (URL) {
-     response = await this.userDataService.updatePhotoURL(URL);
-     console.log(response);
+      response = await this.userDataService.updatePhotoURL(URL);
+      console.log(response);
     }
   }
 
   onSubmit(): void {
+    const userStatus = this.authService.userIsLoggedIn();
+
     if (this.avatarForm.valid) {
       console.log('Form submitted:', this.avatarForm.value);
       // Here you would typically send the form data to your backend
-      //! this.saveAvatarAtProfile(this.uploadedAvatarUrl);
+      this.saveAvatarAtProfile(this.uploadedAvatarUrl!);
+      if (userStatus) {
+        this.authService.logout();
+      }
+      this.showModal = true;
+      setTimeout(() => {
+        this.showModal = false;
+      }, 200);
+      setTimeout(() => {
+        this.router.navigate(['/auth/log-in']);
+      }, 1300);
     }
   }
 

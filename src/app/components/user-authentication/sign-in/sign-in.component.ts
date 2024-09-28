@@ -11,11 +11,12 @@ import { AuthenticationService } from '../../../services/authentication-service/
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { UserDataService } from '../../../services/user-data/user-data.service';
+import { ModalComponent } from '../../modal/modal.component';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ModalComponent],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
@@ -26,6 +27,8 @@ export class SignInComponent {
   emailFocused: boolean = false;
   passwordFocused: boolean = false;
   nameFocused: boolean = false
+  showModal: boolean = true;
+  message: string = 'Konto erfolgreich erstellt!';
 
   constructor(
     private fb: FormBuilder,
@@ -80,7 +83,14 @@ export class SignInComponent {
 
   handleSuccessfulRegister(userName:string) {
     this.userService.updateDisplayName(userName)
+    this.showModal = true;
+    setTimeout(() => {
+      this.showModal = false;
+    }, 200);
     //! change route to avatar-selection
-    this.router.navigate(['/auth/log-in']);
+    setTimeout(() => {
+      this.router.navigate(['/auth/log-in']);
+    }, 4000);
+
   }
 }

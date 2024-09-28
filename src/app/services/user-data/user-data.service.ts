@@ -11,7 +11,6 @@ import {
   confirmPasswordReset,
   verifyPasswordResetCode,
 } from '@angular/fire/auth';
-import { FirebaseError } from 'firebase/app';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({

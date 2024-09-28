@@ -59,5 +59,8 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  userIsLoggedIn(): boolean {
+    return this.currentUserSubject.value !== null;
+  }
 
 }
