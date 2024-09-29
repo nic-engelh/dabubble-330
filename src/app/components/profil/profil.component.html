@@ -1,1 +1,38 @@
-<p>profil works!</p>
+<section>
+
+  @if (currentUser) {
+    <div class="profil-modal">
+      <div class="profil-header">
+        <span>Profil</span>
+        <img class="close-btn" src="/assets/img/close.svg" alt="">
+      </div>
+      <div class="profil-avatar-box">
+        @if (currentUser.photoURL) {
+          <img src="{{ currentUser.photoURL }}" alt="">
+        }
+        @else {
+          <img src="/assets/img/profile.svg" alt="">
+        }
+
+      </div>
+      <div class="profil-info-box">
+        <div class="profil-name-box">
+          <span>{{ currentUser.displayName }}</span>
+         <a href=""><img src="assets/img/Frame 181.svg" alt=""></a>
+        </div>
+        <div class="status">
+          <div class="status-circle"></div>
+          <Span>{{userStatus }}</Span>
+        </div>
+        <div class="email-box">
+          <div>
+            <img src="/assets/img/mail.svg" alt="">
+            <span>E-Mail-Adresse</span>
+          </div>
+          <span>{{ currentUser.email }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+</section>

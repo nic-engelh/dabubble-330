@@ -27,7 +27,7 @@ export class SignInComponent {
   emailFocused: boolean = false;
   passwordFocused: boolean = false;
   nameFocused: boolean = false
-  showModal: boolean = true;
+  showModal: boolean = false;
   message: string = 'Konto erfolgreich erstellt!';
 
   constructor(

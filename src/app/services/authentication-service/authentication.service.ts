@@ -15,7 +15,6 @@ export class AuthenticationService {
 
 
   constructor() {
-
     onAuthStateChanged(this.auth, (user) => {
       this.currentUserSubject.next(user);
     });
@@ -55,7 +54,11 @@ export class AuthenticationService {
     this.currentUserSubject.next(user);
   }
 
-  getCurrentUser(): User | null {
+  getCurrentUser(): Observable<any> {
+    return this.currentUserSubject.asObservable();
+  }
+
+  getCurrentUserValue(): User | null {
     return this.currentUserSubject.value;
   }
 

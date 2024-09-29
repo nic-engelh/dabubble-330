@@ -1,7 +1,7 @@
 import { PasswordResetComponent } from './components/user-authentication/password-reset/password-reset.component';
 import { ResetMaillingComponent } from './components/user-authentication/reset-mailling/reset-mailling.component';
 import { AvatarSelectionComponent } from './components/user-authentication/avatar-selection/avatar-selection.component';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes} from '@angular/router';
 import { DirectMessageComponent } from './components/direct-message/direct-message.component';
 import { DirectMessageListComponent } from './components/direct-message-list/direct-message-list.component';
 import { InConstructionComponent } from './components/in-construction/in-construction.component';
@@ -12,6 +12,7 @@ import { TestMessengerComponent } from './components/test-messenger/test-messeng
 import { UserAuthenticationComponent } from './components/user-authentication/user-authentication.component';
 import { LogInComponent } from './components/user-authentication/log-in/log-in.component';
 import { SignInComponent } from './components/user-authentication/sign-in/sign-in.component';
+import { ProfilComponent } from './components/profil/profil.component';
 
 export const routes: Routes = [
   {
@@ -52,6 +53,10 @@ export const routes: Routes = [
       { path: 'reset-mail', component:  ResetMaillingComponent},
       { path: 'reset-password', component:  PasswordResetComponent}
     ],
+  },
+  {
+    path: 'profil',
+    component: ProfilComponent,
   },
 
 ];
