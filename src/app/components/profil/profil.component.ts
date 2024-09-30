@@ -1,8 +1,6 @@
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { User } from '@angular/fire/auth';
-import { UserDataService } from '../../services/user-data/user-data.service';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 
 @Component({
@@ -14,10 +12,12 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 })
 export class ProfilComponent implements OnInit {
 
+  //! Two-way binding from the parent compoente with [member]="isMember"
   isMember: boolean = true;
   isUser: boolean = true;
+
   currentUser: any;
-  userStatus: string = 'Unbekannt';
+  userStatus: string = 'Abwesend';
   isActive: boolean = true;
 
   constructor (private authService: AuthenticationService) { }

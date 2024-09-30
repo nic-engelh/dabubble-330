@@ -13,6 +13,7 @@ import { UserAuthenticationComponent } from './components/user-authentication/us
 import { LogInComponent } from './components/user-authentication/log-in/log-in.component';
 import { SignInComponent } from './components/user-authentication/sign-in/sign-in.component';
 import { ProfilComponent } from './components/profil/profil.component';
+import { ProfilEditComponent } from './components/profil-edit/profil-edit.component';
 
 export const routes: Routes = [
   {
@@ -57,6 +58,10 @@ export const routes: Routes = [
   {
     path: 'profil',
     component: ProfilComponent,
+  },
+  {
+    path: 'edit-profil',
+    component: ProfilEditComponent,
   },
 
 ];

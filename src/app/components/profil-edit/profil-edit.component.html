@@ -1,0 +1,98 @@
+<section>
+  @if (currentUser) {
+  <div class="profil-modal">
+    <div class="profil-header">
+      <span>Dein Profil bearbeiten</span>
+      <img class="close-btn" src="/assets/img/close.svg" alt="" />
+    </div>
+    <div class="profil-avatar-box">
+      @if (currentUser.photoURL) {
+      <img src="{{ currentUser.photoURL }}" alt="" />
+      } @else {
+      <img src="/assets/img/profile.svg" alt="" />
+      }
+    </div>
+    <div class="profil-Input-box">
+      <form [formGroup]="changeProfilDataForm" (ngSubmit)="onSubmit()">
+        <!-- Full Name Input Field -->
+        <div class="form-group">
+          <div class="form-input-box">
+            <img
+              [class.touched]="
+                changeProfilDataForm.get('name')?.dirty || nameFocused
+              "
+              class="input-icon"
+              src="/assets/img/person_filled.svg"
+              alt="Person-Symbol"
+            />
+            <label for="name">Vollständiger Name</label>
+            <input
+              placeholder="Dein Name hier"
+              type="name"
+              id="name"
+              formControlName="name"
+              class="form-control bubble-form-input"
+              autocomplete="off"
+              (focus)="nameFocused = true"
+              (blur)="nameFocused = false"
+            />
+          </div>
+          <div
+            *ngIf="name?.invalid && (name?.touched || name?.dirty)"
+            class="error"
+          >
+            <small *ngIf="name?.errors?.['required']"
+              >Bitte geben Sie einen Namen ein.</small
+            >
+          </div>
+        </div>
+
+        <!-- Email Input Field -->
+        <div class="form-group">
+          <div class="form-input-box">
+            <img
+              [class.touched]="
+                changeProfilDataForm.get('email')?.dirty || emailFocused
+              "
+              class="input-icon"
+              src="/assets/img/mail.svg"
+              alt="Email-Symbol"
+            /> <label for="email"> E-Mail-Adresse</label>
+            <input
+              placeholder="Dein E-Mail hier"
+              type="email"
+              id="email"
+              formControlName="email"
+              class="form-control bubble-form-input"
+              autocomplete="off"
+              (focus)="emailFocused = true"
+              (blur)="emailFocused = false"
+            />
+          </div>
+          <div
+            *ngIf="email?.invalid && (email?.touched || email?.dirty)"
+            class="error"
+          >
+            <small *ngIf="email?.errors?.['required']"
+              >*Eine E-Mail-Adresse wird benötigt.</small
+            >
+            <small *ngIf="email?.errors?.['email']"
+              >*Diese E-Mail-Adresse ist leider ungültig.</small
+            >
+          </div>
+        </div>
+        <!-- Submit Button -->
+        <div class="button-box">
+          <button
+            type="submit"
+            class="bubble-full-button btn-fit-size submit-button"
+            [disabled]="changeProfilDataForm.invalid"
+          >
+            Passwort ändern
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+</section>
