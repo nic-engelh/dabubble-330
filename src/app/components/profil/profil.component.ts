@@ -14,10 +14,11 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 })
 export class ProfilComponent implements OnInit {
 
-  isMember: boolean = false;
-  isUser: boolean = false;
+  isMember: boolean = true;
+  isUser: boolean = true;
   currentUser: any;
   userStatus: string = 'Unbekannt';
+  isActive: boolean = true;
 
   constructor (private authService: AuthenticationService) { }
 

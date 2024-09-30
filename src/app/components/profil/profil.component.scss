@@ -53,6 +53,9 @@
     justify-content: flex-start;
     align-items: center;
     gap: 15px;
+    font-size: 20px;
+    font-weight: 400;
+    color: #686868;
   }
 }
 
@@ -65,7 +68,6 @@
   flex-direction: column;
   > div {
     display: flex;
-
     gap: 15px;
     > span {
       font-size: 20px;
@@ -73,20 +75,38 @@
     }
   }
   > span {
-    margin-left: 40px;
+    margin-left: 11%;
     margin-top: 15px;
     font-size: 18px;
     font-weight: 400;
-
   };
 }
 
-
-
-
 .status-circle {
   border-radius: 100%;
-  background-color: grey;
+  background-color: #686868;
   width: 16px;
   height: 16px;
+}
+
+
+.message-btn {
+  width: unset !important;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profil-avatar-box {
+  max-height: 200px;
+  height: 100%;
+  > img {
+    height: 200px;
+  }
+}
+
+.status-activ {
+  background: #92C83E;
+}
+.status-away {
+  background-color: #686868;
 }
