@@ -12,26 +12,25 @@
       <img src="/assets/img/profile.svg" alt="" />
       }
     </div>
-    <div class="profil-Input-box">
+    <div class="profil-input-box">
       <form [formGroup]="changeProfilDataForm" (ngSubmit)="onSubmit()">
         <!-- Full Name Input Field -->
         <div class="form-group">
-          <div class="form-input-box">
+          <div class="form-input-label-box">
             <img
-              [class.touched]="
-                changeProfilDataForm.get('name')?.dirty || nameFocused
-              "
               class="input-icon"
-              src="/assets/img/person_filled.svg"
+              src="/assets/img/account_circle.svg"
               alt="Person-Symbol"
             />
             <label for="name">Vollständiger Name</label>
+          </div>
+          <div class="form-input-box">
             <input
               placeholder="Dein Name hier"
               type="name"
               id="name"
               formControlName="name"
-              class="form-control bubble-form-input"
+              class="form-control bubble-form-input bg-white-border-bubbelblue"
               autocomplete="off"
               (focus)="nameFocused = true"
               (blur)="nameFocused = false"
@@ -49,21 +48,21 @@
 
         <!-- Email Input Field -->
         <div class="form-group">
-          <div class="form-input-box">
+          <div class="form-input-label-box">
             <img
-              [class.touched]="
-                changeProfilDataForm.get('email')?.dirty || emailFocused
-              "
               class="input-icon"
-              src="/assets/img/mail.svg"
+              src="/assets/img/mail-black.svg"
               alt="Email-Symbol"
-            /> <label for="email"> E-Mail-Adresse</label>
+            />
+            <label for="email"> E-Mail-Adresse</label>
+          </div>
+          <div class="form-input-box">
             <input
               placeholder="Dein E-Mail hier"
               type="email"
               id="email"
               formControlName="email"
-              class="form-control bubble-form-input"
+              class="form-control bubble-form-input bg-white-border-bubbelblue"
               autocomplete="off"
               (focus)="emailFocused = true"
               (blur)="emailFocused = false"
@@ -84,11 +83,18 @@
         <!-- Submit Button -->
         <div class="button-box">
           <button
+          (click)="cancelEditProfil()"
+          class="
+          unbuttonize
+          bubble-empty-button"
+          >Abbrechen
+        </button>
+          <button
             type="submit"
             class="bubble-full-button btn-fit-size submit-button"
             [disabled]="changeProfilDataForm.invalid"
           >
-            Passwort ändern
+            Speichern
           </button>
         </div>
       </form>

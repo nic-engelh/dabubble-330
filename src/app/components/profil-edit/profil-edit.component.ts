@@ -2,6 +2,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+import { UserDataService } from '../../services/user-data/user-data.service';
 import {
   FormBuilder,
   FormGroup,
@@ -28,9 +29,7 @@ export class ProfilEditComponent {
   emailFocused: boolean = false;
   nameFocused: boolean = false;
 
-
-
-  constructor (private authService: AuthenticationService, private fb: FormBuilder,) {
+  constructor (private authService: AuthenticationService, private fb: FormBuilder, private userDataService: UserDataService) {
     this.changeProfilDataForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', [Validators.required, Validators.pattern(/^(?:\p{L}+(?:[',. -]\p{L}+)*)?$/u)]],
@@ -46,18 +45,26 @@ export class ProfilEditComponent {
     });
   }
 
-
-  onSubmit() {
+ async onSubmit() {
     if (this.changeProfilDataForm.valid) {
-      const email = this.changeProfilDataForm.get('email')?.value;
-      const userName = this.changeProfilDataForm.get('name')?.value;
+      const newEmail = this.changeProfilDataForm.get('email')?.value;
+      const newUserName = this.changeProfilDataForm.get('name')?.value;
       console.log('Form Submitted', this.changeProfilDataForm.value);
-      //! add userdata change functions
+      if (newEmail !== null && newUserName !== null && this.currentUser) {
+        try {
+          await this.userDataService.updateDisplayName(newUserName);
+          await this.userDataService.updateEmail(newEmail);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      else {
+        console.error("Check form input and current user for error.")
+      }
     } else {
       console.log('Form is invalid');
     }
   }
-
 
 
   // Getters for easy access to form fields in the template
@@ -66,6 +73,12 @@ export class ProfilEditComponent {
   }
   get name() {
     return this.changeProfilDataForm.get('name');
+  }
+
+  cancelEditProfil() {
+    //! reset form
+    //! close, destory or hide modal
+    //! navigate to element/route from before
   }
 
 }

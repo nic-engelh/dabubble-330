@@ -1,5 +1,3 @@
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
   Firestore,

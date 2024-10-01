@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DirectMessageListComponent } from './direct-message-list.component';
+import { ConversationService } from '../../services/conversation-service/conversation.service';
 
 describe('DirectMessageListComponent', () => {
   let component: DirectMessageListComponent;
@@ -8,7 +9,7 @@ describe('DirectMessageListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DirectMessageListComponent]
+      imports: [DirectMessageListComponent, ConversationService]
     })
     .compileComponents();
 

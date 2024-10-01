@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChannelListComponent } from './channel-list.component';
+import { ChannelService } from '../../services/channel-service/channel.service';
 
 describe('ChannelListComponent', () => {
   let component: ChannelListComponent;
@@ -8,7 +9,8 @@ describe('ChannelListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChannelListComponent]
+      imports: [ChannelListComponent],
+      providers: [ChannelService],
     })
     .compileComponents();
 
