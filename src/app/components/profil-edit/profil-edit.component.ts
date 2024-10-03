@@ -52,6 +52,8 @@ export class ProfilEditComponent {
       console.log('Form Submitted', this.changeProfilDataForm.value);
       if (newEmail !== null && newUserName !== null && this.currentUser) {
         try {
+
+          //! improve this try&catch block - needs better error handling
           await this.userDataService.updateDisplayName(newUserName);
           await this.userDataService.updateEmail(newEmail);
         } catch (error) {
