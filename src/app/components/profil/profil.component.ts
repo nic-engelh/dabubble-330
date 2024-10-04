@@ -13,7 +13,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 export class ProfilComponent implements OnInit {
 
   //! Two-way binding from the parent compoente with [member]="isMember"
-  isMember: boolean = true;
+  isMember: boolean = false;
   isUser: boolean = true;
 
   currentUser: any;

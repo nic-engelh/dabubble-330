@@ -1,3 +1,5 @@
+@import '../../../styles/_breakpoints.scss';
+
 .profil-modal {
   max-width: 398px;
   max-height: 600px;
@@ -15,9 +17,10 @@
   @include xs {
     max-width: 398px;
     min-width: 320px;
-    max-height: 708px;
+    max-height: 552px;
     width: 100%;
   }
+
 }
 
 .profil-header {

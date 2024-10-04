@@ -60,7 +60,7 @@ export class ProfilEditComponent implements OnInit {
 
   async onSubmit(): Promise<void> {
     if (this.changeProfilDataForm.invalid) {
-      console.error('Form is invalid');
+      this.errorHandlingService.showWarningNotification('Eingabe ist ungültig.')
       Object.values(this.changeProfilDataForm.controls).forEach(control => {
         control.markAsTouched();
       });
