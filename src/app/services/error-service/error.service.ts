@@ -79,19 +79,19 @@ export class ErrorService {
   }
 
   showErrorNotification(message: string): void {
-    this.notifier.error(message, 'error');
+    this.notifier.error(message, 'Error', {positionClass: 'toast-bottom-center',});
   }
 
   showSuccessNotification(message: string): void {
-    this.notifier.success(message, 'success');
+    this.notifier.success(message, 'Success', {positionClass: 'toast-bottom-center',});
   }
 
   showInfoNotification(message: string): void {
-    this.notifier.info(message, 'info');
+    this.notifier.info(message, 'Info', {positionClass: 'toast-bottom-center',});
   }
 
   showWarningNotification(message: string): void {
-    this.notifier.warning(message, 'warning');
+    this.notifier.warning(message, 'Warning', {positionClass: 'toast-bottom-center',} );
   }
 
 }
