@@ -9,10 +9,11 @@ import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getFunctions, provideFunctions } from '@angular/fire/functions';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAnimations(),
+
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideFirebaseApp(() =>
@@ -32,5 +33,7 @@ export const appConfig: ApplicationConfig = {
     provideDatabase(() => getDatabase()),
     provideFunctions(() => getFunctions()),
     provideStorage(() => getStorage()),
+    provideAnimations(),
+    provideToastr(),
   ],
 };

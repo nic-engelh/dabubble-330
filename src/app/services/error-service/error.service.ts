@@ -1,13 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NgxNotifierService } from 'ngx-notifier';
 import { FirebaseError } from 'firebase/app';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorService {
-  constructor(private notifier: NgxNotifierService) {}
+
+
+  constructor( private notifier: ToastrService) {
+  }
+
+  setNotifierService(notifier: any) {
+    this.notifier = notifier;
+  }
 
   handleError(error: unknown): void {
     console.error('An error occurred:', error);
@@ -71,20 +78,20 @@ export class ErrorService {
     }
   }
 
-  private showErrorNotification(message: string): void {
-    this.notifier.createToast(message, 'error', 3000);
+  showErrorNotification(message: string): void {
+    this.notifier.error(message, 'error');
   }
 
   showSuccessNotification(message: string): void {
-    this.notifier.createToast(message, 'success', 3000);
+    this.notifier.success(message, 'success');
   }
 
   showInfoNotification(message: string): void {
-    this.notifier.createToast(message, 'info', 3000);
+    this.notifier.info(message, 'info');
   }
 
   showWarningNotification(message: string): void {
-    this.notifier.createToast(message, 'warning', 3000);
+    this.notifier.warning(message, 'warning');
   }
 
 }

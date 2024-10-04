@@ -11,12 +11,11 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ErrorService } from '../../services/error-service/error.service';
-import { NgxNotifierComponent, NgxNotifierService } from 'ngx-notifier';
 
 @Component({
   selector: 'app-profil-edit',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, NgxNotifierComponent],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './profil-edit.component.html',
   styleUrl: './profil-edit.component.scss',
 })
@@ -36,7 +35,6 @@ export class ProfilEditComponent {
     private fb: FormBuilder,
     private userDataService: UserDataService,
     private errorHandlingService: ErrorService,
-    private toastService: NgxNotifierService,
     private router: Router,
   ) {
     this.changeProfilDataForm = this.fb.group({
@@ -81,7 +79,6 @@ export class ProfilEditComponent {
     try {
       await this.updateUserProfile(newUserName, newEmail);
       console.log('Profile updated successfully');
-      this.toastService.createToast('Profile updated successfully','success', 3000)
       this.router.navigate(['/profil']);
       // Optionally, show a success message or navigate to another page
     } catch (error) {
