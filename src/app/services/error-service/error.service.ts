@@ -12,7 +12,7 @@ export class ErrorService {
   constructor( private notifier: ToastrService) {
   }
 
-  setNotifierService(notifier: any) {
+  setNotifierService(notifier: ToastrService) {
     this.notifier = notifier;
   }
 

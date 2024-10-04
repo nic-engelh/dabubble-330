@@ -19,7 +19,7 @@ import { ErrorService } from '../../services/error-service/error.service';
   templateUrl: './profil-edit.component.html',
   styleUrl: './profil-edit.component.scss',
 })
-export class ProfilEditComponent {
+export class ProfilEditComponent implements OnInit {
   isMember: boolean = true;
   isUser: boolean = true;
   currentUser: any;
@@ -78,20 +78,20 @@ export class ProfilEditComponent {
 
     try {
       await this.updateUserProfile(newUserName, newEmail);
-      console.log('Profile updated successfully');
+      this.resetAllFields;
+      this.errorHandlingService.showSuccessNotification('Profile updated successfully');
       this.router.navigate(['/profil']);
       // Optionally, show a success message or navigate to another page
     } catch (error) {
       this.errorHandlingService.handleError(error);
+      this.resetAllFields;
     }
-    this.resetAllFields;
   }
 
   private async updateUserProfile(newUserName: string, newEmail: string): Promise<void> {
     await this.userDataService.updateDisplayName(newUserName);
     await this.userDataService.updateEmail(newEmail);
   }
-
 
   // Getters for easy access to form fields in the template
   get email() {
