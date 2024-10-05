@@ -71,7 +71,6 @@ export class ProfilEditComponent implements OnInit {
     const newUserName = this.changeProfilDataForm.get('name')?.value;
 
     if (!newEmail || !newUserName || !this.currentUser) {
-      console.error("Missing form data or current user");
       this.errorHandlingService.handleError(new Error("Missing form data or current user"));
       return;
     }
@@ -79,7 +78,7 @@ export class ProfilEditComponent implements OnInit {
     try {
       await this.updateUserProfile(newUserName, newEmail);
       this.resetAllFields;
-      this.errorHandlingService.showSuccessNotification('Profile updated successfully');
+      this.errorHandlingService.showSuccessNotification('Profil erfolgreich aktualisiert.');
       this.router.navigate(['/profil']);
       // Optionally, show a success message or navigate to another page
     } catch (error) {

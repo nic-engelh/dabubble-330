@@ -1,7 +1,7 @@
 import { PasswordResetComponent } from './components/user-authentication/password-reset/password-reset.component';
 import { ResetMaillingComponent } from './components/user-authentication/reset-mailling/reset-mailling.component';
 import { AvatarSelectionComponent } from './components/user-authentication/avatar-selection/avatar-selection.component';
-import { Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 import { DirectMessageComponent } from './components/direct-message/direct-message.component';
 import { DirectMessageListComponent } from './components/direct-message-list/direct-message-list.component';
 import { InConstructionComponent } from './components/in-construction/in-construction.component';
@@ -14,6 +14,7 @@ import { LogInComponent } from './components/user-authentication/log-in/log-in.c
 import { SignInComponent } from './components/user-authentication/sign-in/sign-in.component';
 import { ProfilComponent } from './components/profil/profil.component';
 import { ProfilEditComponent } from './components/profil-edit/profil-edit.component';
+import { ProfilMenuComponent } from './components/profil-menu/profil-menu.component';
 
 export const routes: Routes = [
   {
@@ -50,9 +51,9 @@ export const routes: Routes = [
     children: [
       { path: 'log-in', component: LogInComponent },
       { path: 'sign-in', component: SignInComponent },
-      { path: 'avatar', component:  AvatarSelectionComponent},
-      { path: 'reset-mail', component:  ResetMaillingComponent},
-      { path: 'reset-password', component:  PasswordResetComponent}
+      { path: 'avatar', component: AvatarSelectionComponent },
+      { path: 'reset-mail', component: ResetMaillingComponent },
+      { path: 'reset-password', component: PasswordResetComponent }
     ],
   },
   {
@@ -62,6 +63,10 @@ export const routes: Routes = [
   {
     path: 'edit-profil',
     component: ProfilEditComponent,
+  },
+  {
+    path: 'profil-menu',
+    component: ProfilMenuComponent,
   },
 
 ];

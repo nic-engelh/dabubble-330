@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-profil-menu',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './profil-menu.component.html',
   styleUrl: './profil-menu.component.scss'
 })
