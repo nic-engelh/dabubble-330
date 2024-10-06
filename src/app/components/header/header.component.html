@@ -1,1 +1,13 @@
-<p>header works!</p>
+<header>
+  <img class="logo" src="/assets/img/logo_plus_name.svg" alt="Logo with Name" />
+  @if (currentUser) {
+  <div class="menu-btn" (click)="openDialog()">
+    @if (currentUser.photoURL) {
+    <img src="{{ currentUser.photoURL }}" alt="" />
+    } @else {
+    <img src="/assets/img/profile.svg" alt="" />
+    }
+  </div>
+  }
+</header>
+<app-profil-menu> </app-profil-menu>

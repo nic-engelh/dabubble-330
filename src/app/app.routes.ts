@@ -15,6 +15,7 @@ import { SignInComponent } from './components/user-authentication/sign-in/sign-i
 import { ProfilComponent } from './components/profil/profil.component';
 import { ProfilEditComponent } from './components/profil-edit/profil-edit.component';
 import { ProfilMenuComponent } from './components/profil-menu/profil-menu.component';
+import { HeaderComponent } from './components/header/header.component';
 
 export const routes: Routes = [
   {
@@ -67,6 +68,10 @@ export const routes: Routes = [
   {
     path: 'profil-menu',
     component: ProfilMenuComponent,
+  },
+  {
+    path: 'header',
+    component: HeaderComponent,
   },
 
 ];

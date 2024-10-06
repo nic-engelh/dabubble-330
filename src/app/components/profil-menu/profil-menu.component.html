@@ -1,17 +1,21 @@
-<menu>
-  <div class="btn-close-box">
-    <button class="unbuttonize btn-close rectangle"></button>
+<div class="backdrop" *ngIf="isOpen" (click)="onBackdropClick($event)">
+  <div>
+    <app-profil-edit [hidden]="isHidden"></app-profil-edit>
+    <app-profil [hidden]="isHidden"></app-profil>
   </div>
-  <div class="link-box">
-    <a class="undecorate" href="">
-      <img src="/assets/img/account_circle.svg" alt="" />
-      <span>Profil</span>
-      </a
-    >
-    <a class="undecorate" href=""
-      ><img src="/assets/img/logout.svg" alt="" />
-      <span>Log Out</span>
-      </a
-    >
-  </div>
-</menu>
+  <menu class="dialog" #dialog>
+    <div class="btn-close-box" (click)="close()">
+      <button class="unbuttonize btn-close rectangle"></button>
+    </div>
+    <div class="link-box">
+      <a class="undecorate" href="">
+        <img src="/assets/img/account_circle.svg" alt="" />
+        <span>Profil</span>
+      </a>
+      <a class="undecorate" href=""
+        ><img src="/assets/img/logout.svg" alt="" />
+        <span>Log Out</span>
+      </a>
+    </div>
+  </menu>
+</div>
