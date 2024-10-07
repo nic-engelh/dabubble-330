@@ -1,15 +1,31 @@
-menu {
+@import '../../../styles/_breakpoints.scss';
+
+.menu {
   max-width: 430px;
   max-height: 206px;
-  width: 100%;
+  min-width: 319px;
   height: 100%;
   padding: 30px 26px 30px 26px;
   gap: 15px;
   border-radius: 30px 30px 0px 0px;
-  opacity: 0px;
   box-shadow: 0px -3px 10px 0px #00000033;
   background-color: #ffffff;
   pointer-events: auto;
+   /* Initially transparent */
+}
+
+.dialog {
+  position: fixed;
+  left: 30%;
+  bottom:0px;
+  transform: translateX(-50%);
+  z-index: 10;
+  @include sm {
+    left: 0;
+    width: 100%;
+    padding: unset;
+  }
+
 }
 
 .rectangle {
@@ -32,9 +48,8 @@ menu {
 .link-box {
   display: flex;
   flex-direction: column;
-  gap: 15px;
   padding: 10px 30px 10px 30px;
-  > a {
+  > div {
     display: flex;
     align-items: center;
     gap: 18px;
@@ -76,14 +91,18 @@ menu {
   top: 0;
   left: 0;
   width: 100%;
-  height: 102%;
+  height: 100svh;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   pointer-events: none;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
 }
 
+profil-dialog-box {
+  pointer-events: auto;
+}
+
+.front-index {
+  z-index: 20;
+}

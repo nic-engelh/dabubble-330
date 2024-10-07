@@ -1,9 +1,9 @@
-<section>
+<div [hidden]="!profilVisible">
   @if (currentUser) {
-  <div class="profil-modal">
+  <div class="profil-modal" #profilDialog>
     <div class="profil-header">
       <span>Profil</span>
-      <img class="close-btn" src="/assets/img/close.svg" alt="" />
+      <img class="close-btn" (click)="close()" src="/assets/img/close.svg" alt="" />
     </div>
     <div class="profil-avatar-box">
       @if (currentUser.photoURL) {
@@ -39,4 +39,4 @@
     }
   </div>
   }
-</section>
+</div>

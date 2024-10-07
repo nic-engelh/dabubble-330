@@ -23,8 +23,6 @@ header {
   justify-content: space-between;
   @include xs {
     max-width: 398px;
-    width: 100svw;
     min-height: 80px;
   }
-
  }

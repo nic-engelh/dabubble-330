@@ -10,8 +10,6 @@ import { CommonModule } from '@angular/common';
   selector: 'app-header',
   standalone: true,
   imports: [
-    ProfilComponent,
-    ProfilEditComponent,
     ProfilMenuComponent,
     RouterModule,
     CommonModule,
@@ -21,7 +19,7 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent implements OnInit {
 
-  @ViewChild(ProfilMenuComponent) dialog!: ProfilMenuComponent;
+  @ViewChild('menuDialog') menuDialog!: ProfilMenuComponent;
 
   isHidden: boolean = true;
   currentUser: any;
@@ -40,6 +38,6 @@ export class HeaderComponent implements OnInit {
   }
 
   openDialog(): void {
-    this.dialog.open();
+    this.menuDialog.toggleMenu();
   }
 }
