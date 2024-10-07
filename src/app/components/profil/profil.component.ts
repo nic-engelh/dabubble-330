@@ -23,7 +23,7 @@ export class ProfilComponent implements OnInit {
   userStatus: string = 'Abwesend';
   isActive: boolean = true;
 
-  constructor(private authService: AuthenticationService) {}
+  constructor(private authService: AuthenticationService) { }
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
@@ -38,8 +38,6 @@ export class ProfilComponent implements OnInit {
     setTimeout(() => {
       this.profilVisible = !this.profilVisible;
     }, 50);
-
-    console.log('Profil Visible:', this.profilVisible);
   }
 
   open(): void {

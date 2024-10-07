@@ -39,8 +39,6 @@ export class ProfilMenuComponent {
     setTimeout(() => {
       this.menuVisible = !this.menuVisible;
     }, 50);
-
-    console.log('Menu Visible:', this.menuVisible);
   }
 
   open(): void {
@@ -56,7 +54,6 @@ export class ProfilMenuComponent {
 
   openProfilDialog(): void {
     this.profilDialog.toggleMenu();
-    console.log('Profil Visible:', this.profilVisible);
   }
 
   onBackdropClick(event: MouseEvent): void {
