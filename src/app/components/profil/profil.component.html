@@ -1,3 +1,6 @@
+
+
+  <app-profil-edit #profilEditDialog ></app-profil-edit>
 <div [hidden]="!profilVisible">
   @if (currentUser) {
   <div class="profil-modal" #profilDialog>
@@ -16,7 +19,9 @@
       <div class="profil-name-box">
         <span>{{ currentUser.displayName }}</span>
         @if (isUser) {
-          <a href="/edit-profil/"><img src="assets/img/Frame 181.svg" alt="" /></a>
+          <div class="edit-btn" (click)="openProfilEdit(); changeEditImage()" >
+            <img [src]="editImageURL" alt="Dynamic Image"/>
+          </div>
         }
       </div>
       <div class="status">

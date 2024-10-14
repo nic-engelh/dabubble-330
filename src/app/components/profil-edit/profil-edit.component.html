@@ -1,9 +1,9 @@
-<section>
+<div #profilEditDialog [hidden]="!isVisible">
   @if (currentUser) {
   <div class="profil-modal">
     <div class="profil-header">
       <span>Dein Profil bearbeiten</span>
-      <img class="close-btn" src="/assets/img/close.svg" alt="" />
+      <img class="close-btn" (click)="cancelEditProfil()" src="/assets/img/close.svg" alt="" />
     </div>
     <div class="profil-avatar-box">
       @if (currentUser.photoURL) {
@@ -84,6 +84,7 @@
         <div class="button-box">
           <button
           (click)="cancelEditProfil()"
+          type="button"
           class="
           unbuttonize
           btn-fit-size
@@ -102,4 +103,4 @@
     </div>
   </div>
   }
-</section>
+</div>

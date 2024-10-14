@@ -1,6 +1,6 @@
-import { RouterModule, Router  } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { UserDataService } from '../../services/user-data/user-data.service';
 import {
@@ -20,6 +20,10 @@ import { ErrorService } from '../../services/error-service/error.service';
   styleUrl: './profil-edit.component.scss',
 })
 export class ProfilEditComponent implements OnInit {
+
+  @ViewChild('profilEditDialog') profilEditDialog!: ElementRef;
+  isVisible: boolean = false;
+
   isMember: boolean = true;
   isUser: boolean = true;
   currentUser: any;
@@ -105,7 +109,6 @@ export class ProfilEditComponent implements OnInit {
   }
 
   cancelEditProfil() {
-    this.changeProfilDataForm.reset();
-    this.router.navigate(['/desktop']);
+    this.isVisible = false;
   }
 }

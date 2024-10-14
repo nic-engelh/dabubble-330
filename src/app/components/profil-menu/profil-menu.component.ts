@@ -31,8 +31,8 @@ export class ProfilMenuComponent {
   @ViewChild('dialog') dialog!: ElementRef;
   @ViewChild('profilDialog') profilDialog!: ProfilComponent;
 
-  menuVisible = false;
-  profilVisible = false;
+  menuVisible: boolean = false;
+  profilVisible: boolean = false;
 
 
   toggleMenu() {
