@@ -1,12 +1,12 @@
 
 
-  <app-profil-edit #profilEditDialog ></app-profil-edit>
+<app-profil-edit #profilEditDialog ></app-profil-edit>
 <div [hidden]="!profilVisible">
-  @if (currentUser) {
+  @if (currentUser && !profilEditDialog.isVisible) {
   <div class="profil-modal" #profilDialog>
     <div class="profil-header">
       <span>Profil</span>
-      <img class="close-btn" (click)="close()" src="/assets/img/close.svg" alt="" />
+      <img class="close-btn" (click)="close()" [src]="closeIconPath" alt="" />
     </div>
     <div class="profil-avatar-box">
       @if (currentUser.photoURL) {

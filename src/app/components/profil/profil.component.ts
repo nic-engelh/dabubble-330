@@ -27,6 +27,7 @@ export class ProfilComponent implements OnInit {
   isActive: boolean = true;
 
   editImageURL: string = '/assets/img/edit.svg';
+  closeIconPath: string = '/assets/img/close-default.svg';
 
   constructor(private authService: AuthenticationService) { }
 
@@ -58,8 +59,7 @@ export class ProfilComponent implements OnInit {
   openProfilEdit() {
     this.close();
     this.profilEditDialog.isVisible = true;
-    //this.changeEditImage();
-
+    this.changeEditImage();
   }
 
   closeProfilEdit() {

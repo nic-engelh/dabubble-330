@@ -4,6 +4,7 @@
   position: relative;
   z-index: 21;
   max-width: 500px;
+  min-width: 320px;
   max-height: 704px;
   height: 100%;
   background-color: #FFFFFF;
@@ -33,8 +34,12 @@
     font-weight:700
   }
   > .close-btn {
-    width: 24px;
-    height: 24px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    &:hover {
+    content: url('/assets/img/close-hover.svg');
+  }
   }
 }
 
@@ -161,7 +166,10 @@ img.input-icon.touched {
 
 .submit-button:disabled {
   background-color: #686868;
-  color: white;
+  color: white;cursor: pointer;
+  &:hover {
+    content: url('/assets/img/close-hover.svg');
+  }
   cursor: not-allowed;
 }
 .error {
@@ -192,5 +200,3 @@ img.input-icon.touched {
 .mx-wd-420 {
   max-width: 420px !important;
 }
-
-

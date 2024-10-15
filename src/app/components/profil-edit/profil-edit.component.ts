@@ -24,6 +24,8 @@ export class ProfilEditComponent implements OnInit {
   @ViewChild('profilEditDialog') profilEditDialog!: ElementRef;
   isVisible: boolean = false;
 
+  closeIconPath: string = '/assets/img/close-default.svg';
+
   isMember: boolean = true;
   isUser: boolean = true;
   currentUser: any;

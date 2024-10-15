@@ -3,7 +3,7 @@
   <div class="profil-modal">
     <div class="profil-header">
       <span>Dein Profil bearbeiten</span>
-      <img class="close-btn" (click)="cancelEditProfil()" src="/assets/img/close.svg" alt="" />
+      <img class="close-btn" (click)="cancelEditProfil()" [src]="closeIconPath" alt="" />
     </div>
     <div class="profil-avatar-box">
       @if (currentUser.photoURL) {
