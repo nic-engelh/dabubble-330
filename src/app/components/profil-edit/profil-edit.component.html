@@ -1,106 +1,107 @@
 <div #profilEditDialog [hidden]="!isVisible">
   @if (currentUser) {
-  <div class="profil-modal">
-    <div class="profil-header">
-      <span>Dein Profil bearbeiten</span>
-      <img class="close-btn" (click)="cancelEditProfil()" [src]="closeIconPath" alt="" />
-    </div>
-    <div class="profil-avatar-box">
-      @if (currentUser.photoURL) {
-      <img src="{{ currentUser.photoURL }}" alt="" />
-      } @else {
-      <img src="/assets/img/profile.svg" alt="" />
-      }
-    </div>
-    <div class="profil-input-box">
-      <form [formGroup]="changeProfilDataForm" (ngSubmit)="onSubmit()">
-        <!-- Full Name Input Field -->
-        <div class="form-group">
-          <div class="form-input-label-box">
-            <img
-              class="input-icon"
-              src="/assets/img/account_circle.svg"
-              alt="Person-Symbol"
-            />
-            <label for="name">Vollständiger Name</label>
-          </div>
-          <div class="form-input-box">
-            <input
-              placeholder="Dein Name hier"
-              type="name"
-              id="name"
-              formControlName="name"
-              class="form-control bubble-form-input bg-white-border-bubbelblue"
-              autocomplete="off"
-              (focus)="nameFocused = true"
-              (blur)="nameFocused = false"
-            />
-          </div>
-          <div
-            *ngIf="name?.invalid && (name?.touched || name?.dirty)"
-            class="error"
-          >
-            <small *ngIf="name?.errors?.['required']"
-              >Bitte geben Sie einen Namen ein.</small
-            >
-          </div>
-        </div>
-
-        <!-- Email Input Field -->
-        <div class="form-group">
-          <div class="form-input-label-box">
-            <img
-              class="input-icon"
-              src="/assets/img/mail-black.svg"
-              alt="Email-Symbol"
-            />
-            <label for="email"> E-Mail-Adresse</label>
-          </div>
-          <div class="form-input-box">
-            <input
-              placeholder="Dein E-Mail hier"
-              type="email"
-              id="email"
-              formControlName="email"
-              class="form-control bubble-form-input bg-white-border-bubbelblue"
-              autocomplete="off"
-              (focus)="emailFocused = true"
-              (blur)="emailFocused = false"
-            />
-          </div>
-          <div
-            *ngIf="email?.invalid && (email?.touched || email?.dirty)"
-            class="error"
-          >
-            <small *ngIf="email?.errors?.['required']"
-              >*Eine E-Mail-Adresse wird benötigt.</small
-            >
-            <small *ngIf="email?.errors?.['email']"
-              >*Diese E-Mail-Adresse ist leider ungültig.</small
-            >
-          </div>
-        </div>
-        <!-- Submit Button -->
-        <div class="button-box">
-          <button
+    <div class="profil-modal">
+      <div class="profil-header">
+        <span>Dein Profil bearbeiten</span>
+        <img
+          class="close-btn"
           (click)="cancelEditProfil()"
-          type="button"
-          class="
-          unbuttonize
-          btn-fit-size
-          bubble-empty-button"
-          >Abbrechen
-        </button>
-          <button
-            type="submit"
-            class="bubble-full-button btn-fit-size submit-button"
-            [disabled]="changeProfilDataForm.invalid"
-          >
-            Speichern
-          </button>
-        </div>
-      </form>
+          [src]="closeIconPath"
+          alt="Schließen"
+        />
+      </div>
+      <div class="profil-avatar-box">
+        <img
+          [src]="currentUser.photoURL ?? '/assets/img/profile.svg'"
+          [alt]="currentUser.photoURL ? 'Profilbild' : 'Standard Profilbild'"
+        />
+      </div>
+      <div class="profil-input-box">
+        <form [formGroup]="changeProfilDataForm" (ngSubmit)="onSubmit()">
+          <!-- Full Name Input Field -->
+          <div class="form-group">
+            <div class="form-input-label-box">
+              <img
+                class="input-icon"
+                src="/assets/img/account_circle.svg"
+                alt="Person-Symbol"
+              />
+              <label for="name">Vollständiger Name</label>
+            </div>
+            <div class="form-input-box">
+              <input
+                placeholder="Dein Name hier"
+                type="text"
+                id="name"
+                formControlName="name"
+                class="form-control bubble-form-input bg-white-border-bubbelblue"
+                autocomplete="name"
+                (focus)="nameFocused = true"
+                (blur)="nameFocused = false"
+              />
+            </div>
+            @if (name?.invalid && (name?.touched || name?.dirty)) {
+              <div class="error">
+                @if (name?.errors?.['required']) {
+                  <small>Bitte geben Sie einen Namen ein.</small>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- Email Input Field -->
+          <div class="form-group">
+            <div class="form-input-label-box">
+              <img
+                class="input-icon"
+                src="/assets/img/mail-black.svg"
+                alt="Email-Symbol"
+              />
+              <label for="email">E-Mail-Adresse</label>
+            </div>
+            <div class="form-input-box">
+              <input
+                placeholder="Deine E-Mail hier"
+                type="email"
+                id="email"
+                formControlName="email"
+                class="form-control bubble-form-input bg-white-border-bubbelblue"
+                autocomplete="email"
+                (focus)="emailFocused = true"
+                (blur)="emailFocused = false"
+              />
+            </div>
+            @if (email?.invalid && (email?.touched || email?.dirty)) {
+              <div class="error">
+                @if (email?.errors?.['required']) {
+                  <small>Eine E-Mail-Adresse wird benötigt.</small>
+                }
+                @if (email?.errors?.['email']) {
+                  <small>Diese E-Mail-Adresse ist leider ungültig.</small>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- Submit Button -->
+          <div class="button-box">
+            <button
+              (click)="cancelEditProfil()"
+              type="button"
+              class="unbuttonize btn-fit-size bubble-empty-button"
+            >
+              Abbrechen
+            </button>
+            <button
+              type="submit"
+              class="bubble-full-button btn-fit-size submit-button"
+              [disabled]="changeProfilDataForm.invalid"
+            >
+              Speichern
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
   }
 </div>

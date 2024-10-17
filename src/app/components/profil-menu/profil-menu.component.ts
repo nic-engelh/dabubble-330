@@ -50,6 +50,7 @@ export class ProfilMenuComponent {
 
   close(): void {
     this.menuVisible = false;
+    this.profilDialog.toggleMenu();
   }
 
   openProfilDialog(): void {

@@ -85,12 +85,16 @@ export class ProfilEditComponent implements OnInit {
       await this.updateUserProfile(newUserName, newEmail);
       this.resetAllFields;
       this.errorHandlingService.showSuccessNotification('Profil erfolgreich aktualisiert.');
-      this.router.navigate(['/profil']);
+      // close profil edit dialog
       // Optionally, show a success message or navigate to another page
     } catch (error) {
       this.errorHandlingService.handleError(error);
+      console.error('Error Zweig')
       this.resetAllFields;
+
+      // close proifl edit dialog
     }
+    this.cancelEditProfil();
   }
 
   private async updateUserProfile(newUserName: string, newEmail: string): Promise<void> {
