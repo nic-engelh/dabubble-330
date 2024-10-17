@@ -35,6 +35,9 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
     private dataService: DataService
   ) {}
 
+  menuVisible: boolean = false;
+  hoveredMessageId: string | null = null;
+
   ngOnInit(): void {
     this.messages$ = this.dataService
       .getSubcollectionUpdates(
@@ -87,8 +90,6 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
     }, {} as { [key: string]: Message[] });
   }
 
-  hoveredMessageId: string | null = null;
-
   onMouseEnter(messageId: string) {
     this.hoveredMessageId = messageId;
   }
@@ -98,8 +99,22 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
   }
 
   // Zeigt das Menü für die angeklickte Nachricht an
-  toggleMenu(message: Message) {
-    message.showMenu = !message.showMenu;
+  // toggleMenu(message: Message) {
+  //   message.showMenu = !message.showMenu;
+  // }
+
+  toggleMenu(messageId: string) {
+    if (this.hoveredMessageId === messageId) {
+      this.menuVisible = !this.menuVisible; // Sichtbarkeit umschalten
+    } else {
+      this.menuVisible = true; // Menü anzeigen, wenn eine neue Nachricht ausgewählt wird
+      this.hoveredMessageId = messageId; // Nachricht ID setzen
+    }
+  }
+
+  closeMenu() {
+    this.menuVisible = false; // Menü automatisch schließen, wenn Maus das Menü verlässt
+    this.hoveredMessageId = null; // Reset der Nachricht ID
   }
 
   editMessage(message: Message, conversationId: string) {

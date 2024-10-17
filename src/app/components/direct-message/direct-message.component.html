@@ -20,17 +20,29 @@
           (mouseleave)="onMouseLeave()"
         >
           <small>{{ message.timestamp | date : "HH:mm" }}</small>
-          <small>Sender: {{ message.sender }}</small>
+          <small>Sender: {{ message.sender.username }}</small>
           <p>{{ message.content }}</p>
 
           <!-- Drei-Punkte-Menü, erscheint beim Hover -->
-          <div class="menu" *ngIf="hoveredMessageId === message.id">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
+          <div
+            class="menu"
+            (mouseover)="hoveredMessageId = message.id"
+            (mouseleave)="hoveredMessageId = null"
+          >
+            <!-- Dot wird nur angezeigt, wenn die Nachricht gehovt wird -->
+            <span
+              class="dot"
+              *ngIf="hoveredMessageId === message.id"
+              (click)="toggleMenu(message.id)"
+            >
+              <img src="assets/img/3dot.svg" alt="" />
+            </span>
 
             <!-- Menü für Bearbeitung und Reaktionen -->
-            <div class="menu-content">
+            <div
+              class="menu-content"
+              *ngIf="hoveredMessageId === message.id && menuVisible"
+            >
               <button (click)="editMessage(message, conversationId)">
                 Bearbeiten
               </button>
