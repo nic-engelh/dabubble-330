@@ -23,6 +23,17 @@
       .menu {
         display: flex;
         justify-content: end;
+
+        .menu-content {
+          right: 30%;
+          display: flex;
+          flex-direction: column;
+          background-color: #fff;
+
+          button {
+            all: unset;
+          }
+        }
       }
 
       .dateWrapper {
