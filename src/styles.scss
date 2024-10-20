@@ -109,3 +109,13 @@ body {
 .hidden {
   display: none;
 }
+
+.outline-none {
+  &:focus{
+    outline: none;
+  }
+}
+
+.w-125 {
+  width: 125px;
+}

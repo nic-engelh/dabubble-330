@@ -1,1 +1,42 @@
-<p>add-channel works!</p>
+<div class="main-container">
+  <div class="header">
+    <span>Channel erstellen</span>
+    <img src="/assets/img/close-default.svg" alt="Close Button" />
+  </div>
+  <div>
+    <span>
+      Channels dienen deinem Team zur Kommunikation. Am besten sollten sie
+      themenbezogen sein #marketing zum Beispiel.
+    </span>
+  </div>
+  <div>
+    <form [formGroup]="addChannelForm" (ngSubmit)="onSubmit()">
+      <div class="input-box">
+        <label for="channelName">Channel-Name</label>
+        <input class="outline-none" id="channelName" placeholder="# z.B. Kooperationsprojekte" type="text" formControlName="channelName" />
+        <div
+          *ngIf="
+            addChannelForm.get('channelName')?.invalid &&
+            (addChannelForm.get('channelName')?.dirty ||
+              addChannelForm.get('channelName')?.touched)
+          "
+        >
+          <small *ngIf="addChannelForm.get('channelName')?.errors?.['required']"
+            >Channel-Name wird benötigt.</small
+          >
+        </div>
+      </div>
+      <div class="textarea-box">
+        <label for="description">Beschreibung <span>(optional)</span></label>
+        <textarea class="growable-textarea outline-none" [rows]="calculateRows()" [(ngModel)]="textContent" id="description" placeholder="Dein Text hier" formControlName="description" ></textarea>
+      </div>
+      <div class="button-container">
+        <button class="bubble-full-button w-125"  type="submit" [disabled]="!addChannelForm.valid">Erstellen</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
+

@@ -16,6 +16,7 @@ import { ProfilComponent } from './components/profil/profil.component';
 import { ProfilEditComponent } from './components/profil-edit/profil-edit.component';
 import { ProfilMenuComponent } from './components/profil-menu/profil-menu.component';
 import { HeaderComponent } from './components/header/header.component';
+import { AddChannelComponent } from './components/add-channel/add-channel.component';
 
 export const routes: Routes = [
   {
@@ -72,6 +73,10 @@ export const routes: Routes = [
   {
     path: 'header',
     component: HeaderComponent,
+  },
+  {
+    path: 'add-channel',
+    component: AddChannelComponent,
   },
 
 ];
