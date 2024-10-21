@@ -58,7 +58,6 @@ textarea {
   width: auto;
   height: auto;
   min-width: 150px; /* Adjust as needed */
-  border: 1px solid #ccc;
   resize: none;
   overflow-y: hidden;
   text-align: start;
@@ -110,4 +109,15 @@ form {
   width: 100%;
   display: flex;
   align-items: flex-end;
+}
+
+.error {
+  color: #ED1E79;
+  font-family: Nunito;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.1px;
+  position: relative;
+  bottom: -10px;
+  left: 0%;
 }

@@ -1,7 +1,7 @@
 <div class="main-container">
   <div class="header">
     <span>Channel erstellen</span>
-    <img src="/assets/img/close-default.svg" alt="Close Button" />
+    <img (click)="closeElement()" src="/assets/img/close-default.svg" alt="Close Button" />
   </div>
   <div>
     <span>
@@ -21,7 +21,7 @@
               addChannelForm.get('channelName')?.touched)
           "
         >
-          <small *ngIf="addChannelForm.get('channelName')?.errors?.['required']"
+          <small class="error" *ngIf="addChannelForm.get('channelName')?.errors?.['required']"
             >Channel-Name wird benötigt.</small
           >
         </div>
