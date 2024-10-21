@@ -3,8 +3,14 @@ import { Component, ElementRef, ViewChild, Injectable } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { ProfilEditComponent } from '../profil-edit/profil-edit.component';
 import { ProfilComponent } from '../profil/profil.component';
-import { trigger, state, style, animate, transition } from '@angular/animations';
-
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-profil-menu',
@@ -14,26 +20,30 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   styleUrl: './profil-menu.component.scss',
   animations: [
     trigger('slideMenu', [
-      state('hidden', style({
-        transform: 'translateY(430px)'
-      })),
-      state('visible', style({
-        transform: 'translateY(0)'
-      })),
-      transition('hidden <=> visible', [
-        animate('300ms ease-in-out')
-      ])
-    ])
-  ]
+      state(
+        'hidden',
+        style({
+          transform: 'translateY(430px)',
+        })
+      ),
+      state(
+        'visible',
+        style({
+          transform: 'translateY(0)',
+        })
+      ),
+      transition('hidden <=> visible', [animate('300ms ease-in-out')]),
+    ]),
+  ],
 })
 export class ProfilMenuComponent {
-
   @ViewChild('dialog') dialog!: ElementRef;
   @ViewChild('profilDialog') profilDialog!: ProfilComponent;
 
   menuVisible: boolean = false;
   profilVisible: boolean = false;
 
+  constructor(private authService: AuthenticationService) {}
 
   toggleMenu() {
     setTimeout(() => {
@@ -45,7 +55,6 @@ export class ProfilMenuComponent {
     setTimeout(() => {
       this.menuVisible = true;
     }, 50);
-
   }
 
   close(): void {
@@ -63,4 +72,7 @@ export class ProfilMenuComponent {
     }
   }
 
+  logoutUser() {
+    this.authService.logout();
+  }
 }

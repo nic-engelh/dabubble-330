@@ -55,11 +55,11 @@ export class AuthenticationService {
     return signOut(this.auth);
   }
 
-  storeToken(token: string): void {
+  storeTokenlocally(token: string): void {
     localStorage.setItem(this.tokenKey, token);
   }
 
-  getToken(): string | void {
+  getlocalToken(): string | void {
     const token = localStorage.getItem(this.tokenKey);
     if (token) {
       return token;

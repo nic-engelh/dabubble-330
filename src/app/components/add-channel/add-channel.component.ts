@@ -44,14 +44,14 @@ export class AddChannelComponent implements OnInit {
     if (this.addChannelForm.valid && this.authService.userIsLoggedIn()) {
       const channelName = this.addChannelForm.get('channelName')?.value;
       const channelDescription = this.addChannelForm.get('description')?.value;
-      const channelId = this.channelService.createChannel(
+      const promiseChannelId = this.channelService.createChannel(
         this.currentUser,
         channelDescription,
         channelName
       );
-      console.log(channelId);
-
       // todo update members within add-members dialog
+
+      // todo write function for reading the  value from the zone aware promise channelId
     } else {
       this.errorSerivce.showErrorNotification('Form is invalid');
     }

@@ -1,1 +1,14 @@
-<p>add-member works!</p>
+
+<div [hidden]="!addMemberVisible">
+  <div class="backdrop" (click)="onBackdropClick($event)">
+    <div
+      class="dialog menu"
+      #dialog
+      [@slideMenu]="addMemberVisible ? 'visible' : 'hidden'"
+    >
+      <div class="btn-close-box" (click)="close()">
+        <button class="unbuttonize btn-close rectangle"></button>
+      </div>
+    </div>
+  </div>
+</div>
