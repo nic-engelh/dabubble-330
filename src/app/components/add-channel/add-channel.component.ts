@@ -19,36 +19,41 @@ export class AddChannelComponent implements OnInit {
   addChannelForm!: FormGroup;
   textContent: string = '';
   currentUser!: User;
+  newChannelId!: any;
 
   constructor(
     private form: FormBuilder,
     private channelService: ChannelService,
     private authService: AuthenticationService,
-    private errorSerivce: ErrorService,
+    private errorSerivce: ErrorService
   ) {
     this.addChannelForm = this.form.group({
       channelName: ['', Validators.required],
       description: [''],
     });
-
   }
 
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user;
       console.log(this.currentUser);
-  })
-}
+    });
+  }
 
   onSubmit() {
-    if(this.addChannelForm.valid) {
-      console.log(this.addChannelForm.value);
+    if (this.addChannelForm.valid && this.authService.userIsLoggedIn()) {
       const channelName = this.addChannelForm.get('channelName')?.value;
       const channelDescription = this.addChannelForm.get('description')?.value;
-      this.channelService.createChannel(this.currentUser, channelDescription, channelName)
+      const channelId = this.channelService.createChannel(
+        this.currentUser,
+        channelDescription,
+        channelName
+      );
+      console.log(channelId);
+
       // todo update members within add-members dialog
     } else {
-      this.errorSerivce.showErrorNotification('Form is invalid')
+      this.errorSerivce.showErrorNotification('Form is invalid');
     }
   }
 
@@ -61,8 +66,7 @@ export class AddChannelComponent implements OnInit {
     return Math.min(Math.max(lines, minRows), maxRows);
   }
 
-
-  //todo close dialog -> toggle 
+  //todo close dialog -> toggle
   closeElement() {}
 
   get email() {

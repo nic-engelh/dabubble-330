@@ -1,27 +1,49 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User, onAuthStateChanged, UserCredential } from '@angular/fire/auth';
-import { BehaviorSubject, Observable } from 'rxjs';
-
+import {
+  Auth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  User,
+  onAuthStateChanged,
+  UserCredential,
+  getIdTokenResult,
+  IdTokenResult,
+} from '@angular/fire/auth';
+import { BehaviorSubject, Observable, from, firstValueFrom } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
-
   private auth: Auth = inject(Auth);
-  private tokenKey:string = 'token';
-  private currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
-  public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
-
+  private tokenKey: string = 'token';
+  private currentUserSubject: BehaviorSubject<User | null> =
+    new BehaviorSubject<User | null>(null);
+  public currentUser$: Observable<User | null> =
+    this.currentUserSubject.asObservable();
+  public isSessionExpired$: Observable<boolean>;
 
   constructor() {
     onAuthStateChanged(this.auth, (user) => {
       this.currentUserSubject.next(user);
     });
 
+    this.isSessionExpired$ = this.currentUser$.pipe(
+      switchMap((user) => {
+        if (user) {
+          return from(getIdTokenResult(user)).pipe(
+            map((tokenResult) => this.isTokenExpired(tokenResult))
+          );
+        } else {
+          return [false];
+        }
+      })
+    );
   }
 
-  login(email: string, password: string): Promise <UserCredential> {
+  login(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
 
@@ -37,9 +59,9 @@ export class AuthenticationService {
     localStorage.setItem(this.tokenKey, token);
   }
 
-  getToken(): string | void{
+  getToken(): string | void {
     const token = localStorage.getItem(this.tokenKey);
-    if(token) {
+    if (token) {
       return token;
     } else {
       console.error('No token found.');
@@ -66,4 +88,7 @@ export class AuthenticationService {
     return this.currentUserSubject.value !== null;
   }
 
+  private isTokenExpired(tokenResult: IdTokenResult): boolean {
+    return tokenResult.expirationTime <= new Date().toISOString();
+  }
 }

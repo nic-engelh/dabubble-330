@@ -33,13 +33,13 @@ export class ChannelService {
     const data = newChannel.toJson();
     try {
       //todo update for subcollection use!
-      const response =  await this.dataService.setDocument('channels',`${newChannel.id}`, data);
-      return response
+      await this.dataService.setDocument('channels',`${newChannel.id}`, data);
     }
     catch (error){
-      this.error.handleError(error)
-      console.error('Channel creation failed');
+      this.error.handleError(error);
+      return false
     }
+    return newChannel.id
   }
 
 
