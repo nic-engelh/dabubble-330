@@ -1,1 +1,32 @@
-<p>search-member works!</p>
+<div class="search-container">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="onSearch($event)"
+    placeholder="Search members..."
+    class="search-input"
+  />
+
+  @if (showDialog) {
+    <div class="search-dialog">
+      <div class="dialog-header">
+        <h3>Search Results</h3>
+        <button (click)="closeDialog()" class="close-btn">×</button>
+      </div>
+
+      @if (loading) {
+        <p>Loading...</p>
+      } @else if (results.length) {
+        <ul class="results-list">
+          @for (member of results; track member.id) {
+            <li (click)="selectMember(member)">
+              {{ member.username }} - {{ member.email }}
+            </li>
+          }
+        </ul>
+      } @else {
+        <p>No results found</p>
+      }
+    </div>
+  }
+</div>
