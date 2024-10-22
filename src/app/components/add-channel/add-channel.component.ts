@@ -50,7 +50,7 @@ export class AddChannelComponent implements OnInit {
         channelName
       );
       // todo update members within add-members dialog
-
+      // todo add user feedback if channel is created after members are added
       // todo write function for reading the  value from the zone aware promise channelId
     } else {
       this.errorSerivce.showErrorNotification('Form is invalid');

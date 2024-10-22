@@ -11,7 +11,24 @@ import { AuthenticationService } from '../../services/authentication-service/aut
   standalone: true,
   imports: [RouterModule, ProfilEditComponent, ProfilComponent, CommonModule],
   templateUrl: './add-member.component.html',
-  styleUrl: './add-member.component.scss'
+  styleUrl: './add-member.component.scss',
+  animations: [
+    trigger('slideMenu', [
+      state(
+        'hidden',
+        style({
+          transform: 'translateY(430px)',
+        })
+      ),
+      state(
+        'visible',
+        style({
+          transform: 'translateY(0)',
+        })
+      ),
+      transition('hidden <=> visible', [animate('300ms ease-in-out')]),
+    ]),
+  ],
 })
 export class AddMemberComponent {
 
