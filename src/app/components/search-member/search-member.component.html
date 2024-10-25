@@ -1,31 +1,44 @@
 <div class="search-container">
-  <input
-    type="text"
-    [(ngModel)]="searchTerm"
-    (ngModelChange)="onSearch($event)"
-    placeholder="Search members..."
-    class="search-input"
-  />
+  <div class="search-input" (click)="focusInput()">
+    <div class="tokens-area">
+      @for (member of selectedMembers; track member.id) {
+        <div class="member-token">
+          <img [src]="member.avatarUrl">
+          <span>{{ member.username }}</span>
+          <button
+            class="remove-token"
+            (click)="removeMember(member); $event.stopPropagation()">
+            <img src="/assets/img/close.svg">
+          </button>
+        </div>
+      }
+      <div>
+        <input
+          #searchInput
+          type="text"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearch($event)"
+          placeholder=""
+          class="outline-none form-input"
+        />
+      </div>
+    </div>
+
 
   @if (showDialog) {
     <div class="search-dialog">
-      <div class="dialog-header">
-        <h3>Search Results</h3>
-        <button (click)="closeDialog()" class="close-btn">×</button>
-      </div>
-
       @if (loading) {
-        <p>Loading...</p>
+        <p>Suche...</p>
       } @else if (results.length) {
         <ul class="results-list">
           @for (member of results; track member.id) {
             <li (click)="selectMember(member)">
-              {{ member.username }} - {{ member.email }}
+              <img [src]="member.avatarUrl"> {{ member.username }}
             </li>
           }
         </ul>
       } @else {
-        <p>No results found</p>
+        <p>Keine Ergebnisse</p>
       }
     </div>
   }

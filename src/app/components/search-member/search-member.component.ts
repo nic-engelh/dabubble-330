@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -25,6 +25,10 @@ export class SearchMemberComponent {
   showDialog: boolean = false;
   loading: boolean = false;
   results: User[] = [];
+  selectedMembers: User[] = [];
+
+
+  @Output() selectedMembersChange = new EventEmitter<User[]>();
 
   constructor(private memberService: MemberService) {
     // Set up search pipeline
@@ -40,7 +44,13 @@ export class SearchMemberComponent {
       )
       .subscribe({
         next: (results) => {
-          this.results = results;
+          console.log(results)
+          // Filter out already selected members from results
+          this.results = results.filter(
+            member => !this.selectedMembers.some(
+              selected => selected.id === member.id
+            )
+          );
           this.showDialog = true;
           this.loading = false;
         },
@@ -53,16 +63,14 @@ export class SearchMemberComponent {
       });
   }
 
+  isMemberSelected(member: User): boolean {
+    return this.selectedMembers.some(m => m.id === member.id);
+  }
+
   closeDialog() {
     this.showDialog = false;
   }
 
-  selectMember(member: User) {
-    console.log('Selected member:', member);
-    // Implement your selection logic here
-    // todo selected member tag is added to the search bar
-    this.closeDialog();
-  }
 
   onSearch(term: string) {
     if (term.length >= 3) {
@@ -74,5 +82,26 @@ export class SearchMemberComponent {
     }
   }
 
+  // Update selectMember and removeMember methods:
+  selectMember(member: User) {
+    if (!this.isMemberSelected(member)) {
+      this.selectedMembers.push(member);
+      this.selectedMembersChange.emit(this.selectedMembers);
+      this.searchTerm = '';
+      this.closeDialog();
+    }
+  }
+
+  removeMember(member: User) {
+    this.selectedMembers = this.selectedMembers.filter(m => m.id !== member.id);
+    this.selectedMembersChange.emit(this.selectedMembers);
+  }
+
+  focusInput() {
+    const input = document.querySelector('.token-input') as HTMLInputElement;
+    if (input) {
+      input.focus();
+    }
+  }
 
 }

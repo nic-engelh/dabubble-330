@@ -9,7 +9,7 @@ export class User {
     public avatarUrl: string | undefined = "/assets/img/profil_default_unisex.svg",
     public createdAt: Date = new Date(),
     public updatedAt: Date = new Date(),
-    public searchName: string = "",
+    private searchName: string = "",
   ) {
     this.id = uuidv4();
   }
