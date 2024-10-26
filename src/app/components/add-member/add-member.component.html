@@ -9,24 +9,41 @@
       <div class="btn-close-box" (click)="close()">
         <button class="unbuttonize btn-close rectangle"></button>
       </div>
-      <div>
+      <div class="header">
         <span>Leute hinzufügen</span>
-        <img src="/assets/img/close.svg" alt="">
+        <img src="/assets/img/close.svg">
       </div>
-      <div>
-        <img src="" alt="Radio Button">
+      <div class="radio-button-container">
+        <input
+          type="radio"
+          id="option1"
+          name="showSearchInput"
+          [value]="false"
+          [(ngModel)]="searchInputVisible">
         <span>Alle Mitglieder von OfficeTeam hinzufügen</span>
       </div>
-      <div>
-        <img (click)="" src="" alt="Radio Button">
+      <div class="radio-button-container">
+        <input
+          type="radio"
+          id="option2"
+          name="showSearchInput"
+          [value]="true"
+          [(ngModel)]="searchInputVisible">
+
         <span>Bestimmte Leute hinzufügen</span>
-        <div class="dialog-add-member">
-          <!--  search member component -->
-        </div>
       </div>
-      <div>
-        <button class="unbuttonize">Erstellen</button>
+      <div class="dialog-add-member">
+      <!--  search member component -->
+      @if (searchInputVisible) {
+
+          <app-search-member class="d-flex-prl20"  (selectedMembersChange)="onMembersChange($event)"></app-search-member>
+
+      }
+      <div class="btn-box">
+        <button class="bubble-full-button mw-125 unbuttonize" [class.absolute]="this.searchInputVisible">Erstellen</button>
       </div>
+    </div>
+
     </div>
   </div>
 </div>

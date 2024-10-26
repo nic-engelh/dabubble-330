@@ -117,5 +117,9 @@ body {
 }
 
 .w-125 {
-  width: 125px;
+  width: 125px !important;
+}
+
+.mw-125 {
+  max-width: 125px !important;
 }

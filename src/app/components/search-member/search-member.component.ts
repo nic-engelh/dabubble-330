@@ -27,7 +27,6 @@ export class SearchMemberComponent {
   results: User[] = [];
   selectedMembers: User[] = [];
 
-
   @Output() selectedMembersChange = new EventEmitter<User[]>();
 
   constructor(private memberService: MemberService) {

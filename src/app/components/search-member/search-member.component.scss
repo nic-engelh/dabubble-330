@@ -1,11 +1,9 @@
 .search-container {
   position: relative;
   width: 100%;
-  max-width: 358px;
 }
 
 .search-input {
-  width: 100%;
   max-width: 358px;
   border-radius: 30px;
   padding: 15px 20px 15px 20px;
@@ -41,8 +39,8 @@
 
 
 .search-dialog {
-  position: absolute;
-  top: 55%;
+  position: relative;
+  top: -10%;
   left: 6%;
   max-width: 267px;
   height: auto;

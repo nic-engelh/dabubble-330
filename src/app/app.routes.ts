@@ -18,6 +18,7 @@ import { ProfilMenuComponent } from './components/profil-menu/profil-menu.compon
 import { HeaderComponent } from './components/header/header.component';
 import { AddChannelComponent } from './components/add-channel/add-channel.component';
 import { SearchMemberComponent } from './components/search-member/search-member.component';
+import { AddMemberComponent } from './components/add-member/add-member.component';
 
 export const routes: Routes = [
   {
@@ -83,5 +84,10 @@ export const routes: Routes = [
     path: 'search-member',
     component: SearchMemberComponent,
   },
+  {
+    path: 'add-channel-member',
+    component: AddMemberComponent,
+  },
+
 
 ];

@@ -5,11 +5,14 @@ import { ProfilEditComponent } from '../profil-edit/profil-edit.component';
 import { ProfilComponent } from '../profil/profil.component';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+import { SearchMemberComponent } from '../search-member/search-member.component';
+import { User } from '../../../models/user.class';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-add-member',
   standalone: true,
-  imports: [RouterModule, ProfilEditComponent, ProfilComponent, CommonModule],
+  imports: [RouterModule, ProfilEditComponent, ProfilComponent, SearchMemberComponent, CommonModule, FormsModule],
   templateUrl: './add-member.component.html',
   styleUrl: './add-member.component.scss',
   animations: [
@@ -37,8 +40,12 @@ export class AddMemberComponent {
 
   @ViewChild('dialog') dialog!: ElementRef;
 
-  addMemberVisible: boolean = false;
+  addMemberVisible: boolean = true;
   addChannelVisible: boolean = false;
+
+  searchInputVisible: boolean = false;
+
+  selectedMembers: User[] = [];
 
   toggleMenu() {
     setTimeout(() => {
@@ -50,7 +57,6 @@ export class AddMemberComponent {
     setTimeout(() => {
       this.addMemberVisible = true;
     }, 50);
-
   }
 
   close(): void {
@@ -61,6 +67,22 @@ export class AddMemberComponent {
     if (event.target === this.dialog.nativeElement.parentNode) {
       this.close();
     }
+  }
+
+  onMembersChange(members: User[]) {
+    this.selectedMembers = members;
+  }
+
+  clearMemberSelection() {
+    this.selectedMembers = [];
+  }
+
+  openSearchField() {
+    this.searchInputVisible = true;
+  }
+
+  closeSearchField() {
+    this.searchInputVisible = false;
   }
 
 }
