@@ -4,6 +4,8 @@ import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { Message } from '../../../models/message.class';
 import { Conversation } from '../../../models/conversation.class';
 import { MessageService } from '../../services/message-service/message.service';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { EmojiComponent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -18,7 +20,13 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-message-input',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, CommonModule, FormsModule],
+  imports: [
+    ReactiveFormsModule,
+    RouterModule,
+    CommonModule,
+    FormsModule,
+    PickerComponent,
+  ],
   templateUrl: './message-input.component.html',
   styleUrl: './message-input.component.scss',
 })
@@ -34,6 +42,7 @@ export class MessageInputComponent implements OnInit {
   formInputValues: any;
   user = new User(); //user wird übergeben
   // ACTIVE USER === SENDER
+  showEmojiPicker = false;
   constructor(
     private messageService: MessageService,
     private messagingService: MessagingService,
@@ -49,6 +58,15 @@ export class MessageInputComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
+  }
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    this.formInputValues = (this.formInputValues || '') + event.emoji.native;
+    this.showEmojiPicker = false; // Picker nach Auswahl schließen
   }
 
   printConsoleLog() {
@@ -68,28 +86,4 @@ export class MessageInputComponent implements OnInit {
     }
     this.chatForm.reset();
   }
-
-  // sendMessage() {
-  //   if (this.chatForm.valid) {
-  //     const messageContent = this.chatForm.get('message')?.value;
-  //     const newMessage = this.messageService.createMessage(
-  //       this.threadId,
-  //       messageContent,
-  //       this.user
-  //     );
-
-  //     this.messagingService
-  //       .setMessagetoConversation(this.threadId, newMessage)
-  //       .then(() => {
-  //         console.log('Nachricht erfolgreich gesendet!');
-  //         this.chatForm.reset();
-  //       })
-  //       .catch((error) => {
-  //         console.error('Fehler beim Senden der Nachricht:', error);
-  //       });
-  //   }
-  // }
 }
-
-//function getUserSender(){}
-// function needs to find Sender from Conversation => active USER === Sender

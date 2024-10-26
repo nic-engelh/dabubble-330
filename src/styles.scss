@@ -1,10 +1,11 @@
-@import './styles/fonts';
-@import './styles/breakpoints';
+@import "./styles/fonts";
+@import "./styles/breakpoints";
+@import "@ctrl/ngx-emoji-mart/picker";
 
 body {
   margin: 0;
-  font-family: 'Nunito';
-  background-color: #ECEEFE;
+  font-family: "Nunito";
+  background-color: #eceefe;
 }
 
 .unbuttonize {
@@ -27,7 +28,8 @@ body {
 }
 
 .svg-filter-bubble-purple {
-  filter: invert(45%) sepia(90%) saturate(600%) hue-rotate(200deg) brightness(95%);
+  filter: invert(45%) sepia(90%) saturate(600%) hue-rotate(200deg)
+    brightness(95%);
 }
 
 .bubble-form-input {
@@ -37,7 +39,7 @@ body {
   border: none;
   padding: 13px 32px 13px 32px;
   gap: 10px;
-  background-color: #ECEEFE;
+  background-color: #eceefe;
 }
 
 .bubble-full-button {
@@ -47,7 +49,7 @@ body {
   border-radius: 25px;
   padding: 12px 25px 12px 25px;
   gap: 10px;
-  background-color: #444DF2;
+  background-color: #444df2;
   color: white;
   font-size: 18px;
   font-weight: 700;
@@ -58,8 +60,7 @@ body {
 }
 
 .bubble-full-button:hover {
-  background-color: #797EF3;
-
+  background-color: #797ef3;
 }
 
 .bubble-empty-button {
@@ -67,10 +68,10 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 25px;
-  border: solid 1px #797EF3;
+  border: solid 1px #797ef3;
   padding: 12px 25px 12px 25px;
-  background-color: #FFFFFF;
-  color: #797EF3;
+  background-color: #ffffff;
+  color: #797ef3;
   font-size: 18px;
   font-weight: 700;
   line-height: 24.55px;
@@ -82,25 +83,25 @@ body {
 
 .bubble-empty-button:hover {
   color: white;
-  background-color: #797EF3;
+  background-color: #797ef3;
 }
 
 .btn-secondary {
   padding: 8px 16px 8px 16px;
-  color: #444DF2;
+  color: #444df2;
   background-color: white;
   text-align: center;
-  border: 1px solid #797EF3;
+  border: 1px solid #797ef3;
   border-radius: 25px;
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
   &:hover {
-    background-color: #535AF1;
+    background-color: #535af1;
     color: white;
   }
   &:active {
-    background: #444DF2;
+    background: #444df2;
     color: white;
   }
 }
