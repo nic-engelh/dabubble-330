@@ -1,4 +1,4 @@
-.messageBox {
+.messageMainContainer {
   width: 100%;
   max-width: 100svw;
   max-height: 100vh;
@@ -13,52 +13,98 @@
     overflow-y: scroll;
     box-sizing: border-box;
     height: 75vh;
+    display: flex;
 
     .chatContent {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+    }
 
-      .menu {
-        display: flex;
-        justify-content: end;
+    .dateWrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .menu-content {
-          right: 30%;
-          display: flex;
-          flex-direction: column;
-          background-color: #fff;
+    .lineDate {
+      height: 1px;
+      width: 100px;
+      background-color: grey;
+    }
 
-          button {
-            all: unset;
-          }
-        }
+    .dateHeader {
+      border: 1px solid grey;
+      border-radius: 30px;
+      padding: 5px;
+      margin: 30px 0;
+    }
+    .bubbleChatBackground {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 180px;
+      width: 100svw;
+      &:hover {
+        background-color: #eceefe;
       }
 
-      .dateWrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .lineDate {
-        height: 1px;
-        width: 100px;
-        background-color: grey;
-      }
-
-      .dateHeader {
-        border: 1px solid grey;
-        border-radius: 30px;
-        padding: 5px;
-        margin: 30px 0;
-      }
       .chatText {
         border-radius: 20px 0 20px 20px;
+        position: relative;
         background-color: #797ef3;
-        margin: 8px;
+        display: flex;
+        flex-direction: column;
         padding: 8px;
+        max-width: 450px;
+        min-width: 300px;
+        .menu {
+          display: flex;
+          justify-content: end;
+          position: relative;
+          left: 60px;
+          z-index: 6;
+          .dot {
+            all: unset;
+            background-color: #fff;
+            text-align: center;
+            width: 50px;
+            border: 1px solid black;
+            border-radius: 20px 20px 0px 20px;
+          }
+
+          .menu-content {
+            // position: absolute;
+            // right: 18%;
+            position: absolute;
+            left: 410px;
+            top: 20px;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            visibility: hidden;
+            border: 1px solid black;
+            border-radius: 0 30px 30px 30px;
+          }
+          button + .menu-content:active,
+          button:focus + .menu-content {
+            visibility: visible;
+            li {
+              list-style: none;
+            }
+            button {
+              all: unset;
+              &:hover {
+                background-color: #adb0d9;
+                border-radius: 30px;
+                padding: 7.5px 20px;
+              }
+            }
+          }
+        }
       }
     }
   }

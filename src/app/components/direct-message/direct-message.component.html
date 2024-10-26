@@ -1,9 +1,12 @@
-<div class="messageBox">
+<div class="messageMainContainer">
   <div class="chatBox">
     <div *ngIf="messages$ | async as groupedMessages" class="chatContent">
       <!-- Iteriere über die Gruppierungen nach Datum -->
+      <!-- background-container -->
+
       <div *ngFor="let group of groupedMessages | keyvalue : sortByDate">
         <!-- Datum anzeigen -->
+
         <div class="dateWrapper">
           <div class="lineDate"></div>
           <div class="dateHeader">
@@ -13,51 +16,62 @@
         </div>
 
         <!-- Nachrichten für dieses Datum anzeigen -->
+
         <div
           *ngFor="let message of group.value"
-          class="chatText"
+          class="bubbleChatBackground"
           (mouseenter)="onMouseEnter(message.id)"
           (mouseleave)="onMouseLeave()"
         >
-          <small>{{ message.timestamp | date : "HH:mm" }}</small>
-          <small>Sender: {{ message.sender.username }}</small>
-          <p>{{ message.content }}</p>
+          <div class="chatText">
+            <small>{{ message.timestamp | date : "HH:mm" }}</small>
+            <small>Sender: {{ message.sender.username }}</small>
+            <p>{{ message.content }}</p>
 
-          <!-- Drei-Punkte-Menü, erscheint beim Hover -->
-          <div
-            class="menu"
-            (mouseover)="hoveredMessageId = message.id"
-            (mouseleave)="hoveredMessageId = null"
-          >
-            <!-- Dot wird nur angezeigt, wenn die Nachricht gehovt wird -->
-            <span
-              class="dot"
-              *ngIf="hoveredMessageId === message.id"
-              (click)="toggleMenu(message.id)"
-            >
-              <img src="assets/img/3dot.svg" alt="" />
-            </span>
-
-            <!-- Menü für Bearbeitung und Reaktionen -->
+            <!-- Drei-Punkte-Menü, erscheint beim Hover -->
             <div
-              class="menu-content"
-              *ngIf="hoveredMessageId === message.id && menuVisible"
+              class="menu"
+              (mouseover)="hoveredMessageId = message.id"
+              (mouseleave)="hoveredMessageId = null"
             >
-              <button (click)="editMessage(message, conversationId)">
-                Bearbeiten
+              <!-- Dot wird nur angezeigt, wenn die Nachricht gehovt wird -->
+              <button
+                class="dot"
+                *ngIf="hoveredMessageId === message.id"
+                (click)="toggleMenu(message.id)"
+              >
+                <img src="assets/img/3dot.svg" alt="" />
               </button>
-              <button (click)="deleteMessage(message, conversationId)">
-                Löschen
-              </button>
-              <button (click)="addReaction(message)">
-                Reaktion hinzufügen
-              </button>
+
+              <!-- Menü für Bearbeitung und Reaktionen -->
+              <nav
+                class="menu-content"
+                *ngIf="hoveredMessageId === message.id && menuVisible"
+              >
+                <ul>
+                  <li>
+                    <button (click)="editMessage(message, conversationId)">
+                      Bearbeiten
+                    </button>
+                  </li>
+                  <li>
+                    <button (click)="deleteMessage(message, conversationId)">
+                      Löschen
+                    </button>
+                  </li>
+                  <li>
+                    <button (click)="addReaction(message)">
+                      Reaktion hinzufügen
+                    </button>
+                  </li>
+                </ul>
+              </nav>
             </div>
+            <small>Status: {{ message.isRead ? "Read" : "Unread" }}</small>
           </div>
-          <small>Status: {{ message.isRead ? "Read" : "Unread" }}</small>
+          <!-- close background -->
         </div>
       </div>
-
       <!-- Keine Nachrichten -->
       <ng-template #noMessages>
         <p>Keine Nachrichten vorhanden.</p>
