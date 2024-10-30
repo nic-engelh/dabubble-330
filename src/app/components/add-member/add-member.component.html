@@ -1,4 +1,3 @@
-
 <div [hidden]="!addMemberVisible">
   <div class="backdrop" (click)="onBackdropClick($event)">
     <div
@@ -11,7 +10,7 @@
       </div>
       <div class="header">
         <span>Leute hinzufügen</span>
-        <img src="/assets/img/close.svg">
+        <img src="/assets/img/close.svg" />
       </div>
       <div class="radio-button-container">
         <input
@@ -19,7 +18,8 @@
           id="option1"
           name="showSearchInput"
           [value]="false"
-          [(ngModel)]="searchInputVisible">
+          [(ngModel)]="searchInputVisible"
+        />
         <span>Alle Mitglieder von OfficeTeam hinzufügen</span>
       </div>
       <div class="radio-button-container">
@@ -28,22 +28,41 @@
           id="option2"
           name="showSearchInput"
           [value]="true"
-          [(ngModel)]="searchInputVisible">
+          [(ngModel)]="searchInputVisible"
+        />
 
         <span>Bestimmte Leute hinzufügen</span>
       </div>
       <div class="dialog-add-member">
-      <!--  search member component -->
-      @if (searchInputVisible) {
+        <!--  search member component -->
+        @if (searchInputVisible) {
+        <app-search-member
+          class="d-flex-prl20"
+          (selectedMembersChange)="onMembersChange($event)"
+        >
+          <div class="btn-box p0-mt20">
+            <button
+              buttonContent
+              class="bubble-full-button mw-125 unbuttonize"
+              [class.absolute]="this.searchInputVisible"
+            >
+              Erstellen
+            </button>
+          </div>
+        </app-search-member>
 
-          <app-search-member class="d-flex-prl20"  (selectedMembersChange)="onMembersChange($event)"></app-search-member>
-
-      }
-      <div class="btn-box">
-        <button class="bubble-full-button mw-125 unbuttonize" [class.absolute]="this.searchInputVisible">Erstellen</button>
+        } @if (!searchInputVisible){
+        <div class="btn-box">
+          <button
+            buttonContent
+            class="bubble-full-button mw-125 unbuttonize"
+            [class.absolute]="this.searchInputVisible"
+          >
+            Erstellen
+          </button>
+        </div>
+        }
       </div>
-    </div>
-
     </div>
   </div>
 </div>
