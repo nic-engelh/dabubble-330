@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, output, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -7,19 +7,23 @@ import { ChannelService } from '../../services/channel-service/channel.service';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { User } from '../../../models/user.class';
 import { ErrorService } from '../../services/error-service/error.service';
+import { AddMemberComponent } from '../add-member/add-member.component';
 
 @Component({
   selector: 'app-add-channel',
   standalone: true,
-  imports: [RouterModule, CommonModule, ReactiveFormsModule],
+  imports: [RouterModule, CommonModule, ReactiveFormsModule, AddMemberComponent],
   templateUrl: './add-channel.component.html',
   styleUrl: './add-channel.component.scss',
 })
 export class AddChannelComponent implements OnInit {
+  @ViewChild('dialog') addMemberDialog!: AddMemberComponent;
+
   addChannelForm!: FormGroup;
   textContent: string = '';
   currentUser!: User;
   newChannelId!: any;
+  addMemberDialogVisible: boolean = false;
 
   constructor(
     private form: FormBuilder,
@@ -40,18 +44,21 @@ export class AddChannelComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.addChannelForm.valid && this.authService.userIsLoggedIn()) {
       const channelName = this.addChannelForm.get('channelName')?.value;
       const channelDescription = this.addChannelForm.get('description')?.value;
-      const promiseChannelId = this.channelService.createChannel(
+      this.newChannelId = await this.channelService.createChannel(
         this.currentUser,
         channelDescription,
         channelName
       );
+      console.log("after resolve:",this.newChannelId);
+      this.openAddMemberDialog();
+
       // todo update members within add-members dialog
       // todo add user feedback if channel is created after members are added
-      // todo write function for reading the  value from the zone aware promise channelId
+      this.errorSerivce.showSuccessNotification('Channel created')
     } else {
       this.errorSerivce.showErrorNotification('Form is invalid');
     }
@@ -67,7 +74,16 @@ export class AddChannelComponent implements OnInit {
   }
 
   //todo close dialog -> toggle
-  closeElement() {}
+  closeElement() { }
+
+  openAddMemberDialog() {
+    this.addMemberDialog.open();
+    console.log("openDialog:",this.newChannelId);
+  }
+
+  closeAddMemberDialog() {
+    this.addMemberDialog.close();
+  }
 
   get email() {
     return this.addChannelForm.get('channelName');

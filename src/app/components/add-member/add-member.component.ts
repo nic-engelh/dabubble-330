@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild, Injectable } from '@angular/core';
+import { Component, ElementRef, ViewChild, Injectable, Input } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { ProfilEditComponent } from '../profil-edit/profil-edit.component';
 import { ProfilComponent } from '../profil/profil.component';
@@ -35,16 +35,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class AddMemberComponent {
 
-  menuVisible: boolean = false;
-  profilVisible: boolean = false;
-
   @ViewChild('dialog') dialog!: ElementRef;
+  @Input() channelId: string | null = null;
 
-  addMemberVisible: boolean = true;
+  addMemberVisible: boolean = false;
   addChannelVisible: boolean = false;
-
   searchInputVisible: boolean = false;
-
   selectedMembers: User[] = [];
 
   toggleMenu() {
@@ -57,6 +53,7 @@ export class AddMemberComponent {
     setTimeout(() => {
       this.addMemberVisible = true;
     }, 50);
+    console.log("Add-Member-Comp",this.channelId)
   }
 
   close(): void {
