@@ -5,8 +5,9 @@ import {
   setDoc,
   getDoc,
   onSnapshot,
+  updateDoc,
 } from '@angular/fire/firestore';
-import { collection, getFirestore } from 'firebase/firestore';
+import { collection, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { Observable, Subscriber } from 'rxjs';
 import { Message } from '../../../models/message.class';
 
@@ -128,4 +129,26 @@ export class DataService {
       );
     });
   }
+
+  //todo Testing if array elements will be added
+  async updateArrayInCollection(
+    docId: string,
+    collectionName: string,
+    arrayName: string,
+    newArrayElement: any
+  ): Promise<void> {
+    const docRef = doc(
+      this.database,
+      `${collectionName}/${docId}`
+    );
+    try {
+      return await updateDoc(docRef, {
+        [arrayName]: arrayUnion(newArrayElement),
+      });
+    } catch (error: any) {
+      return error;
+    }
+  }
+
+
 }

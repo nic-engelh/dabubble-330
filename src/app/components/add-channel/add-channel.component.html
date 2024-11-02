@@ -1,7 +1,7 @@
 <div class="main-container">
   <div class="header">
     <span>Channel erstellen</span>
-    <img (click)="closeElement()" src="/assets/img/close-default.svg" alt="Close Button" />
+    <img (click)="closeAddChannelDialog()" src="/assets/img/close-default.svg" alt="Close Button" />
   </div>
   <div>
     <span>
@@ -36,7 +36,7 @@
 
     </form>
   </div>
-  <app-add-member #dialog [channelId]="newChannelId"></app-add-member>
+  <app-add-member #dialog [channelId]="newChannelId" (closeParentEvent)="closeAddChannelDialog()" ></app-add-member>
 </div>
 
 

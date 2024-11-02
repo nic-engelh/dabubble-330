@@ -29,7 +29,7 @@ export class AddChannelComponent implements OnInit {
     private form: FormBuilder,
     private channelService: ChannelService,
     private authService: AuthenticationService,
-    private errorSerivce: ErrorService
+    private errorService: ErrorService
   ) {
     this.addChannelForm = this.form.group({
       channelName: ['', Validators.required],
@@ -58,9 +58,9 @@ export class AddChannelComponent implements OnInit {
 
       // todo update members within add-members dialog
       // todo add user feedback if channel is created after members are added
-      this.errorSerivce.showSuccessNotification('Channel created')
+
     } else {
-      this.errorSerivce.showErrorNotification('Form is invalid');
+      this.errorService.showErrorNotification('Form is invalid');
     }
   }
 
@@ -74,7 +74,9 @@ export class AddChannelComponent implements OnInit {
   }
 
   //todo close dialog -> toggle
-  closeElement() { }
+  closeAddChannelDialog() {
+    return false
+  }
 
   openAddMemberDialog() {
     this.addMemberDialog.open();

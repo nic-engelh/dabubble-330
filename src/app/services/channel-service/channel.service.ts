@@ -1,3 +1,4 @@
+import { Firestore } from '@angular/fire/firestore';
 import { Conversation } from './../../../models/conversation.class';
 import { DataService } from './../data-service/data.service';
 import { Injectable } from '@angular/core';
@@ -22,10 +23,10 @@ export class ChannelService {
     return this.channelUpdates$;
   }
 
-   // todo: saveChannel(), getChannel(), updateChannel(), deleteChannel()
+  // todo: saveChannel(), getChannel(), updateChannel(), deleteChannel()
 
-   //! not for deep and nested subcollection use
-   async createChannel(creator: User, description: string, channelName: string) {
+  //! not for deep and nested subcollection use
+  async createChannel(creator: User, description: string, channelName: string) {
     const newChannel = new Channel();
     newChannel.createdBy.push(creator);
     newChannel.description = description;
@@ -33,15 +34,21 @@ export class ChannelService {
     const data = newChannel.toJson();
     try {
       //todo update for subcollection use!
-      await this.dataService.setDocument('channels',`${newChannel.id}`, data);
+      await this.dataService.setDocument('channels', `${newChannel.id}`, data);
     }
-    catch (error){
+    catch (error) {
       this.error.handleError(error);
       return false
     }
     return newChannel.id
   }
 
-
-
+  async addMemberToChannel(channelId: string, member: User): Promise<any> {
+    try {
+      return await this.dataService.updateArrayInCollection(channelId, 'channels', 'members', member);
+    } catch (error: any) {
+      this.error.showErrorNotification('Some error has orrcured! Try again')
+      console.error(error);
+    }
+  }
 }
