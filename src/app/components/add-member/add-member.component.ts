@@ -46,7 +46,7 @@ export class AddMemberComponent {
   searchInputVisible: boolean = false;
   selectedMembers: User[] = [];
 
-  constructor(private channelService : ChannelService, private errorService: ErrorService) { }
+  constructor(private channelService: ChannelService, private errorService: ErrorService) { }
 
   toggleMenu() {
     setTimeout(() => {
@@ -92,13 +92,10 @@ export class AddMemberComponent {
     this.channelId = "";
   }
 
-  async onSubmit() {
-    // todo use channel-service to add all member [] elements to the firestore channel entry member selection.
-    // todo close add-member and add-channel, give user feedback
-    const newMember = this.selectedMembers;
-
-    newMember.forEach(element => {
-      this.channelService.addMemberToChannel(this.channelId!, element)
+  onSubmit() {
+    const newMembers = this.selectedMembers;
+    newMembers.forEach(member => {
+      this.channelService.addMemberToChannel(this.channelId!, member)
     });
     this.closeSearchField();
     this.close();

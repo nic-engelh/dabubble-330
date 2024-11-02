@@ -75,6 +75,8 @@ export class AddChannelComponent implements OnInit {
 
   //todo close dialog -> toggle
   closeAddChannelDialog() {
+    // todo navigate link if its a new route
+    // todo or: close / destory / hide delement
     return false
   }
 
