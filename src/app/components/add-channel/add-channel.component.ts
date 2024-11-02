@@ -53,12 +53,7 @@ export class AddChannelComponent implements OnInit {
         channelDescription,
         channelName
       );
-      console.log("after resolve:",this.newChannelId);
       this.openAddMemberDialog();
-
-      // todo update members within add-members dialog
-      // todo add user feedback if channel is created after members are added
-
     } else {
       this.errorService.showErrorNotification('Form is invalid');
     }
