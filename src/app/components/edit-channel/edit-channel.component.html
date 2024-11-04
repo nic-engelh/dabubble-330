@@ -24,10 +24,10 @@
     <textarea
       #inputField
       [value]="content"
-      [rows]="calculateRows()"
+      [attr.rows]="calculateRows()"
       [(ngModel)]="textContent"
       (ngModelChange)="calculateRows()"
-      (input)="updateContent($event)"
+      (input)="updateContent($event); onInput()"
       (blur)="onBlur()"
       type="text"
       class="transform-input outline-none"

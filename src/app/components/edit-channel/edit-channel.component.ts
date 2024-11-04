@@ -19,21 +19,34 @@ export class EditChannelComponent {
     this.isInputActive = !this.isInputActive;
   }
 
+
+
   updateContent(event: Event) {
     const input = event.target as HTMLInputElement;
     this.content = input.value;
   }
 
+  onInput(): void {
+    // Trigger change detection
+    this.textContent = this.textContent; // This line is actually unnecessary since we are using ngModel
+  }
   onBlur() {
     this.isInputActive = false;
   }
 
   calculateRows(): number {
-    const lineHeight = 12; // Adjust this value based on your font size and line height
+    const lineHeight = 25; // Adjust this value based on your font size and line height
     const minRows = 1;
     const maxRows = 100;
     const lines = this.textContent.split('\n').length;
-    return Math.min(Math.max(lines, minRows), maxRows);
+
+    // Then handle wrapped text
+    // todo adjust the chars per line by checking the actual width of the area
+    const charactersPerLine = 20; // Adjust based on your textarea width
+    const wrappedLines = Math.ceil(this.textContent.length / charactersPerLine);
+
+    const totalLines = Math.max(lines, wrappedLines);
+    return Math.min(Math.max(totalLines, minRows), maxRows);
   }
 
 }

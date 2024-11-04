@@ -21,6 +21,9 @@
     display: block;
     overflow: hidden;
     word-wrap: break-word;
+    line-height: 25px;
+    font-size: 18px;
+    font-weight: 400;
     width: 100%;
   };
 
@@ -70,6 +73,9 @@
   font-size: inherit;
   background: white;
   transform: scale(0.95);
+  line-height: 25px;
+  font-size: 18px;
+  font-weight: 400;
   opacity: 0;
   transition: all 0.3s ease;
   z-index: 2;  // Added z-index to ensure input is above button
@@ -78,6 +84,9 @@
   font-family: 'Nunito';
   display: block;
   box-sizing: border-box;
+  white-space: pre-wrap;       // Preserves newlines and wraps text
+  overflow-wrap: break-word;   // Breaks long words if they overflow
+  overflow: hidden;
   &:focus {
     outline: none;
     border-color: #535AF1;
