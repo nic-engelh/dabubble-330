@@ -1,7 +1,7 @@
 <div class="main-container">
   <header>
-    <span># Entwicklerteam</span>
-    <img src="" alt="Close Button" />
+    <span># Entwicklerteam </span>
+    <img src="/assets/img/close.svg" alt="Close Button" />
   </header>
 
   <div class="transform-container" [class.active]="isInputActive">
@@ -12,7 +12,17 @@
         (click)="toggleInput()"
         [class.active]="isInputActive"
       >
-        <img src="/assets/img/edit_default.svg" />
+        @if (isInputActive) {
+          <img
+        [src]="currentCheckImageUrl"
+        (click)="toggleImage()"
+        />
+        } @else {
+          <img
+          [src]="currentEditImageUrl"
+          (click)="showEditClickedImage()"
+          />
+        }
       </button>
     </div>
 
@@ -33,7 +43,13 @@
       class="transform-input outline-none"
     ></textarea>
     }
+    <div class="line"></div>
+    <div class="creator-box">
+      <span>Erstellt von</span>
+      <span class="creator">Noah Braun</span>
+    </div>
   </div>
+
 
   <div>
     <div>
@@ -43,18 +59,6 @@
     <span> # Entwicklerteam</span>
   </div>
 
-  <div>
-    <div>
-      <span> Beschreibung </span>
-      <img src="" alt="Button Bearbeiten" />
-    </div>
-    <span> Text... </span>
-    <div class="line"></div>
-    <div>
-      <Span>Erstellt von</Span>
-      <span>Noah Braun</span>
-    </div>
-  </div>
   <div>
     <span>Mitglieder</span>
     <div>

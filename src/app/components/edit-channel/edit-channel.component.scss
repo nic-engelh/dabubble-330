@@ -9,6 +9,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  gap: 30px;
   transition: all 0.3s ease;
   background: white;
   > div {
@@ -35,6 +36,10 @@
       opacity: 1;
       transform: scale(1);
     }
+  }
+  @include sm {
+    max-width: 300px;
+    width:100%;
   }
 }
 
@@ -91,6 +96,9 @@
     outline: none;
     border-color: #535AF1;
   }
+  @include sm {
+    max-width: 300px;
+  }
 }
 
 .main-container {
@@ -103,4 +111,22 @@
   flex-direction: column;
   align-items: center;
   gap: 25px;
+}
+
+
+header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  > span {
+    font-family: 'Nunito';
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
+
+.line {
+  border: 1px solid #ADB0D9;
+  width: 75%;
 }
