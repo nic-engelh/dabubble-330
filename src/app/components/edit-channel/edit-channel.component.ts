@@ -29,10 +29,9 @@ export class EditChannelComponent {
   }
 
   calculateRows(): number {
-    const lineHeight = 25; // Adjust this value based on your font size and line height
+    const lineHeight = 12; // Adjust this value based on your font size and line height
     const minRows = 1;
     const maxRows = 100;
-
     const lines = this.textContent.split('\n').length;
     return Math.min(Math.max(lines, minRows), maxRows);
   }

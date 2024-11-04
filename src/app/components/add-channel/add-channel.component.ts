@@ -64,6 +64,7 @@ export class AddChannelComponent implements OnInit {
     const minRows = 1;
     const maxRows = 100;
 
+    if (!this.textContent) return minRows;
     const lines = this.textContent.split('\n').length;
     return Math.min(Math.max(lines, minRows), maxRows);
   }

@@ -17,12 +17,16 @@
     justify-content: space-between;
     width: 100%;
   }
+  > span {
+    display: block;
+    overflow: hidden;
+    word-wrap: break-word;
+    width: 100%;
+  };
 
   &.active {
     border-color: transparent;
     padding: 0;
-    min-height: auto;
-    height: auto;
 
     .transform-input {
       opacity: 1;
@@ -58,6 +62,7 @@
 
 .transform-input {
   width: 100%;
+  height: auto;
   max-width: 398px;
   border: 1px solid #ADB0D9;
   border-radius: 40px;
@@ -69,7 +74,7 @@
   transition: all 0.3s ease;
   z-index: 2;  // Added z-index to ensure input is above button
   resize: none;
-  overflow: hidden;
+  overflow-y: hidden;
   font-family: 'Nunito';
   display: block;
   box-sizing: border-box;

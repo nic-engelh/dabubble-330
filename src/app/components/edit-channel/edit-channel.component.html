@@ -18,7 +18,7 @@
 
     @if (!isInputActive) {
     <span class="content">
-      {{ content || "Click to edit" }}
+      {{ textContent || "Click to edit" }}
     </span>
     } @if (isInputActive) {
     <textarea
@@ -26,10 +26,11 @@
       [value]="content"
       [rows]="calculateRows()"
       [(ngModel)]="textContent"
+      (ngModelChange)="calculateRows()"
       (input)="updateContent($event)"
       (blur)="onBlur()"
       type="text"
-      class="transform-input"
+      class="transform-input outline-none"
     ></textarea>
     }
   </div>
