@@ -1,0 +1,92 @@
+@import '../../../styles/_breakpoints.scss';
+
+.transform-container {
+  position: relative;
+  max-width: 398px;
+  border: 1px solid #ADB0D9;
+  border-radius: 20px;
+  padding: 18px 20px ;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  background: white;
+  > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &.active {
+    border-color: transparent;
+    padding: 0;
+    min-height: auto;
+    height: auto;
+
+    .transform-input {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+.transform-trigger {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 40px;
+  background-color: #ECEEFE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all 0.3s ease;
+  z-index: 1;  // Changed from 2 to 1
+  cursor: pointer;
+  &:hover {
+    background: #f0f0f0;
+  }
+}
+
+.content {
+  color: #333;
+  transition: opacity 0.2s ease;
+}
+
+.transform-input {
+  width: 100%;
+  max-width: 398px;
+  border: 1px solid #ADB0D9;
+  border-radius: 40px;
+  padding: 18px 20px 18px 20px;
+  font-size: inherit;
+  background: white;
+  transform: scale(0.95);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 2;  // Added z-index to ensure input is above button
+  resize: none;
+  overflow: hidden;
+  font-family: 'Nunito';
+  display: block;
+  box-sizing: border-box;
+  &:focus {
+    outline: none;
+    border-color: #535AF1;
+  }
+}
+
+.main-container {
+  padding: 20px 16px;
+  background-color: #ffffff;
+  max-width: 430px;
+  min-width: 319px;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}

@@ -1,3 +1,4 @@
+import { EditChannelComponent } from './components/edit-channel/edit-channel.component';
 import { PasswordResetComponent } from './components/user-authentication/password-reset/password-reset.component';
 import { ResetMaillingComponent } from './components/user-authentication/reset-mailling/reset-mailling.component';
 import { AvatarSelectionComponent } from './components/user-authentication/avatar-selection/avatar-selection.component';
@@ -87,6 +88,10 @@ export const routes: Routes = [
   {
     path: 'add-channel-member',
     component: AddMemberComponent,
+  },
+  {
+    path: 'edit-channel',
+    component: EditChannelComponent,
   },
 
 

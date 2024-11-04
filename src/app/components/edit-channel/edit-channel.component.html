@@ -1,44 +1,70 @@
-<div>
-    <header>
-        <span># Entwicklerteam</span>
-        <img src="" alt="Close Button">
-    </header>
+<div class="main-container">
+  <header>
+    <span># Entwicklerteam</span>
+    <img src="" alt="Close Button" />
+  </header>
+
+  <div class="transform-container" [class.active]="isInputActive">
     <div>
-        <div>
-            <span>Channel-Name</span>
-            <img src="" alt="Button Bearbeiten">
-        </div>
-        <span> # Entwicklerteam</span>
+      <span>Beschreibung</span>
+      <button
+        class="transform-trigger"
+        (click)="toggleInput()"
+        [class.active]="isInputActive"
+      >
+        <img src="/assets/img/edit_default.svg" />
+      </button>
     </div>
 
-    <div>
-        <div>
-            <span>
-                Beschreibung
-            </span>
-            <img src="" alt="Button Bearbeiten">
-        </div>
-        <span>
-            Text...
-        </span>
-        <div class="line"></div>
-        <div>
-            <Span>Erstellt von</Span>
-            <span>Noah Braun</span>
-        </div>
-    </div>
-    <div>
-        <span>Mitglieder</span>
-        <div>
-            <img src="" alt="Member-Avatar">
-            <span>Max Musterman</span>
-        </div>
-        <div class="btn">
-            <img src="">
-            <span>Mitglieder hinzufügen</span>
-        </div>
-    </div>
+    @if (!isInputActive) {
+    <span class="content">
+      {{ content || "Click to edit" }}
+    </span>
+    } @if (isInputActive) {
+    <textarea
+      #inputField
+      [value]="content"
+      [rows]="calculateRows()"
+      [(ngModel)]="textContent"
+      (input)="updateContent($event)"
+      (blur)="onBlur()"
+      type="text"
+      class="transform-input"
+    ></textarea>
+    }
+  </div>
 
+  <div>
+    <div>
+      <span>Channel-Name</span>
+      <img src="" alt="Button Bearbeiten" />
+    </div>
+    <span> # Entwicklerteam</span>
+  </div>
 
-    <button>Channel verlassen</button>
+  <div>
+    <div>
+      <span> Beschreibung </span>
+      <img src="" alt="Button Bearbeiten" />
+    </div>
+    <span> Text... </span>
+    <div class="line"></div>
+    <div>
+      <Span>Erstellt von</Span>
+      <span>Noah Braun</span>
+    </div>
+  </div>
+  <div>
+    <span>Mitglieder</span>
+    <div>
+      <img src="" alt="Member-Avatar" />
+      <span>Max Musterman</span>
+    </div>
+    <div class="btn">
+      <img src="" />
+      <span>Mitglieder hinzufügen</span>
+    </div>
+  </div>
+
+  <button>Channel verlassen</button>
 </div>
