@@ -1,4 +1,6 @@
 export enum ImageType {
   CHECK = 'check',
-  EDIT = 'edit'
+  EDIT = 'edit',
+  OPEN = 'open',
+  CLOSE = 'close'
 }

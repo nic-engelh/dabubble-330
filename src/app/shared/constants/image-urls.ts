@@ -2,5 +2,13 @@ export const IMAGES = {
   CHECK_DEFAULT: '/assets/img/check_circle_default.svg',
   CHECK_CLICKED: '/assets/img/check_circle_clicked.svg',
   EDIT_DEFAULT: '/assets/img/edit_default.svg',
-  EDIT_CLICKED: '/assets/img/edit_clicked.svg'
+  EDIT_CLICKED: '/assets/img/edit_clicked.svg',
+  CLOSE_DEFAULT: '/assets/img/close.svg',
+  CLOSE_CLICKED: '/assets/img/close-hover.svg',
+  CLOSE_HOVER: '/assets/img/close-hover.svg',
+  ARROW_GOBACK_DEFAULT: '/assets/img/arrow-go-back.svg',
+  ARROW_GOBACK_HOVER: '/assets/img/arrow-go-back-hover.svg',
+  ACCOUNT_CIRCLE: '/assets/img/account_circle.svg',
+  ARROW_DROPDOWN_DEFAULT: '/assets/img/arrow-drop-down.svg',
+  PROFIL_DEFAULT_UNISEX: '/assets/img/profil_default_unisex.svg',
 };
