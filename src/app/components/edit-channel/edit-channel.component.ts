@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Channel } from '../../../models/channel.class';
 import { User } from '../../../models/user.class';
@@ -13,6 +13,8 @@ import { User } from '../../../models/user.class';
   styleUrl: './edit-channel.component.scss'
 })
 export class EditChannelComponent implements OnInit {
+  editChannelDescription!: FormGroup;
+  editChannelName!: FormGroup;
 
   editChannelisOpen: boolean = true;
   isInputActive: boolean = false;
@@ -24,8 +26,19 @@ export class EditChannelComponent implements OnInit {
   currentEditImageUrl = '/assets/img/edit_default.svg';
   currentCheckImageUrl = '/assets/img/check_circle_default.svg';
 
+  constructor(private fb: FormBuilder) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+
+    this.editChannelDescription = this.fb.group({
+      description: ['', [Validators.required]]
+    });
+
+  }
+
+  onSubmit() {
+
+  }
 
   toggleInput() {
     this.isInputActive = !this.isInputActive;
@@ -33,7 +46,7 @@ export class EditChannelComponent implements OnInit {
 
   updateContent(event: Event) {
     const input = event.target as HTMLInputElement;
-    this.textContent= input.value;
+    this.textContent = input.value;
   }
 
   onInput(): void {
