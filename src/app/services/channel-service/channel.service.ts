@@ -1,4 +1,4 @@
-import { Firestore } from '@angular/fire/firestore';
+import { DocumentData, Firestore } from '@angular/fire/firestore';
 import { Conversation } from './../../../models/conversation.class';
 import { DataService } from './../data-service/data.service';
 import { Injectable } from '@angular/core';
@@ -11,6 +11,9 @@ import { ErrorService } from '../error-service/error.service';
   providedIn: 'root'
 })
 export class ChannelService {
+  getChannelDocumentRealTime() {
+    throw new Error('Method not implemented.');
+  }
 
   private channelUpdates$: Observable<any>;
 
@@ -50,5 +53,19 @@ export class ChannelService {
       this.error.showErrorNotification('Some error has orrcured! Try again')
       console.error(error);
     }
+  }
+
+  async getChannel(channelId: string) {
+    try {
+      return await this.dataService.getDocument('channels', channelId);
+    } catch {
+      this.error.showErrorNotification('Channel could be found.')
+    }
+  }
+
+
+  getChannelRealTimeUpdates(channelId: string): Observable<DocumentData | undefined> {
+    // Retrieve the observable from the FirestoreService
+    return this.dataService.getDocumentRealTimeUpdates('channels', channelId);
   }
 }

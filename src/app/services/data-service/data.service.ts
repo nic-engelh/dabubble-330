@@ -7,7 +7,7 @@ import {
   onSnapshot,
   updateDoc,
 } from '@angular/fire/firestore';
-import { collection, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { collection, arrayUnion, arrayRemove, DocumentData } from 'firebase/firestore';
 import { Observable, Subscriber } from 'rxjs';
 import { Message } from '../../../models/message.class';
 
@@ -150,5 +150,21 @@ export class DataService {
     }
   }
 
+  getDocumentRealTimeUpdates(mainCollectionName: string, mainDocumentId: string): Observable<DocumentData | undefined> {
 
+    const documentRef = doc(this.database, `${mainCollectionName}/${mainDocumentId}`);
+
+    return new Observable<DocumentData | undefined>((observer) => {
+      const unsubscribe = onSnapshot(documentRef, (docSnap) => {
+        if (docSnap.exists()) {
+          observer.next(docSnap.data()); // Emit docuemtn data on each update
+        } else {
+          observer.next(undefined) // Emit undefined if document does not exist
+        }
+      }, (error) => {
+        observer.error(error); // Pass error to observer
+      });
+      return () => unsubscribe();
+    })
+  }
 }

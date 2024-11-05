@@ -4,16 +4,43 @@
     <img src="/assets/img/close.svg" alt="Close Button" />
   </header>
 
+  <form [formGroup]="editChannelName" (ngSubmit)="onSubmit('editName')">
+    <div class="transform-container" [class.active]="isInputActive">
+      <div>
+        <span>Channel-Name </span>
+        <button
+          class="transform-trigger"
+          (click)="toggleInput()"
+          [class.active]="isInputActive"
+          type="submit"
+        >
+          @if (isInputActive) {
+          <img [src]="currentCheckImageUrl" (click)="toggleImage()" />
+          } @else {
+          <img [src]="currentEditImageUrl" (click)="showEditClickedImage()" />
+          }
+        </button>
+      </div>
 
-
-   <form [formGroup]="editChannelName" (ngSubmit)="onSubmit()">
-
-
-    
-   </form>
-
-  <form [formGroup]="editChannelDescription" (ngSubmit)="onSubmit()">
-
+      @if (!isInputActive) {
+      <span class="channel-name"> # {{ selectedChannel?.name }} </span>
+      } @if (isInputActive) {
+      <input
+        #inputField
+        id="channelName"
+        formControlName="name"
+        [(ngModel)]="textContent"
+        (blur)="onBlur()"
+        type="text"
+        class="transform-input outline-none"
+      />
+      }
+    </div>
+  </form>
+  <form
+    [formGroup]="editChannelDescription"
+    (ngSubmit)="onSubmit('editDescription')"
+  >
     <div class="transform-container" [class.active]="isInputActive">
       <div>
         <span>Beschreibung</span>
@@ -24,15 +51,9 @@
           type="submit"
         >
           @if (isInputActive) {
-            <img
-          [src]="currentCheckImageUrl"
-          (click)="toggleImage()"
-          />
+          <img [src]="currentCheckImageUrl" (click)="toggleImage()" />
           } @else {
-            <img
-            [src]="currentEditImageUrl"
-            (click)="showEditClickedImage()"
-            />
+          <img [src]="currentEditImageUrl" (click)="showEditClickedImage()" />
           }
         </button>
       </div>
@@ -64,14 +85,6 @@
   </form>
 
 
-
-  <div>
-    <div>
-      <span>Channel-Name</span>
-      <img src="" alt="Button Bearbeiten" />
-    </div>
-    <span> # Entwicklerteam</span>
-  </div>
 
   <div>
     <span>Mitglieder</span>
