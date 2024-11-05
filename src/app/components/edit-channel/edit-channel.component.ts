@@ -1,24 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { Channel } from '../../../models/channel.class';
+import { User } from '../../../models/user.class';
 
 @Component({
   selector: 'app-edit-channel',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   templateUrl: './edit-channel.component.html',
   styleUrl: './edit-channel.component.scss'
 })
-export class EditChannelComponent {
+export class EditChannelComponent implements OnInit {
 
+  editChannelisOpen: boolean = true;
   isInputActive: boolean = false;
-  content = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus, ducimus iusto deserunt dolorum eveniet in dignissimos? Atque doloremque accusantium temporibus necessitatibus sed voluptatibus reprehenderit modi eligendi. Nisi quam minima nobis!';
-  textContent: string = ''
+  textContent: string = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus, ducimus iusto deserunt dolorum eveniet in dignissimos? Atque doloremque accusantium temporibus necessitatibus sed voluptatibus reprehenderit modi eligendi. Nisi quam minima nobis!'
+
+  currentUser: User | undefined;
+  selectedChannel: Channel | undefined;
 
   currentEditImageUrl = '/assets/img/edit_default.svg';
   currentCheckImageUrl = '/assets/img/check_circle_default.svg';
 
+
+  ngOnInit(): void { }
 
   toggleInput() {
     this.isInputActive = !this.isInputActive;
@@ -26,7 +33,7 @@ export class EditChannelComponent {
 
   updateContent(event: Event) {
     const input = event.target as HTMLInputElement;
-    this.content = input.value;
+    this.textContent= input.value;
   }
 
   onInput(): void {
@@ -68,7 +75,6 @@ export class EditChannelComponent {
       this.currentCheckImageUrl = '/assets/img/check_circle_clicked.svg';
     }, 100); // 200 ms delay, adjust as needed
   }
-
 
 
   showEditClickedImage() {

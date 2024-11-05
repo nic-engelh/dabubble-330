@@ -1,4 +1,4 @@
-<div class="main-container">
+<div class="main-container" [hidden]="editChannelisOpen">
   <header>
     <span># Entwicklerteam </span>
     <img src="/assets/img/close.svg" alt="Close Button" />
@@ -33,10 +33,9 @@
     } @if (isInputActive) {
     <textarea
       #inputField
-      [value]="content"
+      [value]="textContent"
       [attr.rows]="calculateRows()"
       [(ngModel)]="textContent"
-      (ngModelChange)="calculateRows()"
       (input)="updateContent($event); onInput()"
       (blur)="onBlur()"
       type="text"
