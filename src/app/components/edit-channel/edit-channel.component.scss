@@ -1,11 +1,12 @@
-@import '../../../styles/_breakpoints.scss';
+@import "../../../styles/_breakpoints.scss";
 
 .transform-container {
   position: relative;
-  max-width: 398px;
-  border: 1px solid #ADB0D9;
+  max-width: 762px;
+  width: 100%;
+  border: 1px solid #adb0d9;
   border-radius: 20px;
-  padding: 18px 20px ;
+  padding: 18px 20px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -26,7 +27,7 @@
     font-size: 18px;
     font-weight: 400;
     width: 100%;
-  };
+  }
 
   &.active {
     border-color: transparent;
@@ -38,8 +39,8 @@
     }
   }
   @include sm {
-    max-width: 300px;
-    width:100%;
+    max-width: 430px;
+    width: 100%;
   }
 }
 
@@ -50,13 +51,13 @@
   width: 30px;
   height: 30px;
   border-radius: 40px;
-  background-color: #ECEEFE;
+  background-color: #eceefe;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   transition: all 0.3s ease;
-  z-index: 1;  // Changed from 2 to 1
+  z-index: 1; // Changed from 2 to 1
   cursor: pointer;
   &:hover {
     background: #f0f0f0;
@@ -72,7 +73,7 @@
   width: 100%;
   height: auto;
   max-width: 398px;
-  border: 1px solid #ADB0D9;
+  border: 1px solid #adb0d9;
   border-radius: 40px;
   padding: 18px 20px 18px 20px;
   font-size: inherit;
@@ -83,18 +84,18 @@
   font-weight: 400;
   opacity: 0;
   transition: all 0.3s ease;
-  z-index: 2;  // Added z-index to ensure input is above button
+  z-index: 2; // Added z-index to ensure input is above button
   resize: none;
   overflow-y: hidden;
-  font-family: 'Nunito';
+  font-family: "Nunito";
   display: block;
   box-sizing: border-box;
-  white-space: pre-wrap;       // Preserves newlines and wraps text
-  overflow-wrap: break-word;   // Breaks long words if they overflow
+  white-space: pre-wrap; // Preserves newlines and wraps text
+  overflow-wrap: break-word; // Breaks long words if they overflow
   overflow: hidden;
   &:focus {
     outline: none;
-    border-color: #535AF1;
+    border-color: #535af1;
   }
   @include sm {
     max-width: 300px;
@@ -102,42 +103,53 @@
 }
 
 .main-container {
-  padding: 20px 16px;
   background-color: #ffffff;
-  max-width: 430px;
+  max-width: 872px;
   min-width: 319px;
-  height: 100svh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 25px;
-  overflow: hidden;
-  margin-top: 90px;
+  box-shadow: 0px 6px 10px 0px #00000033;
+  border-radius: 0px 30px 30px 30px;
+  @include sm {
+    max-width: 759px;
+    min-width: 319px;
+    margin-top: 90px;
+    overflow: hidden;
+    padding: 20px 16px;
+    width: unset;
+    height: 100%;
+    border-radius: unset;
+  }
 }
 
-
 header {
-  position: fixed;
-  top: 0;
+  @include sm {
+    max-width: 759px;
+    position: fixed;
+    top: 0;
+    box-shadow: 0px 2px 10px 0px #00000014;
+  }
   display: flex;
   align-items: center;
   width: 100%;
   min-height: 90px;
   justify-content: space-between;
   padding: 40px 16px 10px 16px;
-  box-shadow: 0px 2px 10px 0px #00000014;
   background-color: #ffffff;
   box-sizing: border-box;
   z-index: 10;
   > span {
-    font-family: 'Nunito';
+    font-family: "Nunito";
     font-size: 20px;
     font-weight: 700;
   }
 }
 
 .line {
-  border: 1px solid #ADB0D9;
+  border: 1px solid #adb0d9;
   width: 75%;
 }
 
@@ -148,7 +160,7 @@ header {
   font-size: 18px;
   font-weight: 700;
   > .creator {
-    color: #535AF1;
+    color: #535af1;
     font-size: 20px;
     font-weight: 400;
   }
@@ -167,10 +179,19 @@ form {
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  border: 1px solid #ADB0D9;
+  justify-content: flex-start;
+  border: 1px solid #adb0d9;
   padding: 20px 16px;
   box-sizing: border-box;
+  gap: 20px;
   > div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    > span {
+      font-size: 18px;
+      font-weight: 400;
+    }
     > img {
       width: 50px;
       height: 50px;
@@ -185,33 +206,45 @@ form {
   width: 100%;
   padding: 12px 29px 12px 29px;
   display: flex;
-  gap:15px;
+  gap: 15px;
   > span {
     font-size: 18px;
     font-weight: 400;
   }
-  .add-person-img {
-    background-image: url('/assets/img/person_add_default.svg');
-    background: #ECEEFE;
+  .add-person-bg {
+    background-color: #eceefe;
     width: 32px;
     height: 32px;
     border-radius: 100%;
   }
-  &:hover {
-    background-color: #ECEEFE;;
-    border-color: #535AF1;
-    border-width: 1px;
-    border-style: solid;
+  .add-person-img {
+    background-image: url("/assets/img/person_add_default.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
   }
-
+  &:hover{
+    background-color: #eceefe;
+    color: #535af1;
+  }
+  &:hover span {
+    font-weight: 700 !important;
+  }
+  &:hover .add-person-img {
+    background-image: url("/assets/img/person_add_clicked.svg");
+  }
 }
 
+.btn {
+  max-width: 230px;
+}
 
 .box-header-big {
   font-size: 24px;
   font-weight: 700;
 }
-
 
 .box-header-small {
   font-size: 18px;
