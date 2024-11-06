@@ -7,7 +7,7 @@
   <form [formGroup]="editChannelName" (ngSubmit)="onSubmit('editName')">
     <div class="transform-container" [class.active]="isInputActive">
       <div>
-        <span>Channel-Name </span>
+        <span class="box-header-small">Channel-Name </span>
         <button
           class="transform-trigger"
           (click)="toggleInput()"
@@ -43,7 +43,7 @@
   >
     <div class="transform-container" [class.active]="isInputActive">
       <div>
-        <span>Beschreibung</span>
+        <span class="box-header-small">Beschreibung</span>
         <button
           class="transform-trigger"
           (click)="toggleInput()"
@@ -86,10 +86,10 @@
 
 
 
-  <div class="">
-    <span>Mitglieder</span>
+  <div class="member-list-box">
+    <span class="box-header-big">Mitglieder</span>
 
-    @for (member of selectedChannel!.members ; track member.id) {
+    @for (member of selectedChannel!.members; track member.id) {
       <div>
         <img [src]="member.avatarUrl" alt="Member-Avatar"/>
         <span> {{ member.username }}</span>
@@ -98,8 +98,8 @@
       <span>Keine Mitglieder vorhanden.</span>
     }
 
-    <div class="btn">
-      <img src="" />
+    <div class="add-person-btn">
+      <div class="add-person-img"></div>
       <span>Mitglieder hinzufügen</span>
     </div>
   </div>

@@ -11,4 +11,6 @@ export const IMAGES = {
   ACCOUNT_CIRCLE: '/assets/img/account_circle.svg',
   ARROW_DROPDOWN_DEFAULT: '/assets/img/arrow-drop-down.svg',
   PROFIL_DEFAULT_UNISEX: '/assets/img/profil_default_unisex.svg',
+  PERSON_ADD_DEFAULT: '/assets/img/person_add_default.svg',
+  PERSON_ADD_CLICKED: '/assets/img/person_add_clicked.svg',
 };
