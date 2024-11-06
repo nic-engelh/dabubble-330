@@ -86,17 +86,25 @@
 
 
 
-  <div>
+  <div class="">
     <span>Mitglieder</span>
-    <div>
-      <img src="" alt="Member-Avatar" />
-      <span>Max Musterman</span>
-    </div>
+
+    @for (member of selectedChannel!.members ; track member.id) {
+      <div>
+        <img [src]="member.avatarUrl" alt="Member-Avatar"/>
+        <span> {{ member.username }}</span>
+      </div>
+    } @empty {
+      <span>Keine Mitglieder vorhanden.</span>
+    }
+
     <div class="btn">
       <img src="" />
       <span>Mitglieder hinzufügen</span>
     </div>
   </div>
 
-  <button>Channel verlassen</button>
+  <button class="bubble-full-button">Channel verlassen</button>
 </div>
+
+
