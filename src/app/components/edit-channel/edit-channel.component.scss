@@ -13,13 +13,15 @@
   gap: 30px;
   transition: all 0.3s ease;
   background: white;
-  > div {
+
+  >div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
   }
-  > span {
+
+  >span {
     display: block;
     overflow: hidden;
     word-wrap: break-word;
@@ -38,6 +40,7 @@
       transform: scale(1);
     }
   }
+
   @include sm {
     max-width: 430px;
     width: 100%;
@@ -59,6 +62,7 @@
   transition: all 0.3s ease;
   z-index: 1; // Changed from 2 to 1
   cursor: pointer;
+
   &:hover {
     background: #f0f0f0;
   }
@@ -93,10 +97,12 @@
   white-space: pre-wrap; // Preserves newlines and wraps text
   overflow-wrap: break-word; // Breaks long words if they overflow
   overflow: hidden;
+
   &:focus {
     outline: none;
     border-color: #535af1;
   }
+
   @include sm {
     max-width: 300px;
   }
@@ -113,6 +119,7 @@
   gap: 25px;
   box-shadow: 0px 6px 10px 0px #00000033;
   border-radius: 0px 30px 30px 30px;
+
   @include sm {
     max-width: 759px;
     min-width: 319px;
@@ -132,6 +139,7 @@ header {
     top: 0;
     box-shadow: 0px 2px 10px 0px #00000014;
   }
+
   display: flex;
   align-items: center;
   width: 100%;
@@ -141,7 +149,8 @@ header {
   background-color: #ffffff;
   box-sizing: border-box;
   z-index: 10;
-  > span {
+
+  >span {
     font-family: "Nunito";
     font-size: 20px;
     font-weight: 700;
@@ -159,7 +168,8 @@ header {
   gap: 20px;
   font-size: 18px;
   font-weight: 700;
-  > .creator {
+
+  >.creator {
     color: #535af1;
     font-size: 20px;
     font-weight: 400;
@@ -184,15 +194,18 @@ form {
   padding: 20px 16px;
   box-sizing: border-box;
   gap: 20px;
-  > div {
+
+  >div {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    > span {
+
+    >span {
       font-size: 18px;
       font-weight: 400;
     }
-    > img {
+
+    >img {
       width: 50px;
       height: 50px;
       border-radius: 100%;
@@ -207,16 +220,19 @@ form {
   padding: 12px 29px 12px 29px;
   display: flex;
   gap: 15px;
-  > span {
+
+  >span {
     font-size: 18px;
     font-weight: 400;
   }
+
   .add-person-bg {
     background-color: #eceefe;
     width: 32px;
     height: 32px;
     border-radius: 100%;
   }
+
   .add-person-img {
     background-image: url("/assets/img/person_add_default.svg");
     background-position: center;
@@ -225,13 +241,16 @@ form {
     height: 32px;
     border-radius: 100%;
   }
-  &:hover{
+
+  &:hover {
     background-color: #eceefe;
     color: #535af1;
   }
+
   &:hover span {
     font-weight: 700 !important;
   }
+
   &:hover .add-person-img {
     background-image: url("/assets/img/person_add_clicked.svg");
   }
@@ -257,6 +276,7 @@ form {
   background-image: url('/assets/img/check_circle_default.svg');
   background-position: center;
   background-repeat: no-repeat;
+  pointer-events: none;
   &:hover {
     background-image: url('/assets/img/check_circle_clicked.svg');
   }
@@ -268,6 +288,8 @@ form {
   background-image: url('/assets/img/edit_default.svg');
   background-position: center;
   background-repeat: no-repeat;
+  pointer-events: none;
+
   &:hover {
     background-image: url('/assets/img/edit_clicked.svg');
   }

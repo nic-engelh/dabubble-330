@@ -28,10 +28,10 @@ export class DataService {
 
   async updateDocument(
     collectionName: string,
-    documentid: string,
+    documentId: string,
     data: any
   ): Promise<void> {
-    const documentRef = doc(this.database, collectionName, data);
+    const documentRef = doc(this.database, collectionName, documentId);
     await updateDoc(documentRef, data);
   }
 

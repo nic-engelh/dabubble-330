@@ -60,18 +60,24 @@ export class ChannelService {
     }
   }
 
-  async changeChannelName(newName: string, channelId: string ) {
-    const newData = {name: newName} ;
+  async changeChannelName(newName: object, channelId: string) {
     try {
-      return await this.dataService.updateDocument("channels", channelId, newData);
+      return await this.dataService.updateDocument("channels", channelId, newName);
 
     } catch (error) {
-      this.error.showErrorNotification('Channel name could not be changed.')
+      this.error.showErrorNotification('Channel name could not be changed.');
+      console.error(error)
     }
   }
 
-  async changeChannelDescription(newDescription: string) {
+  async changeChannelDescription(newDescription: object, channelId: string) {
+    try {
+      return await this.dataService.updateDocument("channels", channelId, newDescription);
 
+    } catch (error) {
+      this.error.showErrorNotification('Channel descprition could not be changed.');
+      console.error(error)
+    }
   }
 
   getChannelRealTimeUpdates(channelId: string): Observable<DocumentData | undefined> {

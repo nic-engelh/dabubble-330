@@ -30,17 +30,13 @@ export class EditChannelComponent implements OnInit, OnDestroy {
   isInputNameActive: boolean = false;
   isInputDescriptionActive: boolean = false;
   nameContent: string = '';
-  textContent: string =
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus, ducimus iusto deserunt dolorum eveniet in dignissimos?';
-
+  textContent: string = '';
   currentUser: User | undefined;
   selectedChannel: Channel | undefined;
   @Input() selectedChannelId: string | undefined = 'aeae16e2-afdb-4e14-a7c0-3255f8744000';
   channelData: DocumentData | undefined;
   private subscription!: Subscription;
 
-  currentEditImageUrl = '/assets/img/edit_default.svg';
-  currentCheckImageUrl = '/assets/img/check_circle_default.svg';
 
   constructor(
     private fb: FormBuilder,
@@ -75,16 +71,16 @@ export class EditChannelComponent implements OnInit, OnDestroy {
       });
   }
 
-  onSubmit(Form: string) {
-    if (this.editChannelDescription.valid) {
-      console.log('Form Submitted', this.editChannelDescription.value);
-      // Handle valid form submission here
-      //todo change data in firestore
+  onSubmit(form: string) {
+    if (form == "editName" && this.editChannelName.valid) {
+      console.log('Form Submitted', this.editChannelName.value);
       const name = this.editChannelName.value;
       this.channelService.changeChannelName(name, this.selectedChannelId!);
-    } else {
-      this.editChannelDescription.markAllAsTouched(); // Mark all controls as touched to trigger validation messages
-    }
+    } if (form == "editDescription" && this.editChannelDescription.valid) {
+      console.log('Form Submitted', this.editChannelDescription.value);
+      const newDescription = this.editChannelDescription.value;
+      this.channelService.changeChannelName(newDescription, this.selectedChannelId!);
+    } 
   }
 
   toggleInput(inputField: string) {
