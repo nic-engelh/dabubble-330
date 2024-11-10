@@ -5,32 +5,31 @@
   </header>
 
   <form [formGroup]="editChannelName" (ngSubmit)="onSubmit('editName')">
-    <div class="transform-container" [class.active]="isInputActive">
+    <div class="transform-container" [class.active]="isInputNameActive">
       <div>
         <span class="box-header-small">Channel-Name </span>
         <button
           class="transform-trigger"
-          (click)="toggleInput()"
-          [class.active]="isInputActive"
+          (click)="toggleInput('inputName')"
+          [class.active]="isInputNameActive"
           type="submit"
         >
-          @if (isInputActive) {
-          <img [src]="currentCheckImageUrl" (click)="toggleImage()" />
+          @if (isInputNameActive) {
+            <div class="save-button"></div>
           } @else {
-          <img [src]="currentEditImageUrl" (click)="showEditClickedImage()" />
+            <div class="edit-button"></div>
           }
         </button>
       </div>
 
-      @if (!isInputActive) {
+      @if (!isInputNameActive) {
       <span class="channel-name"> # {{ selectedChannel?.name }} </span>
-      } @if (isInputActive) {
+      } @if (isInputNameActive) {
       <input
         #inputField
         id="channelName"
         formControlName="name"
         [(ngModel)]="textContent"
-        (blur)="onBlur()"
         type="text"
         class="transform-input outline-none"
       />
@@ -41,28 +40,28 @@
     [formGroup]="editChannelDescription"
     (ngSubmit)="onSubmit('editDescription')"
   >
-    <div class="transform-container" [class.active]="isInputActive">
+    <div class="transform-container" [class.active]="isInputDescriptionActive">
       <div>
         <span class="box-header-small">Beschreibung</span>
         <button
           class="transform-trigger"
-          (click)="toggleInput()"
-          [class.active]="isInputActive"
+          (click)="toggleInput('inputDescription')"
+          [class.active]="isInputDescriptionActive"
           type="submit"
         >
-          @if (isInputActive) {
-          <img [src]="currentCheckImageUrl" (click)="toggleImage()" />
+          @if (isInputDescriptionActive) {
+            <div class="save-button"></div>
           } @else {
-          <img [src]="currentEditImageUrl" (click)="showEditClickedImage()" />
+            <div class="edit-button"></div>
           }
         </button>
       </div>
 
-      @if (!isInputActive) {
+      @if (!isInputDescriptionActive) {
       <span class="content">
         {{ textContent || "Click to edit" }}
       </span>
-      } @if (isInputActive) {
+      } @if (isInputDescriptionActive) {
       <textarea
         #inputField
         id="channelDescription"
@@ -71,7 +70,6 @@
         [attr.rows]="calculateRows()"
         [(ngModel)]="textContent"
         (input)="updateContent($event); onInput()"
-        (blur)="onBlur()"
         type="text"
         class="transform-input outline-none"
       ></textarea>

@@ -27,7 +27,8 @@ export class EditChannelComponent implements OnInit, OnDestroy {
   editChannelName!: FormGroup;
 
   editChannelisOpen: boolean = true;
-  isInputActive: boolean = false;
+  isInputNameActive: boolean = false;
+  isInputDescriptionActive: boolean = false;
   nameContent: string = '';
   textContent: string =
     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus, ducimus iusto deserunt dolorum eveniet in dignissimos?';
@@ -45,7 +46,7 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authService: AuthenticationService,
     private channelService: ChannelService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.editChannelDescription = this.fb.group({
@@ -83,8 +84,13 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleInput() {
-    this.isInputActive = !this.isInputActive;
+  toggleInput(inputField: string) {
+    if (inputField === "inputName") {
+      this.isInputNameActive = !this.isInputNameActive;
+      return
+    } else (
+      this.isInputDescriptionActive = !this.isInputDescriptionActive
+    )
   }
 
   updateContent(event: Event) {
@@ -96,10 +102,7 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     // Trigger change detection
     this.textContent = this.textContent; // This line is actually unnecessary since we are using ngModel
   }
-  onBlur() {
-    this.isInputActive = false;
-  }
-
+ 
   calculateRows(): number {
     const lineHeight = 25; // Adjust this value based on your font size and line height
     const minRows = 1;
@@ -113,38 +116,6 @@ export class EditChannelComponent implements OnInit, OnDestroy {
 
     const totalLines = Math.max(lines, wrappedLines);
     return Math.min(Math.max(totalLines, minRows), maxRows);
-  }
-
-  toggleImage() {
-    if (this.isInputActive) {
-      this.currentCheckImageUrl =
-        this.currentCheckImageUrl === '/assets/img/check_circle_default.svg'
-          ? '/assets/img/check_circle_clicked.svg'
-          : '/assets/img/check_circle_default.svg';
-    }
-    if (!this.isInputActive) {
-      this.currentEditImageUrl =
-        this.currentEditImageUrl === '/assets/img/edit_default.svg'
-          ? '/assets/img/edit_clicked.svg'
-          : '/assets/img/edit_default.svg';
-    } else {
-    }
-  }
-
-  showCheckClickedImage() {
-    this.currentCheckImageUrl = '/assets/img/check_circle_default.svg'; // Temporary image on click
-    // Return to default image after a short delay
-    setTimeout(() => {
-      this.currentCheckImageUrl = '/assets/img/check_circle_clicked.svg';
-    }, 100); // 200 ms delay, adjust as needed
-  }
-
-  showEditClickedImage() {
-    this.currentEditImageUrl = '/assets/img/edit_clicked.svg'; // Temporary image on click
-    // Return to default image after a short delay
-    setTimeout(() => {
-      this.currentEditImageUrl = '/assets/img/edit_default.svg';
-    }, 100); // 200 ms delay, adjust as needed
   }
 
   ngOnDestroy(): void {

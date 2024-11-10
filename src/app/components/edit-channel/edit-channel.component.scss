@@ -250,3 +250,25 @@ form {
   font-size: 18px;
   font-weight: 700;
 }
+
+.save-button {
+  width: 18.5px;
+  height: 18.5px;
+  background-image: url('/assets/img/check_circle_default.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  &:hover {
+    background-image: url('/assets/img/check_circle_clicked.svg');
+  }
+}
+
+.edit-button {
+  width: 18.5px;
+  height: 18.5px;
+  background-image: url('/assets/img/edit_default.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  &:hover {
+    background-image: url('/assets/img/edit_clicked.svg');
+  }
+}
