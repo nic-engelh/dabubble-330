@@ -11,9 +11,6 @@ import { ErrorService } from '../error-service/error.service';
   providedIn: 'root'
 })
 export class ChannelService {
-  getChannelDocumentRealTime() {
-    throw new Error('Method not implemented.');
-  }
 
   private channelUpdates$: Observable<any>;
 
@@ -63,6 +60,19 @@ export class ChannelService {
     }
   }
 
+  async changeChannelName(newName: string, channelId: string ) {
+    const newData = {name: newName} ;
+    try {
+      return await this.dataService.updateDocument("channels", channelId, newData);
+
+    } catch (error) {
+      this.error.showErrorNotification('Channel name could not be changed.')
+    }
+  }
+
+  async changeChannelDescription(newDescription: string) {
+
+  }
 
   getChannelRealTimeUpdates(channelId: string): Observable<DocumentData | undefined> {
     // Retrieve the observable from the FirestoreService

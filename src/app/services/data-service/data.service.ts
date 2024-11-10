@@ -26,6 +26,16 @@ export class DataService {
     await setDoc(documentRef, data);
   }
 
+  async updateDocument(
+    collectionName: string,
+    documentid: string,
+    data: any
+  ): Promise<void> {
+    const documentRef = doc(this.database, collectionName, data);
+    await updateDoc(documentRef, data);
+  }
+
+
   async setDocumentToSubcollection(
     collectionName: string,
     documentId: string,
@@ -167,4 +177,7 @@ export class DataService {
       return () => unsubscribe();
     })
   }
+
+
+
 }

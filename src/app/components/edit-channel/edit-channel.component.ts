@@ -79,6 +79,9 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     if (this.editChannelDescription.valid) {
       console.log('Form Submitted', this.editChannelDescription.value);
       // Handle valid form submission here
+      //todo change data in firestore
+      const name = this.editChannelName.value;
+      this.channelService.changeChannelName(name, this.selectedChannelId!);
     } else {
       this.editChannelDescription.markAllAsTouched(); // Mark all controls as touched to trigger validation messages
     }
@@ -102,7 +105,7 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     // Trigger change detection
     this.textContent = this.textContent; // This line is actually unnecessary since we are using ngModel
   }
- 
+
   calculateRows(): number {
     const lineHeight = 25; // Adjust this value based on your font size and line height
     const minRows = 1;

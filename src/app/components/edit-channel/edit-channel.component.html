@@ -29,7 +29,6 @@
         #inputField
         id="channelName"
         formControlName="name"
-        [(ngModel)]="textContent"
         type="text"
         class="transform-input outline-none"
       />
@@ -59,7 +58,13 @@
 
       @if (!isInputDescriptionActive) {
       <span class="content">
-        {{ textContent || "Click to edit" }}
+        @if (selectedChannel?.description !== undefined) {
+          {{ selectedChannel?.description }}
+
+        } @else {
+          <span>Es ist keine Beschreibung vorhanden.</span>
+        }
+
       </span>
       } @if (isInputDescriptionActive) {
       <textarea
@@ -87,14 +92,18 @@
   <div class="member-list-box">
     <span class="box-header-big">Mitglieder</span>
 
-    @for (member of selectedChannel!.members; track member.id) {
-      <div>
-        <img [src]="member.avatarUrl" alt="Member-Avatar"/>
-        <span> {{ member.username }}</span>
-      </div>
-    } @empty {
-      <span>Keine Mitglieder vorhanden.</span>
+    @if (selectedChannel) {
+      @for (member of selectedChannel!.members; track member.id) {
+        <div>
+          <img [src]="member.avatarUrl" alt="Member-Avatar"/>
+          <span> {{ member.username }}</span>
+        </div>
+      } @empty {
+        <span>Keine Mitglieder vorhanden.</span>
+      }
     }
+
+
 
     <div class="add-person-btn">
       <div class="add-person-bg">
