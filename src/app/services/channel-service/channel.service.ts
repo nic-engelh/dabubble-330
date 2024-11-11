@@ -23,8 +23,6 @@ export class ChannelService {
     return this.channelUpdates$;
   }
 
-  // todo: saveChannel(), getChannel(), updateChannel(), deleteChannel()
-
   //! not for deep and nested subcollection use
   async createChannel(creator: User, description: string, channelName: string) {
     const newChannel = new Channel();

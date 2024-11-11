@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -15,6 +16,7 @@ import { ChannelService } from '../../services/channel-service/channel.service';
 import { DocumentData } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 
+
 @Component({
   selector: 'app-edit-channel',
   standalone: true,
@@ -22,6 +24,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './edit-channel.component.html',
   styleUrl: './edit-channel.component.scss',
 })
+
 export class EditChannelComponent implements OnInit, OnDestroy {
   editChannelDescription!: FormGroup;
   editChannelName!: FormGroup;
@@ -73,11 +76,10 @@ export class EditChannelComponent implements OnInit, OnDestroy {
 
   onSubmit(form: string) {
     if (form == "editName" && this.editChannelName.valid) {
-      console.log('Form Submitted', this.editChannelName.value);
       const name = this.editChannelName.value;
       this.channelService.changeChannelName(name, this.selectedChannelId!);
+
     } if (form == "editDescription" && this.editChannelDescription.valid) {
-      console.log('Form Submitted', this.editChannelDescription.value);
       const newDescription = this.editChannelDescription.value;
       this.channelService.changeChannelName(newDescription, this.selectedChannelId!);
     } 
