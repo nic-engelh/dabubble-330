@@ -126,6 +126,7 @@ export class EditChannelComponent implements OnInit, OnDestroy {
   openAddMemberDialog() {
     this.addMemberDialog.open();
     this.addMemberDialog.searchInputVisible = true;
+    this.addMemberDialog.updateSubmitButtonText("Hinzufügen");
   }
 
   closeAddMemberDialog() {

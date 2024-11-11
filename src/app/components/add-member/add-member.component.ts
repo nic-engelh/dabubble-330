@@ -38,14 +38,16 @@ import { ErrorService } from '../../services/error-service/error.service';
 export class AddMemberComponent {
 
   @ViewChild('dialog') dialog!: ElementRef;
+  @ViewChild('submitButton') buttonRef!: ElementRef;
   @Input() channelId: string | null = null;
-  @Output() closeParentEvent = new EventEmitter<void>();
   @Input() optionsVisible: boolean = true;
+  @Output() closeParentEvent = new EventEmitter<void>();
 
   addMemberVisible: boolean = false;
   addChannelVisible: boolean = false;
   searchInputVisible: boolean = false;
   selectedMembers: User[] = [];
+  submitButtonText: string = 'Erstellen';
 
 
   constructor(private channelService: ChannelService, private errorService: ErrorService) { }
@@ -54,6 +56,10 @@ export class AddMemberComponent {
     setTimeout(() => {
       this.addMemberVisible = !this.addMemberVisible;
     }, 50);
+  }
+
+  updateSubmitButtonText(newText: string) {
+    this.submitButtonText = newText;
   }
 
   open(): void {

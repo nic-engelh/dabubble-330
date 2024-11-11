@@ -1,71 +1,44 @@
 <div [hidden]="!addMemberVisible">
   <div class="backdrop" (click)="onBackdropClick($event)">
-    <div
-      class="dialog menu"
-      #dialog
-      [@slideMenu]="addMemberVisible ? 'visible' : 'hidden'"
-    >
-      <div class="btn-close-box" (click)="close()">
-        <button class="unbuttonize btn-close rectangle"></button>
+    <div class="dialog menu" #dialog [@slideMenu]="addMemberVisible ? 'visible' : 'hidden'">
+      <div class="btn-close-box">
+        <button class="unbuttonize btn-close rectangle" (click)="close()"></button>
       </div>
       <div class="header">
         <span>Leute hinzufügen</span>
-        <img src="/assets/img/close.svg" />
+        <img src="/assets/img/close.svg" (click)="close()"/>
       </div>
       @if (optionsVisible) {
-        <div class="radio-button-container">
-          <input
-            type="radio"
-            id="option1"
-            name="showSearchInput"
-            [value]="false"
-            [(ngModel)]="searchInputVisible"
-          />
-          <!--  todo add all members to channel -->
-          <span>Alle Mitglieder von OfficeTeam hinzufügen</span>
-        </div>
-        <div class="radio-button-container">
-          <input
-            type="radio"
-            id="option2"
-            name="showSearchInput"
-            [value]="true"
-            [(ngModel)]="searchInputVisible"
-          />
-  
-          <span>Bestimmte Leute hinzufügen</span>
-        </div>
+      <div class="radio-button-container">
+        <input type="radio" id="option1" name="showSearchInput" [value]="false" [(ngModel)]="searchInputVisible" />
+        <!--  todo add all members to channel -->
+        <span>Alle Mitglieder von OfficeTeam hinzufügen</span>
+      </div>
+      <div class="radio-button-container">
+        <input type="radio" id="option2" name="showSearchInput" [value]="true" [(ngModel)]="searchInputVisible" />
+
+        <span>Bestimmte Leute hinzufügen</span>
+      </div>
 
       }
-      
+
       <div class="dialog-add-member">
         <!--  search member component -->
         @if (searchInputVisible) {
-        <app-search-member
-          class="d-flex-prl20"
-          (selectedMembersChange)="onMembersChange($event)"
-        >
+        <app-search-member class="d-flex-prl20" (selectedMembersChange)="onMembersChange($event)">
           <div class="btn-box p0-mt20">
-            <button
-              buttonContent
-              class="bubble-full-button mw-125 unbuttonize"
-              [class.absolute]="this.searchInputVisible"
-              (click)="onSubmit()"
-            >
-              Erstellen
+            <button buttonContent #submitButton class="bubble-full-button mw-125 unbuttonize flex-center"
+              [class.absolute]="this.searchInputVisible" (click)="onSubmit()">
+              {{ submitButtonText }}
             </button>
           </div>
         </app-search-member>
 
         } @if (!searchInputVisible){
         <div class="btn-box">
-          <button
-            buttonContent
-            class="bubble-full-button mw-125 unbuttonize"
-            [class.absolute]="this.searchInputVisible"
-            (click)="onSubmit()"
-          >
-            Erstellen
+          <button buttonContent #submitButton class="bubble-full-button mw-125 unbuttonize flex-center"
+            [class.absolute]="this.searchInputVisible" (click)="onSubmit()">
+            {{ submitButtonText }}
           </button>
         </div>
         }
