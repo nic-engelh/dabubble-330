@@ -8,16 +8,12 @@
     <div class="transform-container" [class.active]="isInputNameActive">
       <div>
         <span class="box-header-small">Channel-Name </span>
-        <button
-          class="transform-trigger"
-          (click)="toggleInput('inputName')"
-          [class.active]="isInputNameActive"
-          type="submit"
-        >
+        <button class="transform-trigger" (click)="toggleInput('inputName')" [class.active]="isInputNameActive"
+          type="submit">
           @if (isInputNameActive) {
-            <div class="save-button"></div>
+          <div class="save-button"></div>
           } @else {
-            <div class="edit-button"></div>
+          <div class="edit-button"></div>
           }
         </button>
       </div>
@@ -25,33 +21,20 @@
       @if (!isInputNameActive) {
       <span class="channel-name"> # {{ selectedChannel?.name }} </span>
       } @if (isInputNameActive) {
-      <input
-        #inputField
-        id="channelName"
-        formControlName="name"
-        type="text"
-        class="transform-input outline-none"
-      />
+      <input #inputField id="channelName" formControlName="name" type="text" class="transform-input outline-none" />
       }
     </div>
   </form>
-  <form
-    [formGroup]="editChannelDescription"
-    (ngSubmit)="onSubmit('editDescription')"
-  >
+  <form [formGroup]="editChannelDescription" (ngSubmit)="onSubmit('editDescription')">
     <div class="transform-container" [class.active]="isInputDescriptionActive">
       <div>
         <span class="box-header-small">Beschreibung</span>
-        <button
-          class="transform-trigger"
-          (click)="toggleInput('inputDescription')"
-          [class.active]="isInputDescriptionActive"
-          type="submit"
-        >
+        <button class="transform-trigger" (click)="toggleInput('inputDescription')"
+          [class.active]="isInputDescriptionActive" type="submit">
           @if (isInputDescriptionActive) {
-            <div class="save-button"></div>
+          <div class="save-button"></div>
           } @else {
-            <div class="edit-button"></div>
+          <div class="edit-button"></div>
           }
         </button>
       </div>
@@ -59,25 +42,17 @@
       @if (!isInputDescriptionActive) {
       <span class="content">
         @if (selectedChannel?.description !== undefined) {
-          {{ selectedChannel?.description }}
+        {{ selectedChannel?.description }}
 
         } @else {
-          <span>Es ist keine Beschreibung vorhanden.</span>
+        <span>Es ist keine Beschreibung vorhanden.</span>
         }
 
       </span>
       } @if (isInputDescriptionActive) {
-      <textarea
-        #inputField
-        id="channelDescription"
-        formControlName="description"
-        [value]="textContent"
-        [attr.rows]="calculateRows()"
-        [(ngModel)]="textContent"
-        (input)="updateContent($event); onInput()"
-        type="text"
-        class="transform-input outline-none"
-      ></textarea>
+      <textarea #inputField id="channelDescription" formControlName="description" [value]="textContent"
+        [attr.rows]="calculateRows()" [(ngModel)]="textContent" (input)="updateContent($event); onInput()" type="text"
+        class="transform-input outline-none"></textarea>
       }
       <div class="line"></div>
       <div class="creator-box">
@@ -93,14 +68,14 @@
     <span class="box-header-big">Mitglieder</span>
 
     @if (selectedChannel) {
-      @for (member of selectedChannel!.members; track member.id) {
-        <div>
-          <img [src]="member.avatarUrl" alt="Member-Avatar"/>
-          <span> {{ member.username }}</span>
-        </div>
-      } @empty {
-        <span>Keine Mitglieder vorhanden.</span>
-      }
+    @for (member of selectedChannel!.members; track member.id) {
+    <div>
+      <img [src]="member.avatarUrl" alt="Member-Avatar" />
+      <span> {{ member.username }}</span>
+    </div>
+    } @empty {
+    <span>Keine Mitglieder vorhanden.</span>
+    }
     }
 
 
@@ -110,11 +85,11 @@
         <div class="add-person-img"></div>
       </div>
 
-      <span>Mitglieder hinzufügen</span>
+      <span (click)="openAddMemberDialog()" >Mitglieder hinzufügen</span>
     </div>
   </div>
 
   <button class="bubble-full-button btn">Channel verlassen</button>
 </div>
 
-
+<app-add-member #dialog [optionsVisible]="false" [channelId]="selectedChannelId"></app-add-member>

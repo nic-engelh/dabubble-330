@@ -40,11 +40,13 @@ export class AddMemberComponent {
   @ViewChild('dialog') dialog!: ElementRef;
   @Input() channelId: string | null = null;
   @Output() closeParentEvent = new EventEmitter<void>();
+  @Input() optionsVisible: boolean = true;
 
   addMemberVisible: boolean = false;
   addChannelVisible: boolean = false;
   searchInputVisible: boolean = false;
   selectedMembers: User[] = [];
+
 
   constructor(private channelService: ChannelService, private errorService: ErrorService) { }
 
@@ -90,6 +92,11 @@ export class AddMemberComponent {
   closeSearchField() {
     this.searchInputVisible = false;
     this.channelId = "";
+  }
+
+  addAllMembersToChannel() {
+    // todo 
+    return
   }
 
   onSubmit() {

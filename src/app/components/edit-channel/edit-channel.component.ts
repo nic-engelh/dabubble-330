@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -15,12 +15,13 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { ChannelService } from '../../services/channel-service/channel.service';
 import { DocumentData } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
+import { AddMemberComponent } from '../add-member/add-member.component';
 
 
 @Component({
   selector: 'app-edit-channel',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, AddMemberComponent],
   templateUrl: './edit-channel.component.html',
   styleUrl: './edit-channel.component.scss',
 })
@@ -36,9 +37,11 @@ export class EditChannelComponent implements OnInit, OnDestroy {
   textContent: string = '';
   currentUser: User | undefined;
   selectedChannel: Channel | undefined;
-  @Input() selectedChannelId: string | undefined = 'aeae16e2-afdb-4e14-a7c0-3255f8744000';
+  @Input() selectedChannelId: string | null = 'aeae16e2-afdb-4e14-a7c0-3255f8744000';
   channelData: DocumentData | undefined;
   private subscription!: Subscription;
+
+  @ViewChild('dialog') addMemberDialog!: AddMemberComponent;
 
 
   constructor(
@@ -82,7 +85,7 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     } if (form == "editDescription" && this.editChannelDescription.valid) {
       const newDescription = this.editChannelDescription.value;
       this.channelService.changeChannelName(newDescription, this.selectedChannelId!);
-    } 
+    }
   }
 
   toggleInput(inputField: string) {
@@ -117,6 +120,16 @@ export class EditChannelComponent implements OnInit, OnDestroy {
 
     const totalLines = Math.max(lines, wrappedLines);
     return Math.min(Math.max(totalLines, minRows), maxRows);
+  }
+
+
+  openAddMemberDialog() {
+    this.addMemberDialog.open();
+    this.addMemberDialog.searchInputVisible = true;
+  }
+
+  closeAddMemberDialog() {
+    this.addMemberDialog.close();
   }
 
   ngOnDestroy(): void {
