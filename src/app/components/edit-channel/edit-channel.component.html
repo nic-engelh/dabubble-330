@@ -1,7 +1,9 @@
 <div class="main-container" [hidden]="editChannelisOpen">
   <header>
     <span># {{ selectedChannel?.name }} </span>
-    <img src="/assets/img/close.svg" alt="Close Button" />
+    <div class="btn-close-bg" (click)="close()">
+      <div class="btn-close-img" (click)="close()"></div>
+    </div>
   </header>
 
   <form [formGroup]="editChannelName" (ngSubmit)="onSubmit('editName')">

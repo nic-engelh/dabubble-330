@@ -6,7 +6,9 @@
       </div>
       <div class="header">
         <span>Leute hinzufügen</span>
-        <img src="/assets/img/close.svg" (click)="close()"/>
+        <div class="btn-close-bg" (click)="close()">
+          <div class="btn-close-img" (click)="close()"></div>
+        </div>
       </div>
       @if (optionsVisible) {
       <div class="radio-button-container">
@@ -19,9 +21,7 @@
 
         <span>Bestimmte Leute hinzufügen</span>
       </div>
-
-      }
-
+    }
       <div class="dialog-add-member">
         <!--  search member component -->
         @if (searchInputVisible) {

@@ -133,6 +133,11 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     this.addMemberDialog.close();
   }
 
+  // todo close edit channel dialog
+  close() {
+
+  }
+
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();

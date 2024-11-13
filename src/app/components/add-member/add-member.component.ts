@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-import { ProfilEditComponent } from '../profil-edit/profil-edit.component';
-import { ProfilComponent } from '../profil/profil.component';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { SearchMemberComponent } from '../search-member/search-member.component';
 import { User } from '../../../models/user.class';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +11,7 @@ import { ErrorService } from '../../services/error-service/error.service';
 @Component({
   selector: 'app-add-member',
   standalone: true,
-  imports: [RouterModule, ProfilEditComponent, ProfilComponent, SearchMemberComponent, CommonModule, FormsModule],
+  imports: [RouterModule, SearchMemberComponent, CommonModule, FormsModule],
   templateUrl: './add-member.component.html',
   styleUrl: './add-member.component.scss',
   animations: [
