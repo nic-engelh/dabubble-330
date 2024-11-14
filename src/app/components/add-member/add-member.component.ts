@@ -50,16 +50,26 @@ export class AddMemberComponent {
 
   constructor(private channelService: ChannelService, private errorService: ErrorService, private memberService: MemberService) { }
 
+  /**
+   * Toggles the visibility of the member addition menu with a slight delay
+   */
   toggleMenu() {
     setTimeout(() => {
       this.addMemberVisible = !this.addMemberVisible;
     }, 50);
   }
 
+  /**
+   * Updates the text displayed on the submit button
+   * @param newText - The new text to display on the submit button
+   */
   updateSubmitButtonText(newText: string) {
     this.submitButtonText = newText;
   }
 
+  /**
+   * Opens the member addition dialog with a slight delay
+   */
   open(): void {
     setTimeout(() => {
       this.addMemberVisible = true;
@@ -67,6 +77,9 @@ export class AddMemberComponent {
     console.log("After opening dialog:", this.channelId)
   }
 
+  /**
+   * Closes the member addition dialog and triggers parent closure
+   */
   close(): void {
     this.addMemberVisible = false;
     this.closeParent();
@@ -74,30 +87,51 @@ export class AddMemberComponent {
     //todo delete channel
   }
 
+  /**
+   * Handles clicks on the dialog backdrop
+   * @param event - The mouse event from clicking the backdrop
+   */
   onBackdropClick(event: MouseEvent): void {
     if (event.target === this.dialog.nativeElement.parentNode) {
       this.close();
     }
   }
 
+   /**
+   * Updates the selected members list
+   * @param members - Array of User objects representing selected members
+   */
   onMembersChange(members: User[]) {
     this.selectedMembers = members;
   }
 
+  /**
+   * Clears the current member selection
+   */
   clearMemberSelection() {
     this.selectedMembers = [];
   }
 
+  /**
+   * Opens the search field and logs the current channel ID
+   */
   openSearchField() {
     this.searchInputVisible = true;
     console.log("After opening dialog:", this.channelId)
   }
 
+   /**
+   * Closes the search field and resets the channel ID
+   */
   closeSearchField() {
     this.searchInputVisible = false;
     this.channelId = "";
   }
 
+  /**
+   * Adds all available members to the current channel
+   * @returns Promise<void>
+   */
   async addAllMembersToChannel() {
     const newMembers = await this.memberService.getAllMembers();
     if (newMembers !== null) {
@@ -107,6 +141,9 @@ export class AddMemberComponent {
     }
   }
 
+  /**
+   * Handles the submission of selected members to add to the channel
+   */
   onSubmit() {
     const newMembers = this.selectedMembers;
     newMembers.forEach(member => {
@@ -117,6 +154,9 @@ export class AddMemberComponent {
     this.errorService.showSuccessNotification('Channel erstellt.')
   }
 
+  /**
+   * Emits an event to close the parent component
+   */
   closeParent() {
     this.closeParentEvent.emit();  // Emit the event to the parent
   }
