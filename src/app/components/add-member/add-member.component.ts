@@ -7,6 +7,7 @@ import { User } from '../../../models/user.class';
 import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../services/channel-service/channel.service';
 import { ErrorService } from '../../services/error-service/error.service';
+import { MemberService } from '../../services/member-service/member.service';
 
 @Component({
   selector: 'app-add-member',
@@ -47,7 +48,7 @@ export class AddMemberComponent {
   submitButtonText: string = 'Erstellen';
 
 
-  constructor(private channelService: ChannelService, private errorService: ErrorService) { }
+  constructor(private channelService: ChannelService, private errorService: ErrorService, private memberService: MemberService) { }
 
   toggleMenu() {
     setTimeout(() => {
@@ -97,12 +98,13 @@ export class AddMemberComponent {
     this.channelId = "";
   }
 
-  addAllMembersToChannel() {
-    // todo 
-    // get all members from firestore
-    // store them in a object or map
-    // add them to subcollection with forEach() 
-    return
+  async addAllMembersToChannel() {
+    const newMembers = await this.memberService.getAllMembers();
+    if (newMembers !== null) {
+      newMembers.forEach((member: User) => {
+        this.channelService.addMemberToChannel(this.channelId!, member)
+      });
+    }
   }
 
   onSubmit() {

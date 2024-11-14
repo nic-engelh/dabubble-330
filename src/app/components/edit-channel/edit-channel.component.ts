@@ -50,6 +50,11 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     private channelService: ChannelService
   ) { }
 
+   /**
+   * Initializes the component.
+   * Sets up the form groups for editing the channel name and description.
+   * Retrieves the current user and the selected channel's real-time data.
+   */
   ngOnInit(): void {
     this.editChannelDescription = this.fb.group({
       description: ['', [Validators.required]],
@@ -77,6 +82,11 @@ export class EditChannelComponent implements OnInit, OnDestroy {
       });
   }
 
+   /**
+   * Handles the submission of the edit channel form.
+   * Updates the channel name or description based on the form type.
+   * @param form The type of form being submitted (either "editName" or "editDescription").
+   */
   onSubmit(form: string) {
     if (form == "editName" && this.editChannelName.valid) {
       const name = this.editChannelName.value;
@@ -88,6 +98,10 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Toggles the input field for editing the channel name or description.
+   * @param inputField The type of input field to toggle (either "inputName" or "inputDescription").
+   */
   toggleInput(inputField: string) {
     if (inputField === "inputName") {
       this.isInputNameActive = !this.isInputNameActive;
@@ -97,16 +111,27 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     )
   }
 
+  /**
+   * Updates the text content of the channel description.
+   * @param event The event triggered by the input field.
+   */
   updateContent(event: Event) {
     const input = event.target as HTMLInputElement;
     this.textContent = input.value;
   }
 
+  /**
+   * Triggers change detection for the text content.
+   */
   onInput(): void {
     // Trigger change detection
     this.textContent = this.textContent; // This line is actually unnecessary since we are using ngModel
   }
 
+  /**
+   * Calculates the number of rows needed to display the channel description.
+   * @returns The number of rows needed.
+   */
   calculateRows(): number {
     const lineHeight = 25; // Adjust this value based on your font size and line height
     const minRows = 1;
@@ -122,22 +147,32 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     return Math.min(Math.max(totalLines, minRows), maxRows);
   }
 
-
+  /**
+   * Opens the add member dialog.
+   */
   openAddMemberDialog() {
     this.addMemberDialog.open();
     this.addMemberDialog.searchInputVisible = true;
     this.addMemberDialog.updateSubmitButtonText("Hinzufügen");
   }
 
+  /**
+   * Closes the add member dialog.
+   */
   closeAddMemberDialog() {
     this.addMemberDialog.close();
   }
 
-  // todo close edit channel dialog
-  close() {
+   /**
+   * Closes the edit channel dialog.
+   * TODO: Implement this function.
+   */
+  close() { }
 
-  }
-
+  /**
+   * Destroys the component.
+   * Unsubscribes from the real-time data subscription.
+   */
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
