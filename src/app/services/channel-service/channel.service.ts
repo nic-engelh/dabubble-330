@@ -1,5 +1,4 @@
-import { DocumentData, Firestore } from '@angular/fire/firestore';
-import { Conversation } from './../../../models/conversation.class';
+import { DocumentData } from '@angular/fire/firestore';
 import { DataService } from './../data-service/data.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -12,18 +11,38 @@ import { ErrorService } from '../error-service/error.service';
 })
 export class ChannelService {
 
+  /**
+   * Observable that holds updates for channels.
+   * @private
+   * @type {Observable<any>}
+   */
   private channelUpdates$: Observable<any>;
 
-
+  /**
+   * Constructs the ChannelService.
+   * @param {DataService} dataService - Service for handling data operations.
+   * @param {ErrorService} error - Service for handling errors.
+   */
   constructor(private dataService: DataService, private error: ErrorService) {
     this.channelUpdates$ = this.dataService.getCollectionUpdates('channels');
   }
 
+  /**
+   * Retrieves all channel updates as an observable.
+   * @returns {Observable<any>} - Observable that emits channel updates.
+   */
   getAllChannelUpdates(): Observable<any> {
     return this.channelUpdates$;
   }
 
   //! not for deep and nested subcollection use
+  /**
+   * Creates a new channel.
+   * @param {User} creator - The user creating the channel.
+   * @param {string} description - The description of the channel.
+   * @param {string} channelName - The name of the channel.
+   * @returns {Promise<string | boolean>} - The ID of the new channel or false if creation fails.
+   */
   async createChannel(creator: User, description: string, channelName: string) {
     const newChannel = new Channel();
     newChannel.createdBy.push(creator);
@@ -41,6 +60,12 @@ export class ChannelService {
     return newChannel.id
   }
 
+  /**
+   * Adds a member to a channel.
+   * @param {string} channelId - The ID of the channel.
+   * @param {User} member - The user to be added as a member.
+   * @returns {Promise<any>} - The result of the operation.
+   */
   async addMemberToChannel(channelId: string, member: User): Promise<any> {
     try {
       return await this.dataService.updateArrayInCollection(channelId, 'channels', 'members', member);
@@ -50,6 +75,11 @@ export class ChannelService {
     }
   }
 
+  /**
+   * Retrieves a channel by its ID.
+   * @param {string} channelId - The ID of the channel.
+   * @returns {Promise<any>} - The channel data.
+   */
   async getChannel(channelId: string) {
     try {
       return await this.dataService.getDocument('channels', channelId);
@@ -58,6 +88,12 @@ export class ChannelService {
     }
   }
 
+  /**
+   * Changes the name of a channel.
+   * @param {object} newName - The new name for the channel.
+   * @param {string} channelId - The ID of the channel.
+   * @returns {Promise<any>} - The result of the operation.
+   */
   async changeChannelName(newName: object, channelId: string) {
     try {
       return await this.dataService.updateDocument("channels", channelId, newName);
@@ -68,6 +104,12 @@ export class ChannelService {
     }
   }
 
+  /**
+   * Changes the description of a channel.
+   * @param {object} newDescription - The new description for the channel.
+   * @param {string} channelId - The ID of the channel.
+   * @returns {Promise<any>} - The result of the operation.
+   */
   async changeChannelDescription(newDescription: object, channelId: string) {
     try {
       return await this.dataService.updateDocument("channels", channelId, newDescription);
@@ -77,8 +119,26 @@ export class ChannelService {
     }
   }
 
+   /**
+   * Retrieves real-time updates for a channel.
+   * @param {string} channelId - The ID of the channel.
+   * @returns {Observable<DocumentData | undefined>} - Observable that emits real-time updates.
+   */
   getChannelRealTimeUpdates(channelId: string): Observable<DocumentData | undefined> {
     // Retrieve the observable from the FirestoreService
     return this.dataService.getDocumentRealTimeUpdates('channels', channelId);
+  }
+
+  /**
+   * Deletes a channel by its ID.
+   * @param {string} channelId - The ID of the channel.
+   * @returns {Promise<any>} - The result of the operation.
+   */
+  async deleteChannel(channelId: string): Promise<any>  {
+    try {
+      return await this.dataService.deleteDocument('channels', channelId);
+    } catch {
+      this.error.showErrorNotification('Channel could not be deleted.');
+    }
   }
 }

@@ -1,7 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 import { SearchMemberComponent } from '../search-member/search-member.component';
 import { User } from '../../../models/user.class';
 import { FormsModule } from '@angular/forms';
@@ -34,7 +47,6 @@ import { MemberService } from '../../services/member-service/member.service';
   ],
 })
 export class AddMemberComponent {
-
   @ViewChild('dialog') dialog!: ElementRef;
   @ViewChild('submitButton') buttonRef!: ElementRef;
   @Input() channelId: string | null = null;
@@ -47,8 +59,11 @@ export class AddMemberComponent {
   selectedMembers: User[] = [];
   submitButtonText: string = 'Erstellen';
 
-
-  constructor(private channelService: ChannelService, private errorService: ErrorService, private memberService: MemberService) { }
+  constructor(
+    private channelService: ChannelService,
+    private errorService: ErrorService,
+    private memberService: MemberService
+  ) {}
 
   /**
    * Toggles the visibility of the member addition menu with a slight delay
@@ -74,7 +89,7 @@ export class AddMemberComponent {
     setTimeout(() => {
       this.addMemberVisible = true;
     }, 50);
-    console.log("After opening dialog:", this.channelId)
+    console.log('After opening dialog:', this.channelId);
   }
 
   /**
@@ -85,6 +100,9 @@ export class AddMemberComponent {
     this.closeParent();
     //todo close addChannel as well --> create different button / function
     //todo delete channel
+    if (this.channelId !== null) {
+      this.channelService.deleteChannel(this.channelId);
+    }
   }
 
   /**
@@ -97,7 +115,7 @@ export class AddMemberComponent {
     }
   }
 
-   /**
+  /**
    * Updates the selected members list
    * @param members - Array of User objects representing selected members
    */
@@ -117,15 +135,15 @@ export class AddMemberComponent {
    */
   openSearchField() {
     this.searchInputVisible = true;
-    console.log("After opening dialog:", this.channelId)
+    console.log('After opening dialog:', this.channelId);
   }
 
-   /**
+  /**
    * Closes the search field and resets the channel ID
    */
   closeSearchField() {
     this.searchInputVisible = false;
-    this.channelId = "";
+    this.channelId = '';
   }
 
   /**
@@ -136,7 +154,7 @@ export class AddMemberComponent {
     const newMembers = await this.memberService.getAllMembers();
     if (newMembers !== null) {
       newMembers.forEach((member: User) => {
-        this.channelService.addMemberToChannel(this.channelId!, member)
+        this.channelService.addMemberToChannel(this.channelId!, member);
       });
     }
   }
@@ -146,19 +164,18 @@ export class AddMemberComponent {
    */
   onSubmit() {
     const newMembers = this.selectedMembers;
-    newMembers.forEach(member => {
-      this.channelService.addMemberToChannel(this.channelId!, member)
+    newMembers.forEach((member) => {
+      this.channelService.addMemberToChannel(this.channelId!, member);
     });
     this.closeSearchField();
     this.close();
-    this.errorService.showSuccessNotification('Channel erstellt.')
+    this.errorService.showSuccessNotification('Channel erstellt.');
   }
 
   /**
    * Emits an event to close the parent component
    */
   closeParent() {
-    this.closeParentEvent.emit();  // Emit the event to the parent
+    this.closeParentEvent.emit();
   }
-
 }
