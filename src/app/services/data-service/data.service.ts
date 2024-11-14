@@ -7,7 +7,7 @@ import {
   onSnapshot,
   updateDoc,
 } from '@angular/fire/firestore';
-import { collection, arrayUnion, arrayRemove, DocumentData } from 'firebase/firestore';
+import { collection, arrayUnion, arrayRemove, DocumentData, getDocs } from 'firebase/firestore';
 import { Observable, Subscriber } from 'rxjs';
 import { Message } from '../../../models/message.class';
 
@@ -178,6 +178,16 @@ export class DataService {
     })
   }
 
-
-
+  /**
+   * Retrieves all documents from a Firestore collection.
+   * 
+   * @param collectionName The name of the collection to retrieve documents from.
+   * @returns A promise that resolves with an array of documents, where each document is an object with an `id` property and the document data.
+   */
+  async getAllDocumentsFromCollection(collectionName: string): Promise<any[]> {
+      const collectionRef = collection(this.database, collectionName);
+      const querySnapshot = await getDocs(collectionRef);
+      const documents = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      return documents;
+    }
 }

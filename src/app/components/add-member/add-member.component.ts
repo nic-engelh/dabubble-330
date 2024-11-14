@@ -99,6 +99,9 @@ export class AddMemberComponent {
 
   addAllMembersToChannel() {
     // todo 
+    // get all members from firestore
+    // store them in a object or map
+    // add them to subcollection with forEach() 
     return
   }
 

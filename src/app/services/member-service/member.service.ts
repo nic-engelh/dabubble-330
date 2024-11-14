@@ -1,4 +1,3 @@
-
 import { DataService } from '../data-service/data.service';
 import { Injectable, inject } from '@angular/core';
 import {
@@ -9,18 +8,17 @@ import {
   orderBy,
   limit,
   getDocs,
-  QueryConstraint
+  QueryConstraint,
 } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
 import { User } from '../../../models/user.class';
-
+import { ErrorService } from '../error-service/error.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MemberService {
-
-  constructor(private ds: DataService) { }
+  constructor(private ds: DataService, private error: ErrorService) {}
 
   private firestore: Firestore = inject(Firestore);
   private readonly COLLECTION_NAME = 'members';
@@ -39,7 +37,7 @@ export class MemberService {
       where('searchName', '>=', searchTermLower),
       where('searchName', '<=', searchTermLower + '\uf8ff'),
       orderBy('searchName'),
-      limit(this.SEARCH_LIMIT)
+      limit(this.SEARCH_LIMIT),
     ];
     // Create and execute query
     const membersQuery = query(
@@ -48,12 +46,14 @@ export class MemberService {
     );
     // Convert promise to observable and map the results
     return from(
-      getDocs(membersQuery).then(snapshot =>
-        snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-
-        } as User))
+      getDocs(membersQuery).then((snapshot) =>
+        snapshot.docs.map(
+          (doc) =>
+            ({
+              id: doc.id,
+              ...doc.data(),
+            } as User)
+        )
       )
     );
   }
@@ -71,17 +71,23 @@ export class MemberService {
           where('id', '==', id),
           limit(1)
         )
-      ).then(snapshot => {
+      ).then((snapshot) => {
         if (snapshot.empty) return null;
         const doc = snapshot.docs[0];
         return {
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         } as User;
       })
     );
   }
 
-
-
+  async getAllMembers() {
+    try {
+      return await this.ds.getAllDocumentsFromCollection('members');
+    } catch {
+      this.error.showErrorNotification('Members could not be fetched.');
+      return null
+    }
+  }
 }

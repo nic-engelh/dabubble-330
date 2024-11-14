@@ -71,9 +71,8 @@ export class ChannelService {
   async changeChannelDescription(newDescription: object, channelId: string) {
     try {
       return await this.dataService.updateDocument("channels", channelId, newDescription);
-
     } catch (error) {
-      this.error.showErrorNotification('Channel descprition could not be changed.');
+      this.error.showErrorNotification('Channel description could not be changed.');
       console.error(error)
     }
   }
