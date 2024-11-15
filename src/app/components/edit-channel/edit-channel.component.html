@@ -59,7 +59,9 @@
       <div class="line"></div>
       <div class="creator-box">
         <span>Erstellt von</span>
-        <span class="creator">Noah Braun</span>
+        @if (selectedChannel) {
+          <span class="creator">{{ selectedChannel.createdBy[0].username }}</span>
+        }
       </div>
     </div>
   </form>

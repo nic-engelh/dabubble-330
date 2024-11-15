@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild, Injectable } from '@angular/core';
-import { RouterModule, Router } from '@angular/router';
-import { ProfilEditComponent } from '../profil-edit/profil-edit.component';
-import { ProfilComponent } from '../profil/profil.component';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { RouterModule} from '@angular/router';
 import {
   trigger,
   state,
@@ -11,11 +9,13 @@ import {
   transition,
 } from '@angular/animations';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+import { ProfilComponent } from '../profil/profil.component';
+
 
 @Component({
   selector: 'app-profil-menu',
   standalone: true,
-  imports: [RouterModule, ProfilEditComponent, ProfilComponent, CommonModule],
+  imports: [RouterModule, CommonModule, ProfilComponent],
   templateUrl: './profil-menu.component.html',
   styleUrl: './profil-menu.component.scss',
   animations: [
