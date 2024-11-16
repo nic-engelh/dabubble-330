@@ -6,9 +6,7 @@
     </div>
   </header>
   <div class="member-list-box">
-    <span class="box-header-big">Mitglieder</span>
-
-    @if (selectedChannel) { @for (member of selectedChannel!.members; track
+    @if (selectedChannelData) { @for (member of selectedChannelData!.members; track
     member.id) {
     <div>
       <img [src]="member.avatarUrl" alt="Member-Avatar" />
