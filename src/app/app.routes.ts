@@ -20,6 +20,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { AddChannelComponent } from './components/add-channel/add-channel.component';
 import { SearchMemberComponent } from './components/search-member/search-member.component';
 import { AddMemberComponent } from './components/add-member/add-member.component';
+import { MemberListComponent } from './components/member-list/member-list.component';
 
 export const routes: Routes = [
   {
@@ -92,6 +93,10 @@ export const routes: Routes = [
   {
     path: 'edit-channel',
     component: EditChannelComponent,
+  },
+  {
+    path: 'member-list',
+    component: MemberListComponent,
   },
 
 

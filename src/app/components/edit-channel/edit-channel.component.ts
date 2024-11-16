@@ -50,11 +50,11 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     private channelService: ChannelService
   ) { }
 
-   /**
-   * Initializes the component.
-   * Sets up the form groups for editing the channel name and description.
-   * Retrieves the current user and the selected channel's real-time data.
-   */
+  /**
+  * Initializes the component.
+  * Sets up the form groups for editing the channel name and description.
+  * Retrieves the current user and the selected channel's real-time data.
+  */
   ngOnInit(): void {
     this.editChannelDescription = this.fb.group({
       description: ['', [Validators.required]],
@@ -82,11 +82,11 @@ export class EditChannelComponent implements OnInit, OnDestroy {
       });
   }
 
-   /**
-   * Handles the submission of the edit channel form.
-   * Updates the channel name or description based on the form type.
-   * @param form The type of form being submitted (either "editName" or "editDescription").
-   */
+  /**
+  * Handles the submission of the edit channel form.
+  * Updates the channel name or description based on the form type.
+  * @param form The type of form being submitted (either "editName" or "editDescription").
+  */
   onSubmit(form: string) {
     if (form == "editName" && this.editChannelName.valid) {
       const name = this.editChannelName.value;
@@ -163,10 +163,10 @@ export class EditChannelComponent implements OnInit, OnDestroy {
     this.addMemberDialog.close();
   }
 
-   /**
-   * Closes the edit channel dialog.
-   * TODO: Implement this function.
-   */
+  /**
+  * Closes the edit channel dialog.
+  * TODO: Implement this function.
+  */
   close() { }
 
   /**

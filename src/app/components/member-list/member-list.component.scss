@@ -1,0 +1,54 @@
+@import "../../../styles/_breakpoints.scss";
+
+.main-container {
+    width: 398px;
+    height: 371px;
+    padding: 20px 16px 20px 16px;
+    gap: 20px;
+    border-radius: 20px 0px 20px 20px;
+    opacity: 0px;
+}
+
+.add-person-btn {
+    border-radius: 100px;
+    max-width: 282px;
+    width: 100%;
+    padding: 12px 29px 12px 29px;
+    display: flex;
+    gap: 15px;
+    cursor: pointer;
+  
+    >span {
+      font-size: 18px;
+      font-weight: 400;
+    }
+  
+    .add-person-bg {
+      background-color: #eceefe;
+      width: 32px;
+      height: 32px;
+      border-radius: 100%;
+    }
+  
+    .add-person-img {
+      background-image: url("/assets/img/person_add_default.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 32px;
+      height: 32px;
+      border-radius: 100%;
+    }
+  
+    &:hover {
+      background-color: #eceefe;
+      color: #535af1;
+    }
+  
+    &:hover span {
+      font-weight: 700 !important;
+    }
+  
+    &:hover .add-person-img {
+      background-image: url("/assets/img/person_add_clicked.svg");
+    }
+  }
