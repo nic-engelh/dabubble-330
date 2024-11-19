@@ -25,7 +25,7 @@
         >
           <div class="chatText">
             <small>{{ message.timestamp | date : "HH:mm" }}</small>
-            <small>Sender: {{ message.sender.username }}</small>
+            <small>{{ message.sender.username }}</small>
             <p>{{ message.content }}</p>
 
             <!-- Drei-Punkte-Menü, erscheint beim Hover -->
@@ -35,14 +35,33 @@
               (mouseleave)="hoveredMessageId = null"
             >
               <!-- Dot wird nur angezeigt, wenn die Nachricht gehovt wird -->
-              <button
-                class="dot"
-                *ngIf="hoveredMessageId === message.id"
-                (click)="toggleMenu(message.id)"
-              >
-                <img src="assets/img/3dot.svg" alt="" />
-              </button>
-
+            <button class="dot"
+            *ngIf="hoveredMessageId === message.id"
+            (click)="toggleMenu(message.id)">
+            <img src="assets/img/🦆 emoji _white heavy check mark_.svg" alt="" />
+          </button>
+          <button class="dot"
+          *ngIf="hoveredMessageId === message.id"
+          (click)="toggleMenu(message.id)">
+          <img src="assets/img/🦆 emoji _person raising both hands in celebration_.svg" alt="" />
+        </button>
+          <button class="dot"
+          *ngIf="hoveredMessageId === message.id"
+          (click)="toggleMenu(message.id)">
+          <img src="assets/img/add_reaction.svg" alt="" />
+        </button>
+          <button class="dot"
+          *ngIf="hoveredMessageId === message.id"
+          (click)="toggleMenu(message.id)">
+          <img src="assets/img/comment.svg" alt="" />  
+        </button>
+          <button
+          class="dot"
+          *ngIf="hoveredMessageId === message.id"
+          (click)="toggleMenu(message.id)"
+        >
+          <img src="assets/img/3dot.svg" alt="" />
+        </button>
               <!-- Menü für Bearbeitung und Reaktionen -->
               <nav
                 class="menu-content"
@@ -59,15 +78,11 @@
                       Löschen
                     </button>
                   </li>
-                  <li>
-                    <button (click)="addReaction(message)">
-                      Reaktion hinzufügen
-                    </button>
-                  </li>
+
                 </ul>
               </nav>
             </div>
-            <small>Status: {{ message.isRead ? "Read" : "Unread" }}</small>
+            <!-- <small>Status: {{ message.isRead ? "Read" : "Unread" }}</small> -->
           </div>
           <!-- close background -->
         </div>

@@ -61,26 +61,31 @@
         max-width: 450px;
         min-width: 400px;
         .menu {
-          display: flex;
-          justify-content: end;
           position: relative;
-          left: 60px;
-          z-index: 6;
+          top: -120px;
+          left: -180px;
+          height: 32px;
+          width: 260px;
+          display: flex;
+          justify-content: center;
+          // z-index: 1;
+          background-color: #fff;
+          // border: 1px solid black;
+          // border-radius: 20px 20px 0px 20px;
+
+          
+
           .dot {
             all: unset;
-            background-color: #fff;
             text-align: center;
             width: 50px;
-            border: 1px solid black;
-            border-radius: 20px 20px 0px 20px;
-          }
 
+          }
+        
           .menu-content {
-            // position: absolute;
-            // right: 18%;
             position: absolute;
-            left: 100%;
-            top: 20px;
+            left: 253px;
+            top: 30px;
             min-width: 180px;
             display: flex;
             flex-direction: column;
