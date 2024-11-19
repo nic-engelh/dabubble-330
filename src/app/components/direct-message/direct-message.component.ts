@@ -14,12 +14,9 @@ import { User } from '../../../models/user.class';
   standalone: true,
   imports: [
     MessageInputComponent,
-    DirectMessageComponent,
     CommonModule,
     NgFor,
     RouterModule,
-    RouterOutlet,
-    RouterLink,
   ],
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
