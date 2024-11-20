@@ -47,12 +47,15 @@
       flex-direction: column;
       height: 180px;
       width: 100svw;
+      position: relative;
       &:hover {
         background-color: #eceefe;
-        &:hover .menu {
-          border: 1px solid black;
-        }
       }
+      &:hover .menu {
+        border: 1px solid #ADB0D9;
+      }  
+      
+      
 
       .chatText {
         border-radius: 20px 0 20px 20px;
@@ -65,29 +68,38 @@
         min-width: 400px;
         .menu {
           position: relative;
-          top: -120px;
+          top: -140px;
           left: -180px;
-          // height: 32px;
           width: 260px;
           display: flex;
           justify-content: center;
+          align-items: center;
           // z-index: 1;
           background-color: #fff;
           // border: 1px solid black;
           border-radius: 20px 20px 0px 20px;
-
-          
+          transition: opacity 0.3s ease, border-color 0.3s ease;
+          // padding: 3px 15px 3px 20px;
 
           .dot {
             all: unset;
             text-align: center;
             width: 50px;
+            padding: 8px;
+            img {
+              width: 18px;
+              height: 18px;
+            }
+            &:hover {
+              border-radius: 20px;
+              background-color: #eceefe;
+            }
 
           }
         
           .menu-content {
             position: absolute;
-            left: 253px;
+            left: 260px;
             top: 30px;
             min-width: 180px;
             display: flex;

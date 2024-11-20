@@ -20,9 +20,9 @@
         <div
           *ngFor="let message of group.value"
           class="bubbleChatBackground"
-          (mouseenter)="onMouseEnter(message.id)"
-          (mouseleave)="onMouseLeave()"
-        >
+          (mouseover)="hoveredMessageId = message.id"
+          (mouseleave)="hoveredMessageId = null"
+    >
           <div class="chatText">
             <small>{{ message.timestamp | date : "HH:mm" }}</small>
             <small>{{ message.sender.username }}</small>
