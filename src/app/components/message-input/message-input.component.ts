@@ -1,6 +1,6 @@
 import { User } from './../../../models/user.class';
 import { MessagingService } from './../../services/messaging-service/messaging.service';
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, SimpleChanges } from '@angular/core';
 import { Message } from '../../../models/message.class';
 import { Conversation } from '../../../models/conversation.class';
 import { MessageService } from '../../services/message-service/message.service';
@@ -46,7 +46,8 @@ export class MessageInputComponent implements OnInit {
   constructor(
     private messageService: MessageService,
     private messagingService: MessagingService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private elementRef: ElementRef
   ) {
     this.chatForm = this.fb.group({
       message: ['', [Validators.required, Validators.minLength(1)]],
@@ -67,6 +68,14 @@ export class MessageInputComponent implements OnInit {
   addEmoji(event: any) {
     this.formInputValues = (this.formInputValues || '') + event.emoji.native;
     this.showEmojiPicker = false; // Picker nach Auswahl schließen
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInside) {
+      this.showEmojiPicker = false; // Schließt den Emoji-Picker
+    }
   }
 
   printConsoleLog() {
