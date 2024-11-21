@@ -78,6 +78,10 @@ export class MessageInputComponent implements OnInit {
     }
   }
 
+  onInputFocus(): void {
+    this.showEmojiPicker = false;
+  }
+
   printConsoleLog() {
     console.log('hallo Input', this.formInputValues);
     // input === string;

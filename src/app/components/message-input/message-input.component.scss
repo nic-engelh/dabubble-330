@@ -89,6 +89,7 @@
       emoji-mart {
         position: absolute;
         top: -450px;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
       }
     }
   }
