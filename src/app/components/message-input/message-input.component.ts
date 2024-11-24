@@ -1,9 +1,11 @@
 import { User } from './../../../models/user.class';
 import { MessagingService } from './../../services/messaging-service/messaging.service';
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, SimpleChanges } from '@angular/core';
 import { Message } from '../../../models/message.class';
 import { Conversation } from '../../../models/conversation.class';
 import { MessageService } from '../../services/message-service/message.service';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { EmojiComponent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -18,7 +20,13 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-message-input',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, CommonModule, FormsModule],
+  imports: [
+    ReactiveFormsModule,
+    RouterModule,
+    CommonModule,
+    FormsModule,
+    PickerComponent,
+  ],
   templateUrl: './message-input.component.html',
   styleUrl: './message-input.component.scss',
 })
@@ -34,10 +42,12 @@ export class MessageInputComponent implements OnInit {
   formInputValues: any;
   user = new User(); //user wird übergeben
   // ACTIVE USER === SENDER
+  showEmojiPicker = false;
   constructor(
     private messageService: MessageService,
     private messagingService: MessagingService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private elementRef: ElementRef
   ) {
     this.chatForm = this.fb.group({
       message: ['', [Validators.required, Validators.minLength(1)]],
@@ -51,48 +61,42 @@ export class MessageInputComponent implements OnInit {
     //Add '${implements OnChanges}' to the class.
   }
 
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    this.formInputValues = (this.formInputValues || '') + event.emoji.native;
+    this.showEmojiPicker = false; // Picker nach Auswahl schließen
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInside) {
+      this.showEmojiPicker = false; // Schließt den Emoji-Picker
+    }
+  }
+
+  onInputFocus(): void {
+    this.showEmojiPicker = false;
+  }
+
   printConsoleLog() {
     console.log('hallo Input', this.formInputValues);
     // input === string;
   }
 
-  // sendMessage() {
-  //   if (this.chatForm.valid) {
-  //     const newMessage = this.messageService.createMessage(
-  //       this.threadId,
-  //       this.formInputValues,
-  //       this.user
-  //     );
-
-  //     this.messagingService.setMessagetoConversation(this.threadId, newMessage);
-  //   }
-  // }
-
   sendMessage() {
     if (this.chatForm.valid) {
-      // Formularwert auslesen
-      const messageContent = this.chatForm.get('message')?.value;
-
-      // Erstelle die Nachricht mit dem MessageService
       const newMessage = this.messageService.createMessage(
-        this.threadId, // ID des Gesprächs
-        messageContent, // Der eigentliche Nachrichteninhalt (als string)
-        this.user // Aktueller Benutzer, der die Nachricht sendet
+        this.threadId,
+        this.formInputValues,
+        this.user
       );
 
-      // Nachricht zur Konversation hinzufügen
-      this.messagingService
-        .setMessagetoConversation(this.threadId, newMessage)
-        .then(() => {
-          console.log('Nachricht erfolgreich gesendet!');
-          this.chatForm.reset(); // Formular nach erfolgreichem Absenden zurücksetzen
-        })
-        .catch((error) => {
-          console.error('Fehler beim Senden der Nachricht:', error);
-        });
+      this.messagingService.setMessagetoConversation(this.threadId, newMessage);
     }
+    this.chatForm.reset();
   }
-
-  //function getUserSender(){}
-  // function needs to find Sender from Conversation => active USER === Sender
 }

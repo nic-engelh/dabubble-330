@@ -1,0 +1,130 @@
+.messageMainContainer {
+  width: 100%;
+  max-width: 100svw;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 35px 0;
+  border-radius: 20px;
+  background-color: #fff;
+
+  .chatBox {
+    overflow-y: scroll;
+    box-sizing: border-box;
+    height: 75vh;
+    display: flex;
+
+    .chatContent {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .dateWrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lineDate {
+      height: 1px;
+      width: 100px;
+      background-color: grey;
+    }
+
+    .dateHeader {
+      border: 1px solid grey;
+      border-radius: 30px;
+      padding: 5px;
+      margin: 30px 0;
+    }
+    .bubbleChatBackground {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 180px;
+      width: 100svw;
+      position: relative;
+      &:hover {
+        background-color: #eceefe;
+      }
+      &:hover .menu {
+        border: 1px solid #ADB0D9;
+      }  
+      
+      
+
+      .chatText {
+        border-radius: 20px 0 20px 20px;
+        position: relative;
+        background-color: #797ef3;
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        max-width: 450px;
+        min-width: 400px;
+        .menu {
+          position: relative;
+          top: -8em;
+          left: -5em;
+          width: 260px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          // z-index: 1;
+          background-color: #fff;
+          // border: 1px solid black;
+          border-radius: 20px 20px 0px 20px;
+          transition: opacity 0.3s ease, border-color 0.3s ease;
+          // padding: 3px 15px 3px 20px;
+
+          .dot {
+            all: unset;
+            text-align: center;
+            width: 50px;
+            padding: 8px;
+            img {
+              width: 18px;
+              height: 18px;
+            }
+            &:hover {
+              border-radius: 20px;
+              background-color: #eceefe;
+            }
+
+          }
+        
+          .menu-content {
+            position: absolute;
+            left: 260px;
+            top: 30px;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            visibility: hidden;
+            border-radius: 0 30px 30px 30px;
+          }
+          button + .menu-content:active,
+          button:focus + .menu-content {
+            visibility: visible;
+            li {
+              list-style: none;
+            }
+            button {
+              all: unset;
+              &:hover {
+                background-color: #adb0d9;
+                border-radius: 30px;
+                padding: 7.5px 20px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

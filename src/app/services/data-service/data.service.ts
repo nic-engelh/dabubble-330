@@ -7,9 +7,15 @@ import {
   onSnapshot,
   updateDoc,
 } from '@angular/fire/firestore';
-import { collection, arrayUnion, arrayRemove, DocumentData, getDocs, deleteDoc } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  arrayUnion, arrayRemove, DocumentData, getDocs,
+
+} from 'firebase/firestore';
 import { Observable, Subscriber } from 'rxjs';
 import { Message } from '../../../models/message.class';
+import { User } from '../../../models/user.class';
 
 @Injectable({
   providedIn: 'root',
@@ -39,13 +45,13 @@ export class DataService {
     await setDoc(documentRef, data);
   }
 
-   /**
-   * Updates a document in a specified collection.
-   * @param {string} collectionName - The name of the collection.
-   * @param {string} documentId - The ID of the document.
-   * @param {any} data - The data to be updated in the document.
-   * @returns {Promise<void>} - A promise that resolves when the document is updated.
-   */
+  /**
+  * Updates a document in a specified collection.
+  * @param {string} collectionName - The name of the collection.
+  * @param {string} documentId - The ID of the document.
+  * @param {any} data - The data to be updated in the document.
+  * @returns {Promise<void>} - A promise that resolves when the document is updated.
+  */
   async updateDocument(
     collectionName: string,
     documentId: string,
@@ -55,15 +61,32 @@ export class DataService {
     await updateDoc(documentRef, data);
   }
 
-/**
-   * Sets a document in a subcollection.
-   * @param {string} collectionName - The name of the main collection.
-   * @param {string} documentId - The ID of the main document.
-   * @param {string} subcollectionName - The name of the subcollection.
-   * @param {string} subdocumentId - The ID of the subdocument.
-   * @param {any} data - The data to be set in the subdocument.
-   * @returns {Promise<any>} - A promise that resolves with the result of the operation.
-   */
+  /**
+     * Sets a document in a subcollection.
+     * @param {string} collectionName - The name of the main collection.
+     * @param {string} documentId - The ID of the main document.
+     * @param {string} subcollectionName - The name of the subcollection.
+     * @param {string} subdocumentId - The ID of the subdocument.
+     * @param {any} data - The data to be set in the subdocument.
+     * @returns {Promise<any>} - A promise that resolves with the result of the operation.
+     */
+  async documentExistsInSubcollection(
+    collectionName: string,
+    documentId: string,
+    subcollectionName: string,
+    subdocumentId: string
+  ): Promise<boolean> {
+    const collectionRef = collection(this.database, collectionName);
+    const documentRef = doc(collectionRef, documentId);
+    const subcollectionRef = collection(documentRef, subcollectionName);
+    const subdocumentRef = doc(subcollectionRef, subdocumentId);
+
+    const docSnap = await getDoc(subdocumentRef);
+    return docSnap.exists(); // Gibt true zurück, wenn das Dokument existiert
+  }
+
+
+
   async setDocumentToSubcollection(
     collectionName: string,
     documentId: string,
@@ -95,20 +118,21 @@ export class DataService {
     }
   }
 
-   /**
-   * Adds a document to a subcollection.
-   * @param {string} mainCollectionName - The name of the main collection.
-   * @param {string} mainDocumentId - The ID of the main document.
-   * @param {string} subcollectionName - The name of the subcollection.
-   * @param {any} data - The data to be added to the subcollection.
-   * @returns {Promise<void>} - A promise that resolves when the document is added.
-   * @throws {Error} - If adding the document fails.
-   */
+  /**
+  * Adds a document to a subcollection.
+  * @param {string} mainCollectionName - The name of the main collection.
+  * @param {string} mainDocumentId - The ID of the main document.
+  * @param {string} subcollectionName - The name of the subcollection.
+  * @param {any} data - The data to be added to the subcollection.
+  * @returns {Promise<void>} - A promise that resolves when the document is added.
+  * @throws {Error} - If adding the document fails.
+  */
   async addDocumentToSubcollection(
     mainCollectionName: string,
     mainDocumentId: string,
     subcollectionName: string,
-    data: any
+    subDocId: string,
+    data: any,
   ): Promise<void> {
     try {
       // Reference to the main document
@@ -116,7 +140,7 @@ export class DataService {
       // Reference to the subcollection
       const subcollectionRef = collection(mainDocRef, subcollectionName);
       // Generate a new document reference with a unique ID
-      const newDocRef = doc(subcollectionRef);
+      const newDocRef = doc(subcollectionRef, subDocId);
       // Set the document data (this will create the subcollection if it doesn't exist)
       await setDoc(newDocRef, data);
       console.log('Document added successfully to subcollection');
@@ -171,6 +195,48 @@ export class DataService {
    * @param {string} subCollectionName - The name of the subcollection.
    * @returns {Observable<any>} - An observable that emits updates from the subcollection.
    */
+  async updateDocumentInSubcollection(
+    collectionName: string,
+    documentId: string,
+    subcollectionName: string,
+    subdocumentId: string, // Hier sicherstellen, dass die gleiche ID verwendet wird
+    data: any
+  ): Promise<void> {
+    try {
+      const collectionRef = collection(this.database, collectionName);
+      const documentRef = doc(collectionRef, documentId);
+      const subcollectionRef = collection(documentRef, subcollectionName);
+      const subdocumentRef = doc(subcollectionRef, subdocumentId);
+
+      // Überprüfen, ob das Dokument existiert
+      const docSnap = await getDoc(subdocumentRef);
+      if (!docSnap.exists()) {
+        console.error('Dokument existiert nicht:', subdocumentId);
+        return; // Falls es nicht existiert, kein neues Dokument erstellen
+      }
+
+      // Update das Dokument mit { merge: true }, um nur die Felder zu aktualisieren
+      await setDoc(subdocumentRef, data, { merge: true });
+      console.log('Document successfully updated');
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren des Dokuments:', error);
+    }
+  }
+
+  // Neu: Dokument aus Subcollection löschen
+  async deleteDocumentFromSubcollection(
+    collectionName: string,
+    documentId: string,
+    subcollectionName: string,
+    subdocumentId: string
+  ): Promise<void> {
+    const subdocumentRef = doc(
+      this.database,
+      `${collectionName}/${documentId}/${subcollectionName}/${subdocumentId}`
+    );
+    await deleteDoc(subdocumentRef);
+  }
+
   getSubcollectionUpdates(
     mainCollectionName: string,
     mainDocumentId: string,
@@ -247,16 +313,16 @@ export class DataService {
 
   /**
    * Retrieves all documents from a Firestore collection.
-   * 
+   *
    * @param collectionName The name of the collection to retrieve documents from.
    * @returns A promise that resolves with an array of documents, where each document is an object with an `id` property and the document data.
    */
   async getAllDocumentsFromCollection(collectionName: string): Promise<any[]> {
-      const collectionRef = collection(this.database, collectionName);
-      const querySnapshot = await getDocs(collectionRef);
-      const documents = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      return documents;
-    }
+    const collectionRef = collection(this.database, collectionName);
+    const querySnapshot = await getDocs(collectionRef);
+    const documents = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return documents;
+  }
 
   /**
    * Deletes a document from a specified collection

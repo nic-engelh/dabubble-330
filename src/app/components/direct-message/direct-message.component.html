@@ -1,1 +1,97 @@
-<p>direct-message works!</p>
+<div class="messageMainContainer">
+  <div class="chatBox">
+    <div *ngIf="messages$ | async as groupedMessages" class="chatContent">
+      <!-- Iteriere über die Gruppierungen nach Datum -->
+      <!-- background-container -->
+
+      <div *ngFor="let group of groupedMessages | keyvalue : sortByDate">
+        <!-- Datum anzeigen -->
+
+        <div class="dateWrapper">
+          <div class="lineDate"></div>
+          <div class="dateHeader">
+            <span>{{ group.key | date : "EEEE, dd MMMM yyyy" }}</span>
+          </div>
+          <div class="lineDate"></div>
+        </div>
+
+        <!-- Nachrichten für dieses Datum anzeigen -->
+
+        <div
+          *ngFor="let message of group.value"
+          class="bubbleChatBackground"
+          (mouseover)="hoveredMessageId = message.id"
+          (mouseleave)="hoveredMessageId = null"
+    >
+          <div class="chatText">
+            <small>{{ message.timestamp | date : "HH:mm" }}</small>
+            <small>{{ message.sender.username }}</small>
+            <p>{{ message.content }}</p>
+
+            <!-- Drei-Punkte-Menü, erscheint beim Hover -->
+            <div
+              class="menu"
+              (mouseover)="hoveredMessageId = message.id"
+              (mouseleave)="hoveredMessageId = null"
+            >
+              <!-- Dot wird nur angezeigt, wenn die Nachricht gehovt wird -->
+            <button class="dot"
+            *ngIf="hoveredMessageId === message.id"
+            (click)="toggleMenu(message.id)">
+            <img src="assets/img/🦆 emoji _white heavy check mark_.svg" alt="" />
+          </button>
+          <button class="dot"
+          *ngIf="hoveredMessageId === message.id"
+          (click)="toggleMenu(message.id)">
+          <img src="assets/img/🦆 emoji _person raising both hands in celebration_.svg" alt="" />
+        </button>
+          <button class="dot"
+          *ngIf="hoveredMessageId === message.id"
+          (click)="toggleMenu(message.id)">
+          <img src="assets/img/add_reaction.svg" alt="" />
+        </button>
+          <button class="dot"
+          *ngIf="hoveredMessageId === message.id"
+          (click)="toggleMenu(message.id)">
+          <img src="assets/img/comment.svg" alt="" />  
+        </button>
+          <button
+          class="dot"
+          *ngIf="hoveredMessageId === message.id"
+          (click)="toggleMenu(message.id)"
+        >
+          <img src="assets/img/3dot.svg" alt="" />
+        </button>
+              <!-- Menü für Bearbeitung und Reaktionen -->
+              <nav
+                class="menu-content"
+                *ngIf="hoveredMessageId === message.id && menuVisible"
+              >
+                <ul>
+                  <li>
+                    <button (click)="editMessage(message, conversationId)">
+                      Bearbeiten
+                    </button>
+                  </li>
+                  <li>
+                    <button (click)="deleteMessage(message, conversationId)">
+                      Löschen
+                    </button>
+                  </li>
+
+                </ul>
+              </nav>
+            </div>
+            <!-- <small>Status: {{ message.isRead ? "Read" : "Unread" }}</small> -->
+          </div>
+          <!-- close background -->
+        </div>
+      </div>
+      <!-- Keine Nachrichten -->
+      <ng-template #noMessages>
+        <p>Keine Nachrichten vorhanden.</p>
+      </ng-template>
+    </div>
+  </div>
+  <app-message-input></app-message-input>
+</div>

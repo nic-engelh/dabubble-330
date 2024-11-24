@@ -90,6 +90,7 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
       'threads',
       threadId,
       'chatUsers',
+      '3333999999000',
       userData
     );
   }
