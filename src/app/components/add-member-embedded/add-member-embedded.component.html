@@ -1,0 +1,45 @@
+<div [hidden]="!addMemberVisible">
+  <div class="menu" #dialog>
+    <div class="header">
+      <span>Leute hinzufügen</span>
+      <div class="btn-close-bg" (click)="close()">
+        <div class="btn-close-img" (click)="close()"></div>
+      </div>
+      <span></span>
+    </div>
+    <div class="dialog-add-member">
+      <!--  search member component -->
+      @if (searchInputVisible) {
+      <app-search-member
+        class="d-flex-prl20"
+        (selectedMembersChange)="onMembersChange($event)"
+      >
+        <div class="btn-box p0-mt20">
+          <button
+            buttonContent
+            #submitButton
+            class="bubble-full-button mw-125 unbuttonize flex-center"
+            [class.absolute]="this.searchInputVisible"
+            (click)="onSubmit()"
+          >
+            {{ submitButtonText }}
+          </button>
+        </div>
+      </app-search-member>
+
+      } @if (!searchInputVisible){
+      <div class="btn-box">
+        <button
+          buttonContent
+          #submitButton
+          class="bubble-full-button mw-125 unbuttonize flex-center"
+          [class.absolute]="this.searchInputVisible"
+          (click)="onSubmit()"
+        >
+          {{ submitButtonText }}
+        </button>
+      </div>
+      }
+    </div>
+  </div>
+</div>

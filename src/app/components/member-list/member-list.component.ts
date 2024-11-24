@@ -1,5 +1,4 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AddMemberComponent } from '../add-member/add-member.component';
 import { Channel } from '../../../models/channel.class';
 import { User } from '../../../models/user.class';
 import { CommonModule } from '@angular/common';
@@ -9,11 +8,12 @@ import { ChannelService } from '../../services/channel-service/channel.service';
 import { Subscription } from 'rxjs';
 import { DocumentData } from '@angular/fire/firestore';
 import { ErrorService } from '../../services/error-service/error.service';
+import { AddMemberEmbeddedComponent } from '../add-member-embedded/add-member-embedded.component';
 
 @Component({
   selector: 'app-member-list',
   standalone: true,
-  imports: [AddMemberComponent, CommonModule, RouterModule],
+  imports: [AddMemberEmbeddedComponent, CommonModule, RouterModule],
   templateUrl: './member-list.component.html',
   styleUrl: './member-list.component.scss'
 })
@@ -28,7 +28,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
 
 
   @Input() selectedChannelId: string | null = 'cb44bfd8-b1e4-485e-9b3e-51a36db57566';
-  @ViewChild('dialog') addMemberDialog!: AddMemberComponent;
+  @ViewChild('dialog') addMemberDialog!: AddMemberEmbeddedComponent;
 
 
   constructor(
@@ -73,6 +73,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
   openAddMemberDialog() {
     this.addMemberDialog.open();
     this.addMemberDialog.searchInputVisible = true;
+    this.addMemberDialogIsVisible = true;
     this.addMemberDialog.updateSubmitButtonText("Hinzufügen");
   }
 

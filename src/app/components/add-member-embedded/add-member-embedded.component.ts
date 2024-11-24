@@ -8,13 +8,6 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
 import { SearchMemberComponent } from '../search-member/search-member.component';
 import { User } from '../../../models/user.class';
 import { FormsModule } from '@angular/forms';
@@ -23,38 +16,18 @@ import { ErrorService } from '../../services/error-service/error.service';
 import { MemberService } from '../../services/member-service/member.service';
 
 @Component({
-  selector: 'app-add-member',
+  selector: 'app-add-member-embedded',
   standalone: true,
   imports: [RouterModule, SearchMemberComponent, CommonModule, FormsModule],
-  templateUrl: './add-member.component.html',
-  styleUrl: './add-member.component.scss',
-  animations: [
-    trigger('slideMenu', [
-      state(
-        'hidden',
-        style({
-          transform: 'translateY(430px)',
-        })
-      ),
-      state(
-        'visible',
-        style({
-          transform: 'translateY(0)',
-        })
-      ),
-      state('disabled', style({ opacity: 1 })),
-      transition('* <=> disabled', []),
-      transition('hidden <=> visible', [animate('300ms ease-in-out')]),
-    ]),
-  ],
+  templateUrl: './add-member-embedded.component.html',
+  styleUrl: './add-member-embedded.component.scss'
 })
-export class AddMemberComponent {
+export class AddMemberEmbeddedComponent {
+
   @ViewChild('dialog') dialog!: ElementRef;
   @ViewChild('submitButton') buttonRef!: ElementRef;
   @Input() channelId: string | null = null;
-  @Input() optionsVisible: boolean = true;
   @Output() closeParentEvent = new EventEmitter<void>();
-  @Input() disableAnimations: boolean = false;
 
   addMemberVisible: boolean = false;
   addChannelVisible: boolean = false;
@@ -101,11 +74,6 @@ export class AddMemberComponent {
   close(): void {
     this.addMemberVisible = false;
     this.closeParent();
-    //todo close addChannel as well --> create different button / function
-    //todo delete channel
-    if (this.channelId !== null) {
-      this.channelService.deleteChannel(this.channelId);
-    }
   }
 
   /**
@@ -181,4 +149,5 @@ export class AddMemberComponent {
   closeParent() {
     this.closeParentEvent.emit();
   }
+
 }
