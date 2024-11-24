@@ -24,6 +24,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
   selectedChannelData?: Channel;
   private subscription!: Subscription;
   channelData: DocumentData | undefined;
+  addMemberDialogIsVisible: boolean = false;
 
 
   @Input() selectedChannelId: string | null = 'cb44bfd8-b1e4-485e-9b3e-51a36db57566';

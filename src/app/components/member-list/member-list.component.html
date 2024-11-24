@@ -1,33 +1,34 @@
 <div class="main-container" [hidden]="memberListIsOpen">
-  <header>
-    <span>Mitglieder</span>
-    <div class="btn-close-bg" (click)="close()">
-      <div class="btn-close-img" (click)="close()"></div>
-    </div>
-  </header>
-  <div class="member-list-box">
-    @if (selectedChannelData) { @for (member of selectedChannelData!.members; track
-    member.id) {
-    <div>
-      <img [src]="member.avatarUrl" alt="Member-Avatar" />
-      <span> {{ member.username }}</span>
-    </div>
-    } @empty {
-    <span>Keine Mitglieder vorhanden.</span>
-    } }
-
-    <div class="add-person-btn">
-      <div class="add-person-bg">
-        <div class="add-person-img"></div>
+  @if (!addMemberDialogIsVisible) {
+    <header>
+      <span>Mitglieder</span>
+      <div class="btn-close-bg" (click)="close()">
+        <div class="btn-close-img" (click)="close()"></div>
       </div>
+    </header>
+    <div class="member-list-box">
+      @if (selectedChannelData) { @for (member of selectedChannelData!.members;
+      track member.id) {
+      <div>
+        <img [src]="member.avatarUrl" alt="Member-Avatar" />
+        <span> {{ member.username }}</span>
+      </div>
+      } @empty {
+      <span>Keine Mitglieder vorhanden.</span>
+      } }
 
-      <span (click)="openAddMemberDialog()">Mitglieder hinzufügen</span>
+      <div class="add-person-btn">
+        <div class="add-person-bg">
+          <div class="add-person-img"></div>
+        </div>
+
+        <span (click)="openAddMemberDialog()">Mitglieder hinzufügen</span>
+      </div>
     </div>
-  </div>
+  }
+  <app-add-member
+    #dialog
+    [optionsVisible]="false"
+    [channelId]="selectedChannelId"
+  ></app-add-member>
 </div>
-
-<app-add-member
-  #dialog
-  [optionsVisible]="false"
-  [channelId]="selectedChannelId"
-></app-add-member>
