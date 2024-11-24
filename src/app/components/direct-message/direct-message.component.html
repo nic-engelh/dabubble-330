@@ -1,4 +1,4 @@
-<div class="messageMainContainer">
+<div class="messageMainContainer" [hidden]="!directMessageVisible">
   <div class="chatBox">
     <div *ngIf="messages$ | async as groupedMessages" class="chatContent">
       <!-- Iteriere über die Gruppierungen nach Datum -->
@@ -53,7 +53,7 @@
           <button class="dot"
           *ngIf="hoveredMessageId === message.id"
           (click)="toggleMenu(message.id)">
-          <img src="assets/img/comment.svg" alt="" />  
+          <img src="assets/img/comment.svg" alt="" />
         </button>
           <button
           class="dot"

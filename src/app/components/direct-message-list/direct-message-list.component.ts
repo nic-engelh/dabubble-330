@@ -1,15 +1,16 @@
 import { Conversation } from './../../../models/conversation.class';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output } from '@angular/core';
 import { User } from '../../../models/user.class';
 import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { ConversationService } from '../../services/conversation-service/conversation.service';
+import { DirectMessageComponent } from '../direct-message/direct-message.component';
 
 
 @Component({
   selector: 'app-direct-message-list',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, DirectMessageComponent],
   templateUrl: './direct-message-list.component.html',
   styleUrl: './direct-message-list.component.scss'
 })
@@ -25,6 +26,8 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
   // cache array for all direct messages participants/user
   directMessageList: Conversation[] =  [];
   private subscription = new Subscription;
+
+  @Output() selectedChatId: string = '';
 
 
   constructor (private chatListService: ConversationService) {

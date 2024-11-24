@@ -98,6 +98,9 @@ export const routes: Routes = [
     path: 'member-list',
     component: MemberListComponent,
   },
-
+  {
+    path: 'message',
+    component: DirectMessageComponent,
+  },
 
 ];

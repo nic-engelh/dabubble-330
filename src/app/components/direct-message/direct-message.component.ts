@@ -1,5 +1,5 @@
 import { DataService } from './../../services/data-service/data.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MessageInputComponent } from '../message-input/message-input.component';
 import { CommonModule, NgFor } from '@angular/common';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
@@ -26,6 +26,10 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
   threadId = '30040944-9e8d-4d01-a84b-a03c70ea58c7';
   private messageSubscription!: Subscription;
   messages$: Observable<{ [date: string]: Message[] }> | null = null;
+
+  @Input() directMessageVisible:boolean = false;
+  @Input() selectedThreadId: string ="";
+
   constructor(
     private messageService: MessageService,
     private messagingService: MessagingService,
