@@ -1,7 +1,7 @@
-@import './styles/fonts';
-@import './styles/breakpoints';
+@import "./styles/fonts";
+@import "./styles/breakpoints";
+@import "@ctrl/ngx-emoji-mart/picker";
 @import 'ngx-toastr/toastr';
-@import '@ctrl/ngx-emoji-mart/picker';
 
 body {
   margin: 0;
@@ -103,6 +103,117 @@ body {
   }
   &:active {
     background: #444df2;
+    color: white;
+  }
+}
+
+.hidden {
+  display: none;
+}
+@import './styles/fonts';
+@import './styles/breakpoints';
+@import 'ngx-toastr/toastr';
+
+body {
+  margin: 0;
+  font-family: 'Nunito';
+  background-color: #ECEEFE;
+}
+
+.unbuttonize {
+  // This removes styles added by default to button elements.
+  // For when something should semantically be a button,
+  // but isn't buttony in appearance.
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  font: inherit;
+  border-radius: 0;
+  appearance: none;
+}
+
+.undecorate {
+  text-decoration: none;
+  color: inherit;
+}
+
+.svg-filter-bubble-purple {
+  filter: invert(45%) sepia(90%) saturate(600%) hue-rotate(200deg) brightness(95%);
+}
+
+.bubble-form-input {
+  width: 100%;
+  max-height: 50px;
+  border-radius: 100px;
+  border: none;
+  padding: 13px 32px 13px 32px;
+  gap: 10px;
+  background-color: #ECEEFE;
+}
+
+.bubble-full-button {
+  max-height: 49px;
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  padding: 12px 25px 12px 25px;
+  gap: 10px;
+  background-color: #444DF2;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  flex-grow: 1;
+  cursor: pointer;
+  outline: 0px;
+  border: unset;
+}
+
+.bubble-full-button:hover {
+  background-color: #797EF3;
+
+}
+
+.bubble-empty-button {
+  max-height: 49px;
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  border: solid 1px #797EF3;
+  padding: 12px 25px 12px 25px;
+  background-color: #FFFFFF;
+  color: #797EF3;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24.55px;
+  text-align: center;
+  flex-grow: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.bubble-empty-button:hover {
+  color: white;
+  background-color: #797EF3;
+}
+
+.btn-secondary {
+  padding: 8px 16px 8px 16px;
+  color: #444DF2;
+  background-color: white;
+  text-align: center;
+  border: 1px solid #797EF3;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  &:hover {
+    background-color: #535AF1;
+    color: white;
+  }
+  &:active {
+    background: #444DF2;
     color: white;
   }
 }
