@@ -1,58 +1,70 @@
+import { ConversationService } from './../../services/conversation-service/conversation.service';
 import { DataService } from './../../services/data-service/data.service';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { MessageInputComponent } from '../message-input/message-input.component';
 import { CommonModule, NgFor } from '@angular/common';
-import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { MessageService } from '../../services/message-service/message.service';
 import { MessagingService } from '../../services/messaging-service/messaging.service';
 import { Observable, Subscription, map } from 'rxjs';
 import { Message } from '../../../models/message.class';
-import { User } from '../../../models/user.class';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-direct-message',
   standalone: true,
-  imports: [
-    MessageInputComponent,
-    CommonModule,
-    NgFor,
-    RouterModule,
-  ],
+  imports: [MessageInputComponent, CommonModule, NgFor, RouterModule],
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
 })
 export class DirectMessageComponent implements OnInit, OnDestroy {
-  conversationId = '30040944-9e8d-4d01-a84b-a03c70ea58c7';
-  threadId = '30040944-9e8d-4d01-a84b-a03c70ea58c7';
+  conversationId: string | null = '30040944-9e8d-4d01-a84b-a03c70ea58c7';
+
   private messageSubscription!: Subscription;
+  private conversationSubscription!: Subscription;
   messages$: Observable<{ [date: string]: Message[] }> | null = null;
-
-  @Input() directMessageVisible:boolean = false;
-  @Input() selectedThreadId: string ="";
-
-  constructor(
-    private messageService: MessageService,
-    private messagingService: MessagingService,
-    private dataService: DataService
-  ) {}
 
   menuVisible: boolean = false;
   hoveredMessageId: string | null = null;
 
+  isVisible: any;
+  @Input() directMessageVisible: boolean = false;
+
+  selectedThreadId: string | null = null;
+
+  constructor(
+    private messageService: MessageService,
+    private messagingService: MessagingService,
+    private dataService: DataService,
+    private conversationService: ConversationService
+  ) { }
+
   ngOnInit(): void {
-    this.messages$ = this.dataService
-      .getSubcollectionUpdates(
-        'threads',
-        this.conversationId,
-        'conversationMessages'
-      )
-      .pipe(
-        // Gruppiere Nachrichten nach Datum
-        map((messages: Message[]) =>
-          this.sortAndGroupMessagesByDayMonthYear(messages)
+    this.conversationSubscription = this.conversationService.chatId$.subscribe(
+      (updatedChatId) => {
+        this.selectedThreadId = updatedChatId;
+      }
+    );
+
+    if (this.conversationId !== null) {
+      this.messages$ = this.dataService
+        .getSubcollectionUpdates(
+          'threads',
+          this.conversationId,
+          'conversationMessages'
         )
-      );
-    // this.messages$ = this.dataService.getCollectionUpdates('messages');
+        .pipe(
+          // Gruppiere Nachrichten nach Datum
+          map((messages: Message[]) =>
+            this.sortAndGroupMessagesByDayMonthYear(messages)
+          )
+        );
+    }
   }
 
   sortByDate(a: any, b: any) {
@@ -98,11 +110,6 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
   onMouseLeave() {
     this.hoveredMessageId = null;
   }
-
-  // Zeigt das Menü für die angeklickte Nachricht an
-  // toggleMenu(message: Message) {
-  //   message.showMenu = !message.showMenu;
-  // }
 
   toggleMenu(messageId: string) {
     if (this.hoveredMessageId === messageId) {
@@ -160,9 +167,16 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
     }
   }
 
+  close() {
+    this.conversationService.closeChat();
+  }
+
   ngOnDestroy() {
     if (this.messageSubscription) {
       this.messageSubscription.unsubscribe(); // Abonnement bei Zerstörung der Komponente aufheben
+    }
+    if (this.conversationSubscription) {
+      this.conversationSubscription.unsubscribe();
     }
   }
 }

@@ -1,9 +1,9 @@
+import { ConversationService } from './../../services/conversation-service/conversation.service';
 import { Component } from '@angular/core';
-import { MainChatComponent } from '../main-chat/main-chat.component';
 import { MainMenuComponent } from '../main-menu/main-menu.component';
 import { DirectMessageComponent } from '../direct-message/direct-message.component';
-import { MessageInputComponent } from '../message-input/message-input.component';
-import { RouterOutlet } from '@angular/router';
+import { ChannelComponent } from "../channel/channel.component";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-desktop',
@@ -11,10 +11,35 @@ import { RouterOutlet } from '@angular/router';
   imports: [
     MainMenuComponent,
     DirectMessageComponent,
-    MessageInputComponent,
-    RouterOutlet,
-  ],
+    ChannelComponent
+],
   templateUrl: './desktop.component.html',
   styleUrl: './desktop.component.scss',
 })
-export class DesktopComponent {}
+export class DesktopComponent {
+
+  threadIsVisible: boolean = false;
+  channelIsVisible: boolean = false;
+  chatId: string | null = null;
+  subscription: Subscription | undefined;
+
+  constructor(private conversationService: ConversationService) { }
+
+  ngOnInit(): void {
+    this.subscription = this.conversationService.chatId$.subscribe((chatId) => {
+      this.chatId = chatId;
+    });
+  }
+
+  ngOnDestroy(): void {
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+  }
+
+
+
+
+}
