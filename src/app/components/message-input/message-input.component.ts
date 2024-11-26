@@ -43,6 +43,7 @@ export class MessageInputComponent implements OnInit {
   user = new User(); //user wird übergeben
   // ACTIVE USER === SENDER
   showEmojiPicker = false;
+  
   constructor(
     private messageService: MessageService,
     private messagingService: MessagingService,
