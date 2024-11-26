@@ -1,15 +1,43 @@
+import { Channel } from './../../../models/channel.class';
 import { DocumentData } from '@angular/fire/firestore';
 import { DataService } from './../data-service/data.service';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Channel } from '../../../models/channel.class';
+import { Observable, Subject } from 'rxjs';
 import { User } from '../../../models/user.class';
 import { ErrorService } from '../error-service/error.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChannelService {
+  /**
+   * A Subject that emits the current channel ID or null.
+   * @type {Subject<number | null>}
+   */
+  private channelIdSubject = new Subject<number | null>();
+
+  /**
+   * An observable that emits the current channel ID or null.
+   * @type {Observable<number | null>}
+   */
+  channelId$ = this.channelIdSubject.asObservable();
+
+  /**
+   * Opens a chat by setting the channel ID.
+   * @param {number} channelId - The ID of the channel to open.
+   * @returns {void}
+   */
+  openChat(channelId: number): void {
+    this.channelIdSubject.next(channelId);
+  }
+
+  /**
+   * Closes the chat by setting the channel ID to null.
+   * @returns {void}
+   */
+  closeChat(): void {
+    this.channelIdSubject.next(null);
+  }
 
   /**
    * Observable that holds updates for channels.
@@ -52,12 +80,11 @@ export class ChannelService {
     try {
       //todo update for subcollection use!
       await this.dataService.setDocument('channels', `${newChannel.id}`, data);
-    }
-    catch (error) {
+    } catch (error) {
       this.error.handleError(error);
-      return false
+      return false;
     }
-    return newChannel.id
+    return newChannel.id;
   }
 
   /**
@@ -68,9 +95,14 @@ export class ChannelService {
    */
   async addMemberToChannel(channelId: string, member: User): Promise<any> {
     try {
-      return await this.dataService.updateArrayInCollection(channelId, 'channels', 'members', member);
+      return await this.dataService.updateArrayInCollection(
+        channelId,
+        'channels',
+        'members',
+        member
+      );
     } catch (error: any) {
-      this.error.showErrorNotification('Some error has orrcured! Try again')
+      this.error.showErrorNotification('Some error has orrcured! Try again');
       console.error(error);
     }
   }
@@ -84,7 +116,7 @@ export class ChannelService {
     try {
       return await this.dataService.getDocument('channels', channelId);
     } catch {
-      this.error.showErrorNotification('Channel could be found.')
+      this.error.showErrorNotification('Channel could be found.');
     }
   }
 
@@ -96,11 +128,14 @@ export class ChannelService {
    */
   async changeChannelName(newName: object, channelId: string) {
     try {
-      return await this.dataService.updateDocument("channels", channelId, newName);
-
+      return await this.dataService.updateDocument(
+        'channels',
+        channelId,
+        newName
+      );
     } catch (error) {
       this.error.showErrorNotification('Channel name could not be changed.');
-      console.error(error)
+      console.error(error);
     }
   }
 
@@ -112,19 +147,27 @@ export class ChannelService {
    */
   async changeChannelDescription(newDescription: object, channelId: string) {
     try {
-      return await this.dataService.updateDocument("channels", channelId, newDescription);
+      return await this.dataService.updateDocument(
+        'channels',
+        channelId,
+        newDescription
+      );
     } catch (error) {
-      this.error.showErrorNotification('Channel description could not be changed.');
-      console.error(error)
+      this.error.showErrorNotification(
+        'Channel description could not be changed.'
+      );
+      console.error(error);
     }
   }
 
-   /**
+  /**
    * Retrieves real-time updates for a channel.
    * @param {string} channelId - The ID of the channel.
    * @returns {Observable<DocumentData | undefined>} - Observable that emits real-time updates.
    */
-  getChannelRealTimeUpdates(channelId: string): Observable<DocumentData | undefined> {
+  getChannelRealTimeUpdates(
+    channelId: string
+  ): Observable<DocumentData | undefined> {
     // Retrieve the observable from the FirestoreService
     return this.dataService.getDocumentRealTimeUpdates('channels', channelId);
   }
@@ -134,7 +177,7 @@ export class ChannelService {
    * @param {string} channelId - The ID of the channel.
    * @returns {Promise<any>} - The result of the operation.
    */
-  async deleteChannel(channelId: string): Promise<any>  {
+  async deleteChannel(channelId: string): Promise<any> {
     try {
       return await this.dataService.deleteDocument('channels', channelId);
     } catch {

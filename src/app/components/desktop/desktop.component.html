@@ -1,6 +1,8 @@
 <header></header>
-<app-main-menu></app-main-menu>
-<!-- <<app-message-input></app-message-input> -->
+
+@if (isMobile && !chatId) {
+  <app-main-menu></app-main-menu>
+}
 
 @if (chatId) {
   <div>
