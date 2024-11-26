@@ -1,3 +1,4 @@
+import { ChannelService } from './../../services/channel-service/channel.service';
 import { ConversationService } from './../../services/conversation-service/conversation.service';
 import { Conversation } from './../../../models/conversation.class';
 import { Component, OnInit, OnDestroy, Output } from '@angular/core';
@@ -25,15 +26,15 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   @Output() selectedChatId: string = '';
+  @Output() selectedChannelId: string = '';
   @Output() selectedChatIsVisible: boolean = false;
-
 
   /**
    * Constructor for the DirectMessageListComponent.
    *
    * @param {ConversationService} chatListService - Service for handling conversation-related operations.
    */
-  constructor(private chatListService: ConversationService) {
+  constructor(private chatListService: ConversationService, private channelService: ChannelService) {
     //* Testing variables
     this.testUser.username = 'Clark Kent';
     this.testUser.avatarUrl = '/assets/img/avatar_small_male_1.svg';
@@ -109,10 +110,25 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Selects a conversation by setting the chat ID and opening the chat.
+   * @param {string} chatId - The ID of the chat to select.
+   * @returns {void}
+   */
   selectConveration(chatId: string) {
     this.selectedChatId = chatId;
     this.chatListService.openChat(chatId);
     // open selected Conversation dialog
+  }
+
+  /**
+   * Selects a channel by setting the channel ID and opening the channel.
+   * @param {string} channelId - The ID of the channel to select.
+   * @returns {void}
+   */
+  selectChannel(channelId: string) {
+    this.selectedChannelId = channelId;
+    this.channelService.openChannel(channelId)
   }
 
 }

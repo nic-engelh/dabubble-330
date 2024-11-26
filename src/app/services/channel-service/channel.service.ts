@@ -12,30 +12,30 @@ import { ErrorService } from '../error-service/error.service';
 export class ChannelService {
   /**
    * A Subject that emits the current channel ID or null.
-   * @type {Subject<number | null>}
+   * @type {Subject<string | null>}
    */
-  private channelIdSubject = new Subject<number | null>();
+  private channelIdSubject = new Subject<string | null>();
 
   /**
    * An observable that emits the current channel ID or null.
-   * @type {Observable<number | null>}
+   * @type {Observable<string | null>}
    */
   channelId$ = this.channelIdSubject.asObservable();
 
   /**
-   * Opens a chat by setting the channel ID.
-   * @param {number} channelId - The ID of the channel to open.
+   * Opens a channel by setting the channel ID.
+   * @param {string} channelId - The ID of the channel to open.
    * @returns {void}
    */
-  openChat(channelId: number): void {
+  openChannel(channelId: string): void {
     this.channelIdSubject.next(channelId);
   }
 
   /**
-   * Closes the chat by setting the channel ID to null.
+   * Closes the channel by setting the channel ID to null.
    * @returns {void}
    */
-  closeChat(): void {
+  closeChannel(): void {
     this.channelIdSubject.next(null);
   }
 
