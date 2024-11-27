@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-message-input',
@@ -43,19 +44,28 @@ export class MessageInputComponent implements OnInit {
   user = new User(); //user wird übergeben
   // ACTIVE USER === SENDER
   showEmojiPicker = false;
-  
+
+  currentUser: any | User;
+
+
   constructor(
     private messageService: MessageService,
     private messagingService: MessagingService,
     private fb: FormBuilder,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private authService: AuthenticationService
   ) {
     this.chatForm = this.fb.group({
       message: ['', [Validators.required, Validators.minLength(1)]],
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.getCurrentUser().subscribe((user) => {
+      this.currentUser = user;
+      console.log(this.currentUser);
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
