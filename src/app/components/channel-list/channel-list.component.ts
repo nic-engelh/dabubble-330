@@ -17,7 +17,7 @@ import { RouterModule } from '@angular/router';
 export class ChannelListComponent implements OnInit, OnDestroy {
 
   isOpen: boolean = true;
-  channels: any[] = [];
+  channel: any[] = [];
 
   channelList: Channel[] =  [];
   private subscription = new Subscription;
@@ -28,10 +28,9 @@ export class ChannelListComponent implements OnInit, OnDestroy {
   getAllChannels() {
     return this.channelService.getAllChannelUpdates().subscribe({
       next: (data) => {
-        this.channels = data;
-        console.log(this.channels);
+        this.channel = data;
         // * Testing - put testUser/testChats into primary cache array
-        this.channelList = this.channels;
+        this.channelList = this.channel;
       },
       error: (error) => {
         console.error(error);

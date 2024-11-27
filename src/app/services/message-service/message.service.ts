@@ -3,12 +3,17 @@ import { DataService } from '../../services/data-service/data.service';
 import { Message } from '../../../models/message.class';
 import { User } from '../../../models/user.class';
 import { Observable } from 'rxjs';
-import { collection, doc, getDoc } from '@angular/fire/firestore';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageService {
+
+  // this service does everything about the message
+  // for example CRUD Message to every Message
+
+
   constructor(private dataService: DataService) {}
 
   // This function creates a new message in the database. It might call DataService to perform the actual database operation.
@@ -20,18 +25,10 @@ export class MessageService {
     let message = new Message();
     message.content = messageText;
     message.sender = sender;
-    console.log('Message', message);
-    //
-    // newMessage.user = inputVal.user
-    // content ....
-
+    console.log('Message from Message-Service', message);
     return message; // newMessage
   }
 
-  createMessageExample(conversationId: string, messageText: string) {
-    return Message; // Promise<Message>
-  }
-  //This function creates a new message in the database. It might call DataService to perform the actual database operation.
 
   //This function retrieves messages for a conversation from the database. It might call DataService to perform the actual database operation.
   getMessagesForConversation(conversationId: string): Observable<Message[]> {
@@ -42,42 +39,7 @@ export class MessageService {
     );
   }
 
-  //   updateMessage(message: Message, conversationId: string): Promise<void> {
-  //     console.log('Updating message with ID:', message.id); // ID überprüfen
-  //     return this.dataService.updateDocumentInSubcollection(
-  //       'threads',
-  //       conversationId,
-  //       'conversationMessages',
-  //       message.id, // Verwende die ID der Nachricht
-  //       {
-  //         content: message.content,  // Übergebe nur die Felder, die du aktualisieren willst
-  //         timestamp: message.timestamp.toISOString(),
-  //         isRead: message.isRead
-  //       }
-  //     );
-  // }
 
-  // updateMessage(message: Message, conversationId: string): Promise<void> {
-  //   console.log('Updating message with ID:', message.id); // Gleiche ID sicherstellen
-
-  //   // Stelle sicher, dass message.timestamp ein Date ist
-  //   const timestamp =
-  //     message.timestamp instanceof Date
-  //       ? message.timestamp
-  //       : new Date(message.timestamp);
-
-  //   return this.dataService.updateDocumentInSubcollection(
-  //     'threads',
-  //     conversationId,
-  //     'conversationMessages',
-  //     message.id, // Verwende die existierende ID
-  //     {
-  //       content: message.content, // Nur die Felder aktualisieren
-  //       timestamp: timestamp.toISOString(),
-  //       isRead: message.isRead,
-  //     }
-  //   );
-  // }
   async updateMessage(message: Message, conversationId: string): Promise<void> {
     console.log('Updating message with ID:', message.id);
 
@@ -132,7 +94,44 @@ export class MessageService {
 
   async updateMessagesConversation() {}
 
+  //   updateMessage(message: Message, conversationId: string): Promise<void> {
+  //     console.log('Updating message with ID:', message.id); // ID überprüfen
+  //     return this.dataService.updateDocumentInSubcollection(
+  //       'threads',
+  //       conversationId,
+  //       'conversationMessages',
+  //       message.id, // Verwende die ID der Nachricht
+  //       {
+  //         content: message.content,  // Übergebe nur die Felder, die du aktualisieren willst
+  //         timestamp: message.timestamp.toISOString(),
+  //         isRead: message.isRead
+  //       }
+  //     );
+  // }
+
+  // updateMessage(message: Message, conversationId: string): Promise<void> {
+  //   console.log('Updating message with ID:', message.id); // Gleiche ID sicherstellen
+
+  //   // Stelle sicher, dass message.timestamp ein Date ist
+  //   const timestamp =
+  //     message.timestamp instanceof Date
+  //       ? message.timestamp
+  //       : new Date(message.timestamp);
+
+  //   return this.dataService.updateDocumentInSubcollection(
+  //     'threads',
+  //     conversationId,
+  //     'conversationMessages',
+  //     message.id, // Verwende die existierende ID
+  //     {
+  //       content: message.content, // Nur die Felder aktualisieren
+  //       timestamp: timestamp.toISOString(),
+  //       isRead: message.isRead,
+  //     }
+  //   );
+  // }
+
+
   //This function deletes a message from the database. It might call DataService to perform the actual database operation.
 }
-// this service does everything about the message
-// for example CRUD Message to every Message!!!
+

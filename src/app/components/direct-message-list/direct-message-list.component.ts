@@ -14,6 +14,12 @@ import { RouterModule } from '@angular/router';
   styleUrl: './direct-message-list.component.scss',
 })
 export class DirectMessageListComponent implements OnInit, OnDestroy {
+
+
+  // @todo Automate the selection of the conversation to which the user is added.
+  // @todo Handle the case where participants are deleted from the chat creator.
+
+
   // * Testing variables
   testThread = new Conversation();
   testUser = new User();
@@ -35,13 +41,6 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
    * @param {ConversationService} chatListService - Service for handling conversation-related operations.
    */
   constructor(private chatListService: ConversationService, private channelService: ChannelService) {
-    //* Testing variables
-    this.testUser.username = 'Clark Kent';
-    this.testUser.avatarUrl = '/assets/img/avatar_small_male_1.svg';
-    this.testThread.participants.push(this.testUser);
-    this.directMessageList.push(this.testThread);
-    this.testThread.participants.push(this.testUser);
-    this.directMessageList.push(this.testThread);
   }
 
   /**
@@ -76,21 +75,6 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
         console.error(error);
       },
     });
-  }
-
-  /**
-   * Adds a user to the first conversation in the list.
-   *
-   * @todo Automate the selection of the conversation to which the user is added.
-   * @todo Handle the case where participants are deleted from the chat creator.
-   */
-  addUserToChat(): void {
-    try {
-      this.conversations[0].push(this.testUser);
-      console.log(this.conversations);
-    } catch (e) {
-      console.error(e);
-    }
   }
 
   /**

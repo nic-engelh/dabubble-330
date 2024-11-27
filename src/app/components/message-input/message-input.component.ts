@@ -1,6 +1,6 @@
 import { User } from './../../../models/user.class';
 import { MessagingService } from './../../services/messaging-service/messaging.service';
-import { Component, ElementRef, HostListener, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Message } from '../../../models/message.class';
 import { Conversation } from '../../../models/conversation.class';
 import { MessageService } from '../../services/message-service/message.service';
@@ -17,6 +17,8 @@ import {
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+import { ConversationService } from '../../services/conversation-service/conversation.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-message-input',
@@ -31,8 +33,14 @@ import { AuthenticationService } from '../../services/authentication-service/aut
   templateUrl: './message-input.component.html',
   styleUrl: './message-input.component.scss',
 })
-export class MessageInputComponent implements OnInit {
+export class MessageInputComponent implements OnInit, OnDestroy {
+  // testing
   threadId = '30040944-9e8d-4d01-a84b-a03c70ea58c7'; // Will be given
+
+  // Current logged in and google auth verified User
+  currentUser: any | User;
+  private conversationSubscription!: Subscription;
+  selectedThreadId: string | any;
   chatForm: FormGroup;
   messages: string[] = [];
   // collection "threads"
@@ -41,11 +49,9 @@ export class MessageInputComponent implements OnInit {
 
   // form values = content and user
   formInputValues: any;
-  user = new User(); //user wird übergeben
   // ACTIVE USER === SENDER
   showEmojiPicker = false;
 
-  currentUser: any | User;
 
 
   constructor(
@@ -53,7 +59,8 @@ export class MessageInputComponent implements OnInit {
     private messagingService: MessagingService,
     private fb: FormBuilder,
     private elementRef: ElementRef,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private conversationService: ConversationService
   ) {
     this.chatForm = this.fb.group({
       message: ['', [Validators.required, Validators.minLength(1)]],
@@ -61,15 +68,15 @@ export class MessageInputComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe((user) => {
-      this.currentUser = user;
-      console.log(this.currentUser);
+    this.authService.getCurrentUser().subscribe((fireAuthUser) => {
+      this.currentUser = fireAuthUser;
+      console.log("from Message-Input: ", this.currentUser);
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
+    this.conversationSubscription = this.conversationService.chatId$.subscribe(
+      (updatedChatId) => {
+        this.selectedThreadId = updatedChatId;
+      }
+    );
   }
 
   toggleEmojiPicker() {
@@ -101,13 +108,19 @@ export class MessageInputComponent implements OnInit {
   sendMessage() {
     if (this.chatForm.valid) {
       const newMessage = this.messageService.createMessage(
-        this.threadId,
+        this.selectedThreadId,
         this.formInputValues,
-        this.user
+        this.currentUser
       );
 
-      this.messagingService.setMessagetoConversation(this.threadId, newMessage);
+      this.messagingService.setMessagetoConversation(this.selectedThreadId, newMessage);
     }
     this.chatForm.reset();
+  }
+
+  ngOnDestroy() {
+    if (this.conversationSubscription) {
+      this.conversationSubscription.unsubscribe();
+    }
   }
 }
