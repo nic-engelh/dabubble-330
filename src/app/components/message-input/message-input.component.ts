@@ -37,7 +37,7 @@ export class MessageInputComponent implements OnInit, OnDestroy {
   // testing
   threadId = '30040944-9e8d-4d01-a84b-a03c70ea58c7'; // Will be given
 
-  // Current logged in and google auth verified User
+  // Current logged in and google auth verified User; current User is message sender
   currentUser: any | User;
   private conversationSubscription!: Subscription;
   selectedThreadId: string | any;
@@ -47,9 +47,7 @@ export class MessageInputComponent implements OnInit, OnDestroy {
   // subcollection: "messages"
   // path threads/30040944-9e8d-4d01-a84b-a03c70ea58c7/messages
 
-  // form values = content and user
   formInputValues: any;
-  // ACTIVE USER === SENDER
   showEmojiPicker = false;
 
 

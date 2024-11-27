@@ -20,10 +20,6 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
   // @todo Handle the case where participants are deleted from the chat creator.
 
 
-  // * Testing variables
-  testThread = new Conversation();
-  testUser = new User();
-
   // ! essential variables
   isOpen: boolean = true;
   conversations: any[] = [];
@@ -60,15 +56,6 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
     return this.chatListService.getAllConversationUpdates().subscribe({
       next: (data) => {
         this.conversations = data;
-
-        // *Testing - adding test user to array
-        this.conversations.forEach((conversation) => {
-          if (!conversation.participants.includes(this.testUser)) {
-            conversation.participants.push(this.testUser);
-          }
-        });
-        console.log(this.conversations);
-        // * Testing - put testUser/testChats into primary cache array
         this.directMessageList = this.conversations;
       },
       error: (error) => {

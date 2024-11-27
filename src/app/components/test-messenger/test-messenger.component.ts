@@ -24,6 +24,8 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
   threadMessageSub: Subscription = new Subscription();
   conversationSub: Subscription = new Subscription();
 
+  testChannelId:string = " 30040944-9e8d-4d01-a84b-a03c70ea58c7 "
+
 
   constructor(private dataService: DataService) {
     this.user.username = 'Spiderman';
