@@ -18,7 +18,7 @@ export class Message {
     return {
       id: this.id,
       content: this.content,
-      sender: this.sender.toJson(),
+      sender: this.sender,
       timestamp: this.timestamp.toISOString(),
       isRead: this.isRead,
       conversationId: this.conversationId,

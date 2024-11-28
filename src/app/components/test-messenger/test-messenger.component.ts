@@ -1,12 +1,14 @@
+import { User } from './../../../models/user.class';
 import { Component } from '@angular/core';
 import { DataService } from '../../services/data-service/data.service';
 import { CommonModule } from '@angular/common';
-import { User } from '../../../models/user.class';
 import { Observable, Subscriber, Subscription } from 'rxjs';
 import { OnInit, OnDestroy } from '@angular/core';
 import { Conversation } from '../../../models/conversation.class';
 import { Channel } from '../../../models/channel.class';
 import { RouterModule } from '@angular/router';
+import { Message } from '../../../models/message.class';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-test-messenger',
@@ -16,27 +18,40 @@ import { RouterModule } from '@angular/router';
   styleUrl: './test-messenger.component.scss',
 })
 export class TestMessengerComponent implements OnInit, OnDestroy {
-  user = new User();
+  memberId = '1PaAy4wuImYE4ydM0u3H';
   userSub: Subscription = new Subscription();
+  user: User = new User();
   data: any;
   thread = new Conversation();
   channel = new Channel();
   threadMessageSub: Subscription = new Subscription();
   conversationSub: Subscription = new Subscription();
+  memberData: any;
+  testMessage: Message = new Message();
 
-  testChannelId:string = " 30040944-9e8d-4d01-a84b-a03c70ea58c7 "
+  currentUser: User = new User();
+
+  testChatId: string = '30040944-9e8d-4d01-a84b-a03c70ea58c7'
 
 
-  constructor(private dataService: DataService) {
-    this.user.username = 'Spiderman';
-    this.thread.name = 'Deeptalk';
-    this.channel.name = 'Justice League'
+  constructor(private dataService: DataService, private authService: AuthenticationService, ) {
+
   }
 
-  ngOnInit(): void {
-    this.getAllUserUpdates();
-    this.getAllConversationUpdates();
-    this.getConversationMessageUpdates();
+  async ngOnInit(): Promise<void> {
+    this.authService.getCurrentUser().subscribe((fireAuthUser) => {
+
+      this.currentUser.username = fireAuthUser.displayName || '';
+      this.currentUser.email = fireAuthUser.email || '';
+      this.currentUser.id = fireAuthUser.id || '';
+      this.currentUser.updateTimestamp();
+
+      console.log("from Message-Input: ", fireAuthUser);
+    });
+    await this.getConversationMessageUpdates();
+    await this.getUser();
+    await this.createMessage();
+    await this.addTestMessagetoThread()
   }
 
   async saveUser() {
@@ -49,21 +64,31 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
     this.channel.conversations.push(this.thread);
     this.channel.members.push(this.user);
     const data = this.channel.toJson();
-    await this.dataService.setDocument('channels',`${this.channel.id}`, data);
+    await this.dataService.setDocument('channels', `${this.channel.id}`, data);
   }
 
   async getUser() {
     try {
       const data = await this.dataService.getDocument(
-        'users',
-        `${this.user.id}`
+        'members',
+        `${this.memberId}`
       );
-      console.log(data);
-      this.data = data;
+      console.log("Member Data from Test", data);
+      this.memberData = data;
     } catch (error) {
       console.error('Error retrieving document:', error);
     }
   }
+
+
+  createMessage() {
+    let content: string = "Hallo, dass ich die zweite Nachricht.";
+    let sender: any = this.currentUser.toJson();
+    this.testMessage.content = content;
+    this.testMessage.sender = sender;
+    console.log("test message content:", this.testMessage);
+  }
+
 
   async saveThread() {
     const data = this.thread.toJson();
@@ -74,18 +99,32 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
     try {
       const data = await this.dataService.getDocument(
         'threads',
-        `${this.thread.id}`
+        `${this.testChatId}`
       );
-      console.log(data);
+      console.log("Test Chat data from Test:", data);
       this.data = data;
     } catch (error) {
       console.error('Error retrieving document:', error);
     }
   }
 
+
+  async addTestMessagetoThread() {
+    const threadId = this.testChatId;
+    const userId = this.memberId;
+    const messageData = this.testMessage.toJson();
+    await this.dataService.addDocumentToSubcollection(
+      'threads',
+      threadId,
+      'conversationMessages',
+      this.testMessage.id,
+      messageData
+    );
+  }
+
   async setUsertoThread() {
-    const threadId = '852b5738-7ed3-4878-accb-e330ad9108ca';
-    const userId = this.user.id;
+    const threadId = this.testChatId;
+    const userId = this.memberId;
     const userData = this.user.toJson();
     const threadData = this.thread.toJson();
     await this.dataService.addDocumentToSubcollection(

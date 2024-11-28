@@ -8,7 +8,7 @@ export class User {
     public avatarUrl: string | undefined = '',
     public createdAt: Date = new Date(),
     public updatedAt: Date = new Date(),
-    private searchName: string = "",
+    private searchName: string = '',
   ) {
     this.id = uuidv4();
   }
@@ -21,9 +21,14 @@ export class User {
       avatarUrl: this.avatarUrl,
       createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt.toISOString(),
+      searchName: this.username.toLowerCase()
     };
   }
   static fromData(data: any): User {
     return new User(data.id, data.name, data.email);
+  }
+
+  updateTimestamp () {
+    this.updatedAt = new Date();
   }
 }
