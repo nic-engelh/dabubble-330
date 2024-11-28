@@ -30,34 +30,46 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
   testMessage: Message = new Message();
 
   currentUser: User = new User();
+  fireUser: any;
 
-  testChatId: string = '30040944-9e8d-4d01-a84b-a03c70ea58c7'
+  testChatId: string = '30040944-9e8d-4d01-a84b-a03c70ea58c7';
 
-
-  constructor(private dataService: DataService, private authService: AuthenticationService, ) {
-
-  }
+  constructor(
+    private dataService: DataService,
+    private authService: AuthenticationService
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.authService.getCurrentUser().subscribe((fireAuthUser) => {
-
-      this.currentUser.username = fireAuthUser.displayName || '';
-      this.currentUser.email = fireAuthUser.email || '';
-      this.currentUser.id = fireAuthUser.id || '';
-      this.currentUser.updateTimestamp();
-
-      console.log("from Message-Input: ", fireAuthUser);
+      this.fireUser = fireAuthUser;
     });
-    await this.getConversationMessageUpdates();
-    await this.getUser();
-    await this.createMessage();
-    await this.addTestMessagetoThread()
+    console.log("fireUser: ", this.fireUser);
+    console.log("currentUser: ", this.currentUser);
+
+
+    this.currentUser.username = this.fireUser.displayName || '';
+    this.currentUser.email = this.fireUser.email || '';
+    this.currentUser.id = this.fireUser.uiid || '';
+    this.currentUser.updateTimestamp();
+    this.currentUser.toJson();
+
+
+    this.getConversationMessageUpdates();
+    await this.getMember();
+    await this.addParticipantsToChat();
+    //await this.createMessage();
+    //await this.addTestMessagetoThread();
   }
 
   async saveUser() {
     const data = this.user.toJson();
     await this.dataService.setDocument('users', `${this.user.id}`, data);
   }
+
+  printCurrentUser () {
+    console.log("Current User:", this.fireUser);
+  }
+
 
   async saveChannel() {
     this.channel.createdBy.push(this.user);
@@ -67,28 +79,40 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
     await this.dataService.setDocument('channels', `${this.channel.id}`, data);
   }
 
-  async getUser() {
+  async getMember() {
     try {
       const data = await this.dataService.getDocument(
         'members',
         `${this.memberId}`
       );
-      console.log("Member Data from Test", data);
+      console.log('Member Data from Test', data);
       this.memberData = data;
     } catch (error) {
       console.error('Error retrieving document:', error);
     }
   }
 
+  async addParticipantsToChat() {
+
+
+
+    try {
+      this.dataService.updateArrayInCollection(this.testChatId, 'threads', 'participants', this.currentUser)
+    } catch (error) {
+      console.error(error)
+
+    }
+    //this.dataService.updateArrayInCollection(this.testChatId, 'threads', 'participants', this.memberData)
+
+  }
 
   createMessage() {
-    let content: string = "Hallo, dass ich die zweite Nachricht.";
+    let content: string = 'Hallo, dass ich die zweite Nachricht.';
     let sender: any = this.currentUser.toJson();
     this.testMessage.content = content;
     this.testMessage.sender = sender;
-    console.log("test message content:", this.testMessage);
+    console.log('test message content:', this.testMessage);
   }
-
 
   async saveThread() {
     const data = this.thread.toJson();
@@ -101,13 +125,12 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
         'threads',
         `${this.testChatId}`
       );
-      console.log("Test Chat data from Test:", data);
+      console.log('Test Chat data from Test:', data);
       this.data = data;
     } catch (error) {
       console.error('Error retrieving document:', error);
     }
   }
-
 
   async addTestMessagetoThread() {
     const threadId = this.testChatId;
