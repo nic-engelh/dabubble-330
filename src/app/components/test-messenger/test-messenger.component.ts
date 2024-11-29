@@ -18,7 +18,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
   styleUrl: './test-messenger.component.scss',
 })
 export class TestMessengerComponent implements OnInit, OnDestroy {
-  memberId = '1PaAy4wuImYE4ydM0u3H';
+  memberId = '8hj6zIRM86tUWql0PKzJ';
   userSub: Subscription = new Subscription();
   user: User = new User();
   data: any;
@@ -47,16 +47,9 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
     console.log("currentUser: ", this.currentUser);
 
 
-    this.currentUser.username = this.fireUser.displayName || '';
-    this.currentUser.email = this.fireUser.email || '';
-    this.currentUser.id = this.fireUser.uiid || '';
-    this.currentUser.updateTimestamp();
-    this.currentUser.toJson();
-
-
     this.getConversationMessageUpdates();
     await this.getMember();
-    await this.addParticipantsToChat();
+    //await this.addParticipantsToChat();
     //await this.createMessage();
     //await this.addTestMessagetoThread();
   }
@@ -66,8 +59,17 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
     await this.dataService.setDocument('users', `${this.user.id}`, data);
   }
 
-  printCurrentUser () {
+  printCurrentUser() {
     console.log("Current User:", this.fireUser);
+  }
+
+  transfromFireUserToCurrenUser() {
+    this.currentUser.username = this.fireUser.displayName || '';
+    this.currentUser.email = this.fireUser.email || '';
+    this.currentUser.id = this.fireUser.uiid || '';
+    this.currentUser.updateTimestamp();
+    this.currentUser = this.currentUser.toJson();
+    console.log("after transform:", this.currentUser)
   }
 
 
@@ -93,8 +95,6 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
   }
 
   async addParticipantsToChat() {
-
-
 
     try {
       this.dataService.updateArrayInCollection(this.testChatId, 'threads', 'participants', this.currentUser)
