@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { DataService } from '../data-service/data.service';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConversationService {
   private conversationUpdates$: Observable<any>;
-  private chatIdSubject = new Subject<string | null>();
+  private chatIdSubject = new BehaviorSubject<string | null>(null);
   chatId$ = this.chatIdSubject.asObservable();
 
 
@@ -26,6 +26,10 @@ export class ConversationService {
 
   closeChat(): void {
     this.chatIdSubject.next(null);
+  }
+
+  getCurrentChatId(): string | null {
+    return this.chatIdSubject.getValue();
   }
 
   // todo: saveChat(), getChat(), updateChat(), deleteChat()

@@ -68,11 +68,11 @@ export class MessageInputComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe((fireAuthUser) => {
       this.currentUser = fireAuthUser;
-      console.log("from Message-Input: ", this.currentUser);
     });
     this.conversationSubscription = this.conversationService.chatId$.subscribe(
       (updatedChatId) => {
         this.selectedThreadId = updatedChatId;
+
       }
     );
   }

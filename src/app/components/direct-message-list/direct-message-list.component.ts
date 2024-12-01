@@ -89,7 +89,6 @@ export class DirectMessageListComponent implements OnInit, OnDestroy {
   selectConveration(chatId: string) {
     this.selectedChatId = chatId;
     this.chatListService.openChat(chatId);
-    // open selected Conversation dialog
   }
 
   /**

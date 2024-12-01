@@ -14,7 +14,7 @@ export class MessageService {
   // for example CRUD Message to every Message
 
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService) { }
 
   // This function creates a new message in the database. It might call DataService to perform the actual database operation.
   createMessage(
@@ -24,10 +24,11 @@ export class MessageService {
   ): Message {
     let message = new Message();
     message.content = messageText;
-    message.sender = sender;
+    message.sender = this.transformFireUsertoBubbleUser(sender);
     console.log('Message from Message-Service', message);
     return message; // newMessage
   }
+
 
 
   //This function retrieves messages for a conversation from the database. It might call DataService to perform the actual database operation.
@@ -39,6 +40,35 @@ export class MessageService {
     );
   }
 
+  /**
+ * Transforms a Firebase user object into a Bubbel user object.
+ *
+ * @param {any} fireUser - The Firebase user object to be transformed.
+ * @returns {Object} - The transformed Bubbel user object in JSON format.
+ *
+ * @example
+ * const fireUser = {
+ *   uid: "12345",
+ *   displayName: "John Doe",
+ *   email: "john.doe@example.com",
+ *   photoURL: "https://example.com/avatar.jpg"
+ * };
+ * const bubbelUser = transformFireUsertoBubbleUser(fireUser);
+ * console.log(bubbelUser);
+ * // Output: { id: "12345", username: "John Doe", email: "john.doe@example.com", avatarUrl: "https://example.com/avatar.jpg" }
+ */
+  transformFireUsertoBubbleUser(fireUser: any) {
+    let newBubbelUser = new User();
+    if (fireUser !== User) {
+      newBubbelUser.avatarUrl = fireUser.photoURL || "";
+      newBubbelUser.id = fireUser.uid || "";
+      newBubbelUser.username = fireUser.displayName;
+      newBubbelUser.email = fireUser.email;
+      return newBubbelUser.toJson();
+    } else {
+      return fireUser
+    }
+  }
 
   async updateMessage(message: Message, conversationId: string): Promise<void> {
     console.log('Updating message with ID:', message.id);
@@ -92,7 +122,7 @@ export class MessageService {
     );
   }
 
-  async updateMessagesConversation() {}
+  async updateMessagesConversation() { }
 
   //   updateMessage(message: Message, conversationId: string): Promise<void> {
   //     console.log('Updating message with ID:', message.id); // ID überprüfen
