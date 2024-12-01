@@ -1,7 +1,7 @@
 .messageMainContainer {
   width: 100%;
   max-width: 100svw;
-  max-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,6 +26,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      gap: 10px;
+      height: 36px;
     }
 
     .lineDate {
@@ -54,6 +56,7 @@
       &:hover .menu {
         border: 1px solid #ADB0D9;
       }  
+      
       
       
 

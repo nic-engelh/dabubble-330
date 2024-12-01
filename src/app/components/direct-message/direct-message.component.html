@@ -1,4 +1,5 @@
 <div class="messageMainContainer" [hidden]="!directMessageVisible">
+  <app-header-message-chat></app-header-message-chat>
   <div class="chatBox">
     <div *ngIf="messages$ | async as groupedMessages" class="chatContent">
       <!-- Iteriere über die Gruppierungen nach Datum -->
@@ -20,6 +21,8 @@
         <div
           *ngFor="let message of group.value"
           class="bubbleChatBackground"
+          [class.ownMessage]="message.sender.id === currentUserId"
+          [class.otherMessage]="message.sender.id !== currentUserId"
           (mouseover)="hoveredMessageId = message.id"
           (mouseleave)="hoveredMessageId = null"
     >

@@ -13,12 +13,13 @@ import { MessagingService } from '../../services/messaging-service/messaging.ser
 import { Observable, Subscription, map } from 'rxjs';
 import { Message } from '../../../models/message.class';
 import { RouterModule } from '@angular/router';
+import { HeaderMessageChatComponent } from '../header-message-chat/header-message-chat.component';
 
 
 @Component({
   selector: 'app-direct-message',
   standalone: true,
-  imports: [MessageInputComponent, CommonModule, NgFor, RouterModule],
+  imports: [MessageInputComponent, CommonModule, NgFor, RouterModule, HeaderMessageChatComponent],
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
 })
@@ -36,6 +37,7 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
   @Input() directMessageVisible: boolean = false;
 
   selectedThreadId: string | null = null;
+  currentUserId: string = 'Sofia Müller';
 
   constructor(
     private messageService: MessageService,

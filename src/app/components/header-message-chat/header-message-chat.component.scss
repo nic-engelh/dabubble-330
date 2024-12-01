@@ -1,0 +1,21 @@
+header {
+    position: fixed;
+    top: 0;
+    width: 100svw;
+    display: flex;
+    align-items: center;
+    padding: 10px 16px 10px 16px;
+    gap: 20px;
+    background-color: #fff;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08);
+    .wrapper{
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 4px 8px 4px 0;
+        >img {
+            height: 50px;
+        }
+    }
+    
+}

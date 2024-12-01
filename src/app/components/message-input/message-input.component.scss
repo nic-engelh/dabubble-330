@@ -1,5 +1,5 @@
 .message-container {
-  position: relative;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 20px;
@@ -12,6 +12,7 @@
   // padding: 20px;
   display: flex;
   align-items: center;
+  background-color: #fff;
 
   form {
     min-width: 320px;
