@@ -24,6 +24,7 @@ export class UserDataService {
 
   constructor() {
     // Listen for authentication state changes
+    // TODO use a pipe and map to tranform fireUser to bubbleUser
     onAuthStateChanged(this.auth, (user) => {
       this.userSubject.next(user);
     });
