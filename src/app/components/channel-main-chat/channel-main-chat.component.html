@@ -1,1 +1,39 @@
-<p>channel-main-chat works!</p>
+<section>
+
+  <header>
+    <p># Entwicklerteam</p>
+    <button class="unbottunize">
+      <img src="" alt="">
+    </button>
+
+    <button>
+      <img src="" alt="add member">
+
+    </button>
+  </header>
+  <div id="channel-thread-list-container">
+
+
+    @if (channelThreads) {
+
+      @for (conversation of channelThreads; track $index) {
+
+        <div id="thread-box">
+
+        </div>
+
+      }
+    }
+    @else {
+      <p>Keine Unterhaltungen vorhanden.</p>
+    }
+
+
+  </div>
+
+<div id="message-input">
+
+
+</div>
+</section>
+
