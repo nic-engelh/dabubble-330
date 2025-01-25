@@ -1,22 +1,35 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ChannelService } from '../../services/channel-service/channel.service';
-import { Subscription } from 'rxjs';
+import { EMPTY, Subscription, switchMap, tap } from 'rxjs';
+import { DocumentData } from '@angular/fire/firestore';
+import { User } from '../../../models/user.class';
 
-
+/**
+ * Component responsible for displaying and managing the main chat interface for channels.
+ * Handles real-time updates for the currently active channel and user authentication state.
+ *
+ * @component
+ * @implements {OnInit}, {OnDestroy}
+ */
 @Component({
   selector: 'app-channel-main-chat',
   standalone: true,
   imports: [],
   templateUrl: './channel-main-chat.component.html',
-  styleUrl: './channel-main-chat.component.scss'
+  styleUrl: './channel-main-chat.component.scss',
 })
 export class ChannelMainChatComponent implements OnInit, OnDestroy {
   channelThreads: any;
-  currentUser: any;
-  currentChannelId: any;
-  private channelSubscription!: Subscription;
-
+  currentUser: User | null = null;
+  currentChannelId: string | null = null;
+  channelData: DocumentData | undefined;
+   /**
+   * Composite subscription container for managing all component subscriptions.
+   * @type {Subscription}
+   * @private
+   */
+   private subscriptions: Subscription = new Subscription();
 
   /*
   TODO
@@ -35,29 +48,69 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   -clicking on message opens up options as a modal above it
   */
 
-
+  /**
+   * Creates an instance of ChannelMainChatComponent.
+   * @param {ChannelService} channelService - Service for channel-related operations
+   * @param {AuthenticationService} authService - Service for authentication operations
+   */
   constructor(
     private channelService: ChannelService,
-    private authService: AuthenticationService) { }
+    private authService: AuthenticationService
+  ) {}
 
-
+  /**
+   * Initializes the component and sets up subscriptions:
+   * - Authentication state subscription
+   * - Channel ID changes subscription
+   * - Real-time channel data updates
+   * @inheritdoc
+   */
   ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe((user) => {
-      this.currentUser = user;
+    this.initializeUserSubscription();
+    this.initializeChannelSubscriptions();
+  }
+
+  /**
+   * Sets up subscription for authenticated user state changes.
+   * @private
+   */
+  private initializeUserSubscription(): void {
+    this.subscriptions.add(
+      this.authService.getCurrentUser().subscribe((user) => {
+        this.currentUser = user;
+      })
+    );
+  }
+
+  /**
+   * Configures subscriptions for channel ID changes and real-time data updates.
+   * Uses switchMap to ensure proper cleanup of previous channel subscriptions.
+   * @private
+   */
+  private initializeChannelSubscriptions(): void {
+    const channelUpdatesSub = this.channelService.channelId$.pipe(
+      tap((channelId) => {
+        this.currentChannelId = channelId;
+      }),
+      switchMap((channelId) => {
+        if (!channelId) return EMPTY;
+        return this.channelService.getChannelRealTimeUpdates(channelId);
+      })
+    ).subscribe({
+      next: (data) => {
+        this.channelData = data;
+      },
+      error: (err) => console.error('Error fetching channel updates:', err),
     });
-    this.channelSubscription = this.channelService.channelId$.subscribe((channelId) => {
-      this.currentChannelId = channelId;
-    })
+
+    this.subscriptions.add(channelUpdatesSub);
   }
 
-
-
-
-  ngOnDestroy() {
-    if (this.channelSubscription) {
-      this.channelSubscription.unsubscribe();
-    }
+  /**
+   * Cleans up component subscriptions to prevent memory leaks.
+   * @inheritdoc
+   */
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
-
-
 }
