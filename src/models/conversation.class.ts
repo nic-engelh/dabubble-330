@@ -10,7 +10,8 @@ export class Conversation {
     public creator: User = new User,
     public createdAt: Date = new Date(),
     public updatedAt: Date = new Date(),
-    public lastMessage?: Message
+    public firstMessage?: Message,
+    public numberOfMessages: number = 0,
   ) {
     this.id = uuidv4();
   }
@@ -23,7 +24,8 @@ export class Conversation {
       creator: this.creator.toJson(),
       createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt.toISOString(),
-      lastMessage: this.lastMessage ? this.lastMessage.toJson() : null
+      firstMessage: this.firstMessage ? this.firstMessage.toJson() : null,
+      numberOfMessages: this.numberOfMessages
     };
   }
 }

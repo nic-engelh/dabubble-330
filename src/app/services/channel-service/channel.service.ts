@@ -2,7 +2,7 @@ import { Channel } from './../../../models/channel.class';
 import { DocumentData } from '@angular/fire/firestore';
 import { DataService } from './../data-service/data.service';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { User } from '../../../models/user.class';
 import { ErrorService } from '../error-service/error.service';
 
@@ -56,7 +56,7 @@ export class ChannelService {
   }
 
   /**
-   * Retrieves all channel updates as an observable.
+   * Retrieves all channel updates as an observable. No subcollections are returned.
    * @returns {Observable<any>} - Observable that emits channel updates.
    */
   getAllChannelUpdates(): Observable<any> {
@@ -161,7 +161,7 @@ export class ChannelService {
   }
 
   /**
-   * Retrieves real-time updates for a channel.
+   * Retrieves real-time updates for a channel but not from subcollections
    * @param {string} channelId - The ID of the channel.
    * @returns {Observable<DocumentData | undefined>} - Observable that emits real-time updates.
    */
@@ -184,4 +184,14 @@ export class ChannelService {
       this.error.showErrorNotification('Channel could not be deleted.');
     }
   }
+
+  // Emits threads for the active channel
+  activeChannelThreads$: Observable<Thread[]> = this.activeChannelId.pipe(
+    switchMap((channelId) =>
+      this.dataService.getSubcollection<Thread>(`channels/${channelId}`, 'channelThreads')
+    )
+  );
+
+
+
 }

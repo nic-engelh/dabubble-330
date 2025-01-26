@@ -14,6 +14,8 @@ export class MessagingService {
     messageService: MessageService
   ) {}
 
+  //todo if its the first message of a conversation put in into conversation.firstMessage[]
+
   async setMessagetoConversation(threadId: string, messageData: Message) {
     const messageId = messageData.id;
     const messageDataJson = messageData.toJson();

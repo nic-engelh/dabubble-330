@@ -35,17 +35,19 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   TODO
   on opening:
   -get active channel (channel-service)
-  -read channelThreads into variables
-  -read first threads-conversationMessages and corresponding sender for each channelThread
+  -read channelThreads into variables (via conversation-serivce)
+  -read first threads-conversationMessages and corresponding sender for each channelThread (via conversation-service)
   -render channelthreads in hmtl (logged user to right, member to the left)
   -implement emoji function and array in the message/thread class
 
   on using:
-  -sending a new channelThread-Message, creates a new thread within the channel AND in collection "threads"
-  -each message is saved collectivley within message-collection (at to comp: message-input or message-service)
+  -sending a new channelThread-Message, creates a new thread within the channel AND in collection "threads" (via conversation-serivce or messaing-service)
+  -each message is saved collectivley within message-collection (at to compo: message-input or message-service)
   -updates messages in each collection --> messages-service
   -clicking on "antworten" opens corresponding conversation/thread as modal or so.
   -clicking on message opens up options as a modal above it
+
+  check: https://chat.deepseek.com/a/chat/s/114178c3-0ef9-4ced-a463-1255c3205251
   */
 
   /**
