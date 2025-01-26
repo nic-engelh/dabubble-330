@@ -2,7 +2,7 @@ import { Channel } from './../../../models/channel.class';
 import { DocumentData } from '@angular/fire/firestore';
 import { DataService } from './../data-service/data.service';
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { filter, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
 import { User } from '../../../models/user.class';
 import { ErrorService } from '../error-service/error.service';
 
@@ -185,13 +185,16 @@ export class ChannelService {
     }
   }
 
-  // Emits threads for the active channel
-  activeChannelThreads$: Observable<Thread[]> = this.activeChannelId.pipe(
-    switchMap((channelId) =>
-      this.dataService.getSubcollection<Thread>(`channels/${channelId}`, 'channelThreads')
+  /**
+ * Stream of active channel threads. Automatically switches to latest channel ID,
+ * ignoring null/undefined values to prevent invalid requests.
+ * @type {Observable<any>}
+ */
+  activeChannelThreads$: Observable<any> = this.channelId$.pipe(
+    filter(channelId => channelId != null),
+    switchMap(channelId =>
+      this.dataService.getSubcollectionUpdates(`channels`, channelId, 'channelThreads')
     )
   );
-
-
 
 }
