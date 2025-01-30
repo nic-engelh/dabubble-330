@@ -1,3 +1,4 @@
+import { Conversation } from './../../../models/conversation.class';
 import { Channel } from './../../../models/channel.class';
 import { DocumentData } from '@angular/fire/firestore';
 import { DataService } from './../data-service/data.service';
@@ -197,4 +198,12 @@ export class ChannelService {
     )
   );
 
+  async createChannelThread(channelId: string, channelThreadId:string, data:Conversation ): Promise<any> {
+    //channelThreadId is withn the Conversation.id or data.id
+    try {
+      return await this.dataService.setDocumentToSubcollection("channels", channelId, "channelThreads", channelThreadId, data);
+    } catch {
+      this.error.showErrorNotification('Channel could not be created.');
+    }
+  }
 }

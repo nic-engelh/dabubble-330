@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DataService } from '../../services/data-service/data.service';
 import { Message } from '../../../models/message.class';
 import { MessageService } from '../message-service/message.service';
-import { Observable, map } from 'rxjs';
+import { EMPTY, Observable, map } from 'rxjs';
 import { User } from '../../../models/user.class';
 
 @Injectable({
@@ -15,6 +15,8 @@ export class MessagingService {
   ) {}
 
   //todo if its the first message of a conversation put in into conversation.firstMessage[]
+
+
 
   async setMessagetoConversation(threadId: string, messageData: Message) {
     const messageId = messageData.id;
@@ -45,6 +47,14 @@ export class MessagingService {
       'conversationMessages'
     );
   }
+
+  async setMessageToChannelThread(channelId: string, channelThreadId: string, messageData: Message): Promise <any> {
+    //todo
+    return EMPTY
+  }
+
+  
+
 }
 
 // This Service is used get full conversation in the subcollection!!
