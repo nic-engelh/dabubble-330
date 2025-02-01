@@ -4,6 +4,7 @@ import { Message } from '../../../models/message.class';
 import { MessageService } from '../message-service/message.service';
 import { EMPTY, Observable, map } from 'rxjs';
 import { User } from '../../../models/user.class';
+import { ErrorService } from '../error-service/error.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +12,11 @@ import { User } from '../../../models/user.class';
 export class MessagingService {
   constructor(
     private dataService: DataService,
-    messageService: MessageService
+    messageService: MessageService,
+    private error: ErrorService
   ) {}
 
   //todo if its the first message of a conversation put in into conversation.firstMessage[]
-
-
 
   async setMessagetoConversation(threadId: string, messageData: Message) {
     const messageId = messageData.id;
@@ -28,6 +28,27 @@ export class MessagingService {
       messageId,
       messageDataJson
     );
+  }
+
+  async setMessagetoChannelThread(
+    channelId: string,
+    channelThreadId: string,
+    message: Message
+  ) {
+    try {
+      await this.dataService.addDocumentToSubSubcollection(
+        'channels',
+        channelId,
+        'channelThreads',
+        channelThreadId,
+        'conversationMessages',
+        message.id,
+        message
+      );
+    } catch (error: any) {
+      this.error.showErrorNotification('Message could not be set to document');
+      console.error(error);
+    }
   }
 
   //This function sends a message to a conversation. It might call MessageService to create the message, and then update the conversation accordingly.
@@ -48,13 +69,14 @@ export class MessagingService {
     );
   }
 
-  async setMessageToChannelThread(channelId: string, channelThreadId: string, messageData: Message): Promise <any> {
+  async setMessageToChannelThread(
+    channelId: string,
+    channelThreadId: string,
+    messageData: Message
+  ): Promise<any> {
     //todo
-    return EMPTY
+    return EMPTY;
   }
-
-  
-
 }
 
 // This Service is used get full conversation in the subcollection!!

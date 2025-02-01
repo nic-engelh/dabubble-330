@@ -175,9 +175,9 @@ export class DataService {
       // Reference to the collecition wihtin Subcollection
       const subSubDocRef = doc(this.database, mainCollectionName, mainDocumentId, subcollectionName, subDocId, subSubCollectionName, subSubDocId);
       await setDoc(subSubDocRef, data);
-      console.log('Document added successfully to subcollection');
+      console.log('Document added successfully to sub-subcollection');
     } catch (error) {
-      console.error('Error adding document to subcollection:', error);
+      console.error('Error adding document to sub-subcollection:', error);
       throw error;
     }
   }
