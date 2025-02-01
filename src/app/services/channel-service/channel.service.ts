@@ -198,16 +198,18 @@ export class ChannelService {
     )
   );
 
-  async createChannelThread(channelId: string, activeUser: User, data: Conversation): Promise<any> {
+  async createChannelThread(channelId: string, activeUser: User): Promise<string> {
     //channelThreadId is withn the Conversation.id or data.id
     const newThread = new Conversation();
     newThread.creator = activeUser;
     newThread.participants.push(activeUser);
-    data = newThread;
+    const data = newThread;
     try {
-      return await this.dataService.setDocumentToSubcollection("channels", channelId, "channelThreads", newThread.id, data);
+      await this.dataService.setDocumentToSubcollection("channels", channelId, "channelThreads", newThread.id, data);
+      return newThread.id
     } catch {
       this.error.showErrorNotification('Channel could not be created.');
+      throw this.error
     }
   }
 }

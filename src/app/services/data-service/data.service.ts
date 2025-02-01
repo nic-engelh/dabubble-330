@@ -150,6 +150,38 @@ export class DataService {
     }
   }
 
+/**
+ * Adds a document to a sub-subcollection within a Firestore database.
+ *
+ * @param {string} mainCollectionName - The name of the main collection.
+ * @param {string} mainDocumentId - The ID of the document within the main collection.
+ * @param {string} subcollectionName - The name of the subcollection.
+ * @param {string} subDocId - The ID of the document within the subcollection.
+ * @param {string} subSubCollectionName - The name of the sub-subcollection.
+ * @param {string} subSubDocId - The ID of the document within the sub-subcollection.
+ * @param {any} data - The data to be written to the document.
+ * @returns {Promise<void>} A promise that resolves when the document is added successfully.
+ */
+  async addDocumentToSubSubcollection(
+    mainCollectionName: string,
+    mainDocumentId: string,
+    subcollectionName: string,
+    subDocId: string,
+    subSubCollectionName: string,
+    subSubDocId: string,
+    data: any,
+  ): Promise<void> {
+    try {
+      // Reference to the collecition wihtin Subcollection
+      const subSubDocRef = doc(this.database, mainCollectionName, mainDocumentId, subcollectionName, subDocId, subSubCollectionName, subSubDocId);
+      await setDoc(subSubDocRef, data);
+      console.log('Document added successfully to subcollection');
+    } catch (error) {
+      console.error('Error adding document to subcollection:', error);
+      throw error;
+    }
+  }
+
   /**
    * Retrieves updates from a specified collection.
    * @param {string} collectionName - The name of the collection.

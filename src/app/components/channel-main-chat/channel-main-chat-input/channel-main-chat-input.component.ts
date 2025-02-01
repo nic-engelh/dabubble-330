@@ -29,18 +29,17 @@ export class ChannelMainChatInputComponent {
     });
   }
 
-  onSubmit(){
+  async onSubmit(){
     if(this.chatInputForm.valid){
       const messageData = this.chatInputForm.get('message')?.value;
-      // create new Message
-      const newMessage = this.messageService.createMessage();
       // create new channelThread
-      const newChannelThreadId = this.channelService.createChannelThread()
+      const returnedChannelThreadId = await this.channelService.createChannelThread(this.activeChannelId, this.activeUser);
+      // create new Message and fill message with inputData
+      const newMessage = this.messageService.createMessage(returnedChannelThreadId, messageData, this.activeUser);
+      // store new message into new channelThread (add Doc to SubSubcollection)
 
-      // fill Message with inputData
-      // store new message into new channelThread
       // send new channelThreadId to parent via Output()
-      this.messageSent.emit(messageData)
+      this.newChannelThreadId.emit(returnedChannelThreadId)
       this.chatInputForm.reset();
     } else {
       console.error('Form is invalid')
