@@ -36,6 +36,10 @@ export class ChannelMainChatInputComponent {
       const returnedChannelThreadId = await this.channelService.createChannelThread(this.activeChannelId, this.activeUser);
       // create new Message and fill message with inputData
       const newMessage = this.messageService.createMessage(returnedChannelThreadId, messageData, this.activeUser);
+
+      // add first message to conversation.firstMessage[]
+      
+
       // store new message into new channelThread (add Doc to SubSubcollection)
 
       // send new channelThreadId to parent via Output()
