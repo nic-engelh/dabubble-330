@@ -13,9 +13,7 @@ import {
   arrayUnion, arrayRemove, DocumentData, getDocs,
 
 } from 'firebase/firestore';
-import { Observable, Subscriber } from 'rxjs';
-import { Message } from '../../../models/message.class';
-import { User } from '../../../models/user.class';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -150,18 +148,18 @@ export class DataService {
     }
   }
 
-/**
- * Adds a document to a sub-subcollection within a Firestore database.
- *
- * @param {string} mainCollectionName - The name of the main collection.
- * @param {string} mainDocumentId - The ID of the document within the main collection.
- * @param {string} subcollectionName - The name of the subcollection.
- * @param {string} subDocId - The ID of the document within the subcollection.
- * @param {string} subSubCollectionName - The name of the sub-subcollection.
- * @param {string} subSubDocId - The ID of the document within the sub-subcollection.
- * @param {any} data - The data to be written to the document.
- * @returns {Promise<void>} A promise that resolves when the document is added successfully.
- */
+  /**
+   * Adds a document to a sub-subcollection within a Firestore database.
+   *
+   * @param {string} mainCollectionName - The name of the main collection.
+   * @param {string} mainDocumentId - The ID of the document within the main collection.
+   * @param {string} subcollectionName - The name of the subcollection.
+   * @param {string} subDocId - The ID of the document within the subcollection.
+   * @param {string} subSubCollectionName - The name of the sub-subcollection.
+   * @param {string} subSubDocId - The ID of the document within the sub-subcollection.
+   * @param {any} data - The data to be written to the document.
+   * @returns {Promise<void>} A promise that resolves when the document is added successfully.
+   */
   async addDocumentToSubSubcollection(
     mainCollectionName: string,
     mainDocumentId: string,

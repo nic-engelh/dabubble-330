@@ -3,7 +3,6 @@ import { DataService } from '../../services/data-service/data.service';
 import { Message } from '../../../models/message.class';
 import { MessageService } from '../message-service/message.service';
 import { EMPTY, Observable, map } from 'rxjs';
-import { User } from '../../../models/user.class';
 import { ErrorService } from '../error-service/error.service';
 
 @Injectable({
@@ -70,10 +69,22 @@ export class MessagingService {
       );
     } catch (error: any) {
       this.error.showErrorNotification('Message could not be set to document');
-      console.error(error);
+      throw (error);
     }
   }
 
+  async setMessageToChannelThreadFirstMessage(channelId: string, channelThreadId: string, message: Message) {
+    const mainDoc = `channels/${channelId}/channelThreads`;
+    const arrayName = 'firstMessage'
+
+    try {
+      await this.dataService.updateArrayInCollection(channelThreadId, mainDoc, arrayName, message)
+    } catch (error: any) {
+      this.error.showErrorNotification('Message could not be set to documents array');
+      throw (error);
+    }
+  }
+  
   /**
    * Sends a message to a conversation.
    * This function might call `MessageService` to create the message and then update the conversation.
@@ -103,19 +114,4 @@ export class MessagingService {
     );
   }
 
-  /**
-   * Adds a message to a channel thread's subcollection in the database.
-   * @param {string} channelId - The ID of the channel containing the thread.
-   * @param {string} channelThreadId - The ID of the thread within the channel.
-   * @param {Message} messageData - The message data to be added.
-   * @returns {Promise<any>} - A promise that resolves when the message is successfully added.
-   */
-  async setMessageToChannelThread(
-    channelId: string,
-    channelThreadId: string,
-    messageData: Message
-  ): Promise<any> {
-    //todo
-    return EMPTY;
-  }
 }
