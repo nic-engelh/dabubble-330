@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ChannelService } from '../../services/channel-service/channel.service';
 import { EMPTY, Subscription, switchMap, tap } from 'rxjs';
 import { DocumentData } from '@angular/fire/firestore';
 import { User } from '../../../models/user.class';
+import { ChannelMainChatInputComponent } from './channel-main-chat-input/channel-main-chat-input.component';
 
 /**
  * Component responsible for displaying and managing the main chat interface for channels.
@@ -15,21 +16,22 @@ import { User } from '../../../models/user.class';
 @Component({
   selector: 'app-channel-main-chat',
   standalone: true,
-  imports: [],
+  imports: [ChannelMainChatInputComponent],
   templateUrl: './channel-main-chat.component.html',
   styleUrl: './channel-main-chat.component.scss',
 })
 export class ChannelMainChatComponent implements OnInit, OnDestroy {
   channelThreads: any;
-  currentUser: User | null = null;
-  currentChannelId: string | null = null;
+  currentUser = signal<User | null>(null)
+  currentChannelId = signal<string | null>(null);
   channelData: DocumentData | undefined;
-   /**
-   * Composite subscription container for managing all component subscriptions.
-   * @type {Subscription}
-   * @private
-   */
-   private subscriptions: Subscription = new Subscription();
+
+  /**
+  * Composite subscription container for managing all component subscriptions.
+  * @type {Subscription}
+  * @private
+  */
+  private subscriptions: Subscription = new Subscription();
 
   /*
   TODO
@@ -58,7 +60,7 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   constructor(
     private channelService: ChannelService,
     private authService: AuthenticationService
-  ) {}
+  ) { }
 
   /**
    * Initializes the component and sets up subscriptions:
@@ -92,7 +94,7 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   private initializeChannelSubscriptions(): void {
     const channelUpdatesSub = this.channelService.channelId$.pipe(
       tap((channelId) => {
-        this.currentChannelId = channelId;
+        this.currentChannelId.set(channelId);
       }),
       switchMap((channelId) => {
         if (!channelId) return EMPTY;
@@ -107,6 +109,11 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(channelUpdatesSub);
   }
+
+
+  setChildsActiveUser() { }
+
+  setChildsActiveChannelId() { }
 
   /**
    * Cleans up component subscriptions to prevent memory leaks.

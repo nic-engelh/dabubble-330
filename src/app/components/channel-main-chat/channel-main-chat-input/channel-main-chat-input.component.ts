@@ -3,7 +3,7 @@ import { MessagingService } from './../../../services/messaging-service/messagin
 import { MessageService } from './../../../services/message-service/message.service';
 import { Message } from './../../../../models/message.class';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, input, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { ChannelService } from '../../../services/channel-service/channel.service';
 import { ErrorService } from '../../../services/error-service/error.service';
+import { User } from '../../../../models/user.class';
 
 @Component({
   selector: 'app-channel-main-chat-input',
@@ -25,8 +26,8 @@ export class ChannelMainChatInputComponent {
 
   @Output() messageSent = new EventEmitter<string>();
   @Output() newChannelThreadId = new EventEmitter<string>();
-  activeUser: any;
-  activeChannelId: string = '';
+  activeUser = input<User | null>();
+  activeChannelId = input<string | null>();
 
   chatInputForm: FormGroup;
 
@@ -112,7 +113,7 @@ export class ChannelMainChatInputComponent {
     return this.messageService.createMessage(
       threadId,
       messageData,
-      this.activeUser
+      this.activeUser()
     );
   }
 
@@ -122,7 +123,7 @@ export class ChannelMainChatInputComponent {
    */
   private async createChannelThread(): Promise<string> {
     return this.channelService.createChannelThread(
-      this.activeChannelId,
+      this.activeChannelId(),
       this.activeUser
     );
   }
