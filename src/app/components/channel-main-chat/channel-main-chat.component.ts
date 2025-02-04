@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, signal } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ChannelService } from '../../services/channel-service/channel.service';
 import { EMPTY, Subscription, switchMap, tap } from 'rxjs';
@@ -22,9 +22,12 @@ import { ChannelMainChatInputComponent } from './channel-main-chat-input/channel
 })
 export class ChannelMainChatComponent implements OnInit, OnDestroy {
   channelThreads: any;
-  currentUser = signal<User | null>(null)
-  currentChannelId = signal<string | null>(null);
+  @Output() newUser = new EventEmitter<User>() ;
+  @Output() newChannelId = new EventEmitter<string>();
   channelData: DocumentData | undefined;
+  createdChannelThreadId: string | undefined;
+  currentUser: User | undefined;
+  activeChannelId: string | undefined;
 
   /**
   * Composite subscription container for managing all component subscriptions.
@@ -81,6 +84,7 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   private initializeUserSubscription(): void {
     this.subscriptions.add(
       this.authService.getCurrentUser().subscribe((user) => {
+        this.newUser.emit(user);
         this.currentUser = user;
       })
     );
@@ -94,7 +98,12 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   private initializeChannelSubscriptions(): void {
     const channelUpdatesSub = this.channelService.channelId$.pipe(
       tap((channelId) => {
-        this.currentChannelId.set(channelId);
+        if (channelId == null) {
+          console.warn('Channel ID is null or undefined');
+          return;
+        }
+        this.newChannelId.emit(channelId);
+        this.activeChannelId = channelId;
       }),
       switchMap((channelId) => {
         if (!channelId) return EMPTY;

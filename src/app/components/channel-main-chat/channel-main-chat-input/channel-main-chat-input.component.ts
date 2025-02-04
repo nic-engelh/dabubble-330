@@ -24,10 +24,9 @@ import { User } from '../../../../models/user.class';
 export class ChannelMainChatInputComponent {
   //todo: create new channelThread, create new Message & getFormInput, setChannelThreadtoChannel, setMessageToChannelThread, addFirstMessageToChannelHeader
 
-  @Output() messageSent = new EventEmitter<string>();
   @Output() newChannelThreadId = new EventEmitter<string>();
-  activeUser = input<User | null>();
-  activeChannelId = input<string | null>();
+  @Input() activeUser: User | undefined = undefined;
+  @Input() activeChannelId: string | undefined = undefined;
 
   chatInputForm: FormGroup;
 
@@ -110,10 +109,13 @@ export class ChannelMainChatInputComponent {
    * @returns {Message} - The newly created `Message` object.
    */
   private createMessage(threadId: string, messageData: string): Message {
+    if (!this.activeUser) {
+      throw new Error("Active User is required.");
+    }
     return this.messageService.createMessage(
       threadId,
       messageData,
-      this.activeUser()
+      this.activeUser
     );
   }
 
@@ -122,8 +124,11 @@ export class ChannelMainChatInputComponent {
    * @returns {Promise<string>} - A promise that resolves with the ID of the newly created thread.
    */
   private async createChannelThread(): Promise<string> {
+    if (!this.activeChannelId || !this.activeUser) {
+      throw new Error("Active Channel Id and User is required.");
+    }
     return this.channelService.createChannelThread(
-      this.activeChannelId(),
+      this.activeChannelId,
       this.activeUser
     );
   }
@@ -138,6 +143,9 @@ export class ChannelMainChatInputComponent {
     threadId: string,
     message: Message
   ): Promise<void> {
+    if (!this.activeChannelId) {
+      throw new Error("Active Channel Id is required.");
+    }
     await this.messagingService.setMessagetoChannelThread(
       this.activeChannelId,
       threadId,
@@ -155,6 +163,9 @@ export class ChannelMainChatInputComponent {
     threadId: string,
     message: Message
   ): Promise<void> {
+    if (!this.activeChannelId) {
+      throw new Error("Active Channel Id is required.");
+    }
     await this.messagingService.setMessageToChannelThreadFirstMessage(
       this.activeChannelId,
       threadId,
