@@ -1,10 +1,13 @@
+import { initializeApp } from '@angular/fire/app';
 import { Component, EventEmitter, OnDestroy, OnInit, Output, signal } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ChannelService } from '../../services/channel-service/channel.service';
-import { EMPTY, Subscription, switchMap, tap } from 'rxjs';
+import { EMPTY, Observable, scan, Subscription, switchMap, tap } from 'rxjs';
 import { DocumentData } from '@angular/fire/firestore';
 import { User } from '../../../models/user.class';
 import { ChannelMainChatInputComponent } from './channel-main-chat-input/channel-main-chat-input.component';
+import { Conversation } from '../../../models/conversation.class';
+import { CommonModule } from '@angular/common';
 
 /**
  * Component responsible for displaying and managing the main chat interface for channels.
@@ -16,14 +19,12 @@ import { ChannelMainChatInputComponent } from './channel-main-chat-input/channel
 @Component({
   selector: 'app-channel-main-chat',
   standalone: true,
-  imports: [ChannelMainChatInputComponent],
+  imports: [ChannelMainChatInputComponent, CommonModule],
   templateUrl: './channel-main-chat.component.html',
   styleUrl: './channel-main-chat.component.scss',
 })
 export class ChannelMainChatComponent implements OnInit, OnDestroy {
-  channelThreads: any;
-  @Output() newUser = new EventEmitter<User>() ;
-  @Output() newChannelId = new EventEmitter<string>();
+  channelThreads$: Observable<Conversation[]> | undefined;
   channelData: DocumentData | undefined;
   createdChannelThreadId: string | undefined;
   currentUser: User | undefined;
@@ -55,6 +56,8 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   check: https://chat.deepseek.com/a/chat/s/114178c3-0ef9-4ced-a463-1255c3205251
   */
 
+
+
   /**
    * Creates an instance of ChannelMainChatComponent.
    * @param {ChannelService} channelService - Service for channel-related operations
@@ -75,6 +78,7 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initializeUserSubscription();
     this.initializeChannelSubscriptions();
+    this.initializeChannelThreadsUpdateSubcription()
   }
 
   /**
@@ -84,7 +88,6 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   private initializeUserSubscription(): void {
     this.subscriptions.add(
       this.authService.getCurrentUser().subscribe((user) => {
-        this.newUser.emit(user);
         this.currentUser = user;
       })
     );
@@ -102,7 +105,6 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
           console.warn('Channel ID is null or undefined');
           return;
         }
-        this.newChannelId.emit(channelId);
         this.activeChannelId = channelId;
       }),
       switchMap((channelId) => {
@@ -120,9 +122,18 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   }
 
 
-  setChildsActiveUser() { }
+  receiveCreatedChannelThreadId(newThreadId: string) {
+    this.createdChannelThreadId = newThreadId;
+  }
 
-  setChildsActiveChannelId() { }
+
+  private initializeChannelThreadsUpdateSubcription(): void {
+    this.channelThreads$ = this.channelService.allChannelThreads$.pipe(
+      scan<Conversation, Conversation[]>((allThreads, newThread) => {
+        return [...allThreads, newThread];
+      }, [] as Conversation[])
+    )
+    }
 
   /**
    * Cleans up component subscriptions to prevent memory leaks.

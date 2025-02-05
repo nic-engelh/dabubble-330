@@ -3,7 +3,7 @@ import { Channel } from './../../../models/channel.class';
 import { DocumentData } from '@angular/fire/firestore';
 import { DataService } from './../data-service/data.service';
 import { Injectable } from '@angular/core';
-import { filter, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
+import { filter, mergeMap, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
 import { User } from '../../../models/user.class';
 import { ErrorService } from '../error-service/error.service';
 
@@ -46,6 +46,31 @@ export class ChannelService {
    * @type {Observable<any>}
    */
   private channelUpdates$: Observable<any>;
+
+  /**
+   * Stream of active channel threads. Automatically switches to latest channel ID,
+   * ignoring null/undefined values to prevent invalid requests.
+   * @type {Observable<any>}
+   */
+  activeChannelThreads$: Observable<any> = this.channelId$.pipe(
+    filter(channelId => channelId != null),
+    switchMap(channelId =>
+      this.dataService.getSubcollectionUpdates(`channels`, channelId, 'channelThreads')
+    )
+  );
+
+  /**
+  * Stream of active channel threads. Accumulates threads from all channels
+  * (does not cancel previous subscriptions), ignoring null/undefined values to
+  * prevent invalid requests.
+  * @type {Observable<any>}
+  */
+  allChannelThreads$: Observable<any> = this.channelId$.pipe(
+    filter(channelId => channelId != null),
+    mergeMap(channelId =>
+      this.dataService.getSubcollectionUpdates(`channels`, channelId, 'channelThreads')
+    )
+  );
 
   /**
    * Constructs the ChannelService.
@@ -185,18 +210,6 @@ export class ChannelService {
       this.error.showErrorNotification('Channel could not be deleted.');
     }
   }
-
-  /**
- * Stream of active channel threads. Automatically switches to latest channel ID,
- * ignoring null/undefined values to prevent invalid requests.
- * @type {Observable<any>}
- */
-  activeChannelThreads$: Observable<any> = this.channelId$.pipe(
-    filter(channelId => channelId != null),
-    switchMap(channelId =>
-      this.dataService.getSubcollectionUpdates(`channels`, channelId, 'channelThreads')
-    )
-  );
 
   async createChannelThread(channelId: string, activeUser: User): Promise<string> {
     //channelThreadId is withn the Conversation.id or data.id

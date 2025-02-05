@@ -11,21 +11,30 @@
 
     </button>
   </header>
-  <div id="channel-thread-list-container">
-    @if (channelThreads) {
-      @for (conversation of channelThreads; track $index) {
-        <div id="thread-box">
-
+  <div id="channel-thread-list-container" *ngIf="channelThreads$ | async as threads; else loading">
+    <div id="channel-thread-list" *ngFor="let thread of threads">
+      <div [id]="thread.id" class="thread-message-card">
+        <p>{{ thread.creator }}</p>
+        <p> {{ thread.createdAt }}</p>
+        <p>{{ thread.firstMessage?.content }}</p>
+        <div *ngIf="thread.numberOfMessages > 0">
+          <p>{{ thread.numberOfMessages }} Antworten</p>
+          <p> Letzte Antwort {{ thread.updatedAt | date: 'fullDate' }} {{ thread.createdAt | date:'shortTime' }}</p>
         </div>
-      }
-    }
-    @else {
-      <p>Keine Unterhaltungen vorhanden.</p>
-    }
+        <p> </p>
+      </div>
+    </div>
   </div>
+  <ng-template #loading>
+
+      <p>Loading threads...</p>
+
+  </ng-template>
+
+
 <div id="message-input">
+  <app-channel-main-chat-input (newChannelThreadId)="receiveCreatedChannelThreadId($event)" [activeUser]="currentUser" [activeChannelId]="activeChannelId" ></app-channel-main-chat-input>
 </div>
 
-<app-channel-main-chat-input [activeUser]="currentUser" [activeChannelId]="activeChannelId"></app-channel-main-chat-input>
 </section>
 
