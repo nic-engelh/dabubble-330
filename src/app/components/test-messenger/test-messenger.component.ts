@@ -75,7 +75,6 @@ export class TestMessengerComponent implements OnInit, OnDestroy {
 
   async saveChannel() {
     this.channel.createdBy.push(this.user);
-    this.channel.conversations.push(this.thread);
     this.channel.members.push(this.user);
     const data = this.channel.toJson();
     await this.dataService.setDocument('channels', `${this.channel.id}`, data);

@@ -8,6 +8,7 @@ import { User } from '../../../models/user.class';
 import { ChannelMainChatInputComponent } from './channel-main-chat-input/channel-main-chat-input.component';
 import { Conversation } from '../../../models/conversation.class';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 /**
  * Component responsible for displaying and managing the main chat interface for channels.
@@ -19,7 +20,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-channel-main-chat',
   standalone: true,
-  imports: [ChannelMainChatInputComponent, CommonModule],
+  imports: [ChannelMainChatInputComponent, CommonModule, RouterModule],
   templateUrl: './channel-main-chat.component.html',
   styleUrl: './channel-main-chat.component.scss',
 })

@@ -21,6 +21,7 @@ import { AddChannelComponent } from './components/add-channel/add-channel.compon
 import { SearchMemberComponent } from './components/search-member/search-member.component';
 import { AddMemberComponent } from './components/add-member/add-member.component';
 import { MemberListComponent } from './components/member-list/member-list.component';
+import { ChannelMainChatComponent } from './components/channel-main-chat/channel-main-chat.component';
 
 export const routes: Routes = [
   {
@@ -101,6 +102,10 @@ export const routes: Routes = [
   {
     path: 'message',
     component: DirectMessageComponent,
+  },
+  {
+    path: 'channel-chat',
+    component: ChannelMainChatComponent,
   },
 
 ];
