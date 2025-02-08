@@ -3,7 +3,7 @@ import { Channel } from './../../../models/channel.class';
 import { DocumentData } from '@angular/fire/firestore';
 import { DataService } from './../data-service/data.service';
 import { Injectable } from '@angular/core';
-import { filter, mergeMap, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, mergeMap, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
 import { User } from '../../../models/user.class';
 import { ErrorService } from '../error-service/error.service';
 
@@ -13,9 +13,9 @@ import { ErrorService } from '../error-service/error.service';
 export class ChannelService {
   /**
    * A Subject that emits the current channel ID or null.
-   * @type {Subject<string | null>}
+   * @type {BehaviorSubjectS<string | null>}
    */
-  private channelIdSubject = new Subject<string | null>();
+  private channelIdSubject = new BehaviorSubject<string | null>(null);
 
   /**
    * An observable that emits the current channel ID or null.

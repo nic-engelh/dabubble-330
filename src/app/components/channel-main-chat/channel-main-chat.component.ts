@@ -25,7 +25,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './channel-main-chat.component.scss',
 })
 export class ChannelMainChatComponent implements OnInit, OnDestroy {
-  channelThreads$: Observable<Conversation[]> | undefined;
+  channelThreads$: Observable<any[]> | undefined;
   channelData: DocumentData | undefined;
   createdChannelThreadId: string | undefined;
   currentUser: User | undefined;
@@ -57,6 +57,9 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   check: https://chat.deepseek.com/a/chat/s/114178c3-0ef9-4ced-a463-1255c3205251
   */
 
+  activateTestChannel() {
+    this.channelService.openChannel("634f8b15-b353-4bff-bc4b-ed0b1daa8031");
+  }
 
 
   /**
@@ -77,9 +80,18 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
    * @inheritdoc
    */
   ngOnInit(): void {
+
     this.initializeUserSubscription();
     this.initializeChannelSubscriptions();
-    this.initializeChannelThreadsUpdateSubcription()
+    this.initializeChannelThreadsUpdateSubcription();
+    this.activateTestChannel();
+    console.log("Channel Main User: ", this.currentUser);
+    console.log("Channel Main active channel: ", this.activeChannelId);
+    console.log("Channel Main Threads: ", this.channelThreads$);
+
+    this.channelThreads$!.subscribe(threads => {
+      console.log('Threads emitted:', threads);
+    });
   }
 
   /**
@@ -90,6 +102,7 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.authService.getCurrentUser().subscribe((user) => {
         this.currentUser = user;
+        console.log("channel main chat user", this.currentUser);
       })
     );
   }
@@ -103,7 +116,6 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
     const channelUpdatesSub = this.channelService.channelId$.pipe(
       tap((channelId) => {
         if (channelId == null) {
-          console.warn('Channel ID is null or undefined');
           return;
         }
         this.activeChannelId = channelId;
@@ -122,19 +134,48 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
     this.subscriptions.add(channelUpdatesSub);
   }
 
-
   receiveCreatedChannelThreadId(newThreadId: string) {
     this.createdChannelThreadId = newThreadId;
   }
 
-
+  /**
+   * Initializes the subscription to channel thread updates
+   *
+   * @private
+   * @returns {void}
+   * @throws {Error} if an error ocurs durcing subscription or processing
+   */
   private initializeChannelThreadsUpdateSubcription(): void {
-    this.channelThreads$ = this.channelService.allChannelThreads$.pipe(
-      scan<Conversation, Conversation[]>((allThreads, newThread) => {
-        return [...allThreads, newThread];
-      }, [] as Conversation[])
-    )
+    try {
+      this.channelThreads$ = this.createChannelThreadsObservable();
+    } catch (error) {
+      console.error("ChanellThreadSub:", error);
     }
+  }
+
+  /**
+   * Creates the Observable stream for all conversation threads.
+   *
+   * @private
+   * @return {Observable<Conversation[]>}
+   */
+  private createChannelThreadsObservable(): Observable<Conversation[]> {
+    return this.channelService.allChannelThreads$.pipe(
+      scan(this.accumulateThreads, [] as Conversation[])
+    );
+  }
+
+  /**
+   *
+   * @private
+   * @param {Conversation[]} allThreads - the accumulated array of all threads.
+   * @param {Conversation[]} newThreads - the new array of threads to add.
+   * @returns {Conversation[]} A new array containing all threads.
+   */
+  private accumulateThreads(allThreads: Conversation[], newThreads: Conversation[]): Conversation[] {
+    console.log("new threads:", newThreads)
+    return [...allThreads, ...newThreads];
+  }
 
   /**
    * Cleans up component subscriptions to prevent memory leaks.

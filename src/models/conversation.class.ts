@@ -2,6 +2,7 @@ import { User } from './user.class';
 import { Message } from './message.class';
 import { v4 as uuidv4 } from 'uuid';
 
+// A conversation is a selection of messages within a chat of two members. A thread is a type of conversation within a channel.
 export class Conversation {
   constructor(
     public id: string = "",

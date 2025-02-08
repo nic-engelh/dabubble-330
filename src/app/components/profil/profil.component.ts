@@ -36,7 +36,7 @@ export class ProfilComponent implements OnInit {
     //Add 'implements OnInit' to the class.
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user;
-      console.log(this.currentUser);
+      console.log("profil logged user" ,this.currentUser);
     });
   }
 

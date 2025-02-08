@@ -12,6 +12,7 @@
     </button>
   </header>
   <div id="channel-thread-list-container" *ngIf="channelThreads$ | async as threads; else loading">
+    <pre>{{ channelThreads$ | async | json }}</pre>
     <div id="channel-thread-list" *ngFor="let thread of threads">
       <div [id]="thread.id" class="thread-message-card">
         <p>{{ thread.creator }}</p>
