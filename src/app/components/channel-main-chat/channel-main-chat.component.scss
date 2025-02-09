@@ -16,3 +16,51 @@ section {
     font-size: 17px;
   }
 }
+
+.thread-message-card-name-date {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  > .chat-sender {
+    font-weight: 700;
+    font-size: 18px;
+  }
+  > .chat-shorttime-send {
+    font-weight: 400;
+    font-size: 14px;
+    color: #686868;
+  }
+}
+
+.thread-message-card-date {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  > .card-date-line{
+    border: 1px solid #ADB0D9;
+    width: 90%;
+  }
+  > .card-date-box{
+    background-color: #FFFFFF;
+    border: 1px solid #ADB0D9;
+    height: 35px;
+    padding-top: 5px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    border-width: 1px;
+    border-radius: 30px;
+    position: relative;
+    top: -22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > p {
+      font-family: Nunito;
+      font-weight: 400;
+      font-size: 18px;
+    }
+  }
+}
