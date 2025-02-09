@@ -1,5 +1,5 @@
-import { initializeApp } from '@angular/fire/app';
-import { Component, EventEmitter, OnDestroy, OnInit, Output, signal } from '@angular/core';
+
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ChannelService } from '../../services/channel-service/channel.service';
 import { EMPTY, Observable, scan, Subscription, switchMap, tap } from 'rxjs';
@@ -46,6 +46,7 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   -read first threads-conversationMessages and corresponding sender for each channelThread (via conversation-service)
   -render channelthreads in hmtl (logged user to right, member to the left)
   -implement emoji function and array in the message/thread class
+  - IMPORTANT: FirstMessage needs to always the same Message, as in the subcollection, even after an update of the Message
 
   on using:
   -sending a new channelThread-Message, creates a new thread within the channel AND in collection "threads" (via conversation-serivce or messaing-service)
@@ -149,7 +150,7 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
     try {
       this.channelThreads$ = this.createChannelThreadsObservable();
     } catch (error) {
-      console.error("ChanellThreadSub:", error);
+      console.error("ChannelThreadSub:", error);
     }
   }
 
@@ -166,6 +167,7 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Accumulates new thred arrays into a single array of all threads.
    *
    * @private
    * @param {Conversation[]} allThreads - the accumulated array of all threads.
@@ -173,7 +175,6 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
    * @returns {Conversation[]} A new array containing all threads.
    */
   private accumulateThreads(allThreads: Conversation[], newThreads: Conversation[]): Conversation[] {
-    console.log("new threads:", newThreads)
     return [...allThreads, ...newThreads];
   }
 

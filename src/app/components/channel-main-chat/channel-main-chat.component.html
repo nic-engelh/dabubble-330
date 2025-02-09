@@ -15,12 +15,26 @@
     <pre>{{ channelThreads$ | async | json }}</pre>
     <div id="channel-thread-list" *ngFor="let thread of threads">
       <div [id]="thread.id" class="thread-message-card">
-        <p>{{ thread.creator }}</p>
-        <p> {{ thread.createdAt }}</p>
-        <p>{{ thread.firstMessage?.content }}</p>
-        <div *ngIf="thread.numberOfMessages > 0">
+        <div class="thread-message-card-date">
+          <div class="card-date-line">
+          </div>
+          <div class="card-date-box">
+            <p> {{ thread.firstMessage[0].createdAt | date: 'fullDate' }}</p>
+          </div>
+        </div>
+
+        <div class="thread-message-card-name-date">
+          <p class="chat-sender">{{ thread.firstMessage[0].sender.searchName }}</p>
+          <p class="chat-shirttime-send"> {{ thread.firstMessage[0].createdAt | date: 'shortTime' }} </p>
+        </div>
+
+        <div class="thread-message-card-content">
+          <p>{{ thread.firstMessage[0].content }}</p>
+        </div>
+
+        <div class="thread-message-card-response-overview" *ngIf="thread.numberOfMessages > 0">
           <p>{{ thread.numberOfMessages }} Antworten</p>
-          <p> Letzte Antwort {{ thread.updatedAt | date: 'fullDate' }} {{ thread.createdAt | date:'shortTime' }}</p>
+          <p> Letzte Antwort {{ thread.firstMessage[0].createdAt | date: 'fullDate' }} {{ thread.firstMessage[0].createdAt | date:'shortTime' }}</p>
         </div>
         <p> </p>
       </div>
@@ -31,7 +45,6 @@
       <p>Loading threads...</p>
 
   </ng-template>
-
 
 <div id="message-input">
   <app-channel-main-chat-input (newChannelThreadId)="receiveCreatedChannelThreadId($event)" [activeUser]="currentUser" [activeChannelId]="activeChannelId" ></app-channel-main-chat-input>
