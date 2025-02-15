@@ -9,6 +9,7 @@ import { ChannelMainChatInputComponent } from './channel-main-chat-input/channel
 import { Conversation } from '../../../models/conversation.class';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { IMAGES } from '../../shared/constants/image-urls';
 
 /**
  * Component responsible for displaying and managing the main chat interface for channels.
@@ -25,6 +26,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './channel-main-chat.component.scss',
 })
 export class ChannelMainChatComponent implements OnInit, OnDestroy {
+  imagePaths = IMAGES;
   channelThreads$: Observable<any[]> | undefined;
   channelData: DocumentData | undefined;
   createdChannelThreadId: string | undefined;

@@ -1,54 +1,87 @@
 <section>
-
   <header>
     <p># Entwicklerteam</p>
     <button class="unbottunize">
-      <img src="" alt="">
+      <img src="" alt="" />
     </button>
 
     <button>
-      <img src="" alt="add member">
-
+      <img src="" alt="add member" />
     </button>
   </header>
-  <div id="channel-thread-list-container" *ngIf="channelThreads$ | async as threads; else loading">
+  <div
+    id="channel-thread-list-container"
+    *ngIf="channelThreads$ | async as threads; else loading"
+  >
     <pre>{{ channelThreads$ | async | json }}</pre>
     <div id="channel-thread-list" *ngFor="let thread of threads">
       <div [id]="thread.id" class="thread-message-card">
         <div class="thread-message-card-date">
-          <div class="card-date-line">
-          </div>
+          <div class="card-date-line"></div>
           <div class="card-date-box">
-            <p> {{ thread.firstMessage[0].createdAt | date: 'fullDate' }}</p>
+            <p>{{ thread.firstMessage[0].createdAt | date : "fullDate" }}</p>
           </div>
         </div>
 
-        <div class="thread-message-card-name-date">
-          <p class="chat-sender">{{ thread.firstMessage[0].sender.searchName }}</p>
-          <p class="chat-shorttime-send"> {{ thread.firstMessage[0].createdAt | date: 'shortTime' }} </p>
+        <div class="card-main-box">
+          <div class="thread-message-card-avatar-box box-left">
+            @if (thread.firstMessage[0]?.sender?.avatarUrl) {
+            <img
+              src="thread.firstMessage[0].sender.avatarUrl"
+              alt="Profilpicture"
+            />
+            } @else {
+            <img
+              [src]="imagePaths.PROFIL_DEFAULT_UNISEX"
+              alt="picture profil unisex"
+            />
+            }
+          </div>
+          <div class="box-right">
+            <div class="thread-message-card-name-date">
+              <p class="chat-sender">
+                {{ thread.firstMessage[0].sender.searchName }}
+              </p>
+              <p class="chat-shorttime-send">
+                {{ thread.firstMessage[0].createdAt | date : "shortTime" }}
+              </p>
+            </div>
+
+            <div class="thread-message-card-content">
+              <p>{{ thread.firstMessage[0].content }}</p>
+            </div>
+
+            <div
+              class="thread-message-card-response-overview"
+              *ngIf="thread.numberOfMessages > 0"
+            >
+              @if (thread.numberOfMessages == 1) {
+              <p>{{ thread.numberOfMessages }} Antwort</p>
+              } @else {
+              <p>{{ thread.numberOfMessages }} Antworten</p>
+              }
+              <p>
+                Letzte Antwort
+                {{ thread.firstMessage[0].createdAt | date : "fullDate" }}
+                {{ thread.firstMessage[0].createdAt | date : "shortTime" }}
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div class="thread-message-card-content">
-          <p>{{ thread.firstMessage[0].content }}</p>
-        </div>
-
-        <div class="thread-message-card-response-overview" *ngIf="thread.numberOfMessages > 0">
-          <p>{{ thread.numberOfMessages }} Antworten</p>
-          <p> Letzte Antwort {{ thread.firstMessage[0].createdAt | date: 'fullDate' }} {{ thread.firstMessage[0].createdAt | date:'shortTime' }}</p>
-        </div>
-        <p> </p>
+        <p></p>
       </div>
     </div>
   </div>
   <ng-template #loading>
-
-      <p>Loading threads...</p>
-
+    <p>Loading threads...</p>
   </ng-template>
 
-<div id="message-input">
-  <app-channel-main-chat-input (newChannelThreadId)="receiveCreatedChannelThreadId($event)" [activeUser]="currentUser" [activeChannelId]="activeChannelId" ></app-channel-main-chat-input>
-</div>
-
+  <div id="message-input">
+    <app-channel-main-chat-input
+      (newChannelThreadId)="receiveCreatedChannelThreadId($event)"
+      [activeUser]="currentUser"
+      [activeChannelId]="activeChannelId"
+    ></app-channel-main-chat-input>
+  </div>
 </section>
-
