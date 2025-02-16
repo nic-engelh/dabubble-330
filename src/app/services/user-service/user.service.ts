@@ -7,6 +7,7 @@ interface FirebaseUser {
   displayName: string | null;
   email: string | null;
   photoURL: string | null;
+  creationTime: string;
   // Weitere Firebase-Benutzereigenschaften
 }
 
@@ -35,19 +36,22 @@ export class UserService {
    * console.log(bubbelUser.toJson());
    */
     transformFireUsertoBubbleUser(fireUser: FirebaseUser): User {
-      if (!fireUser) {
-        throw new Error('Firebase-Benutzerobjekt ist ungültig.');
+      if (Object.keys(fireUser).length === 0) {
+        throw new Error('Firebase-Benutzerobjekt ist null oder leer.');
       }
 
-      if (!fireUser.uid) {
-        throw new Error('Firebase-Benutzer-ID fehlt.');
+      if (!fireUser) {
+        return fireUser;
       }
 
       const username = fireUser.displayName || '';
       const email = fireUser.email || '';
       const avatarUrl = fireUser.photoURL || undefined;
+      const createdAt = new Date(fireUser.creationTime) || undefined;
+      const updatedAt: Date = new Date();
+      const searchName = username.toLowerCase() || '';
 
-      const bubbelUser = new User(fireUser.uid, username, email, avatarUrl);
+      const bubbelUser = new User(fireUser.uid, username, email, avatarUrl, createdAt, updatedAt, searchName);
       return bubbelUser;
     }
 

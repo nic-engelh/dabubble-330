@@ -1,4 +1,4 @@
-
+import { UserService } from '../../services/user-service/user.service';
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ChannelService } from '../../services/channel-service/channel.service';
@@ -72,6 +72,7 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
    */
   constructor(
     private channelService: ChannelService,
+    private userService: UserService,
     private authService: AuthenticationService
   ) { }
 
@@ -104,7 +105,8 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   private initializeUserSubscription(): void {
     this.subscriptions.add(
       this.authService.getCurrentUser().subscribe((user) => {
-        this.currentUser = user;
+        if (user )
+        this.currentUser = this.userService.transformFireUsertoBubbleUser(user);
         console.log("channel main chat user", this.currentUser);
       })
     );

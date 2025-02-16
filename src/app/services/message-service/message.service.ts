@@ -3,6 +3,7 @@ import { DataService } from '../../services/data-service/data.service';
 import { Message } from '../../../models/message.class';
 import { User } from '../../../models/user.class';
 import { Observable } from 'rxjs';
+import { UserService } from '../user-service/user.service';
 
 
 @Injectable({
@@ -14,17 +15,17 @@ export class MessageService {
   // for example CRUD Message to every Message
 
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private userService: UserService) { }
 
   // This function creates a new message in the database. It might call DataService to perform the actual database operation.
   createMessage(
     conversationId: string,
     messageText: string,
-    sender: User
+    sender: any
   ): Message {
     let message = new Message();
     message.content = messageText;
-    message.sender = this.transformFireUsertoBubbleUser(sender);
+    message.sender = this.userService.transformFireUsertoBubbleUser(sender);
     console.log('Message from Message-Service', message);
     return message; // newMessage
   }

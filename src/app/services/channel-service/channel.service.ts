@@ -217,7 +217,7 @@ export class ChannelService {
     const newThread = new Conversation();
     newThread.creator = activeUser;
     newThread.participants.push(activeUser);
-    const data = newThread;
+    const data = newThread.toJson();
     console.log("New Channel Thread Data:", data)
     try {
       await this.dataService.setDocumentToSubcollection("channels", channelId, "channelThreads", newThread.id, data);
