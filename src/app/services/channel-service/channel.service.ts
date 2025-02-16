@@ -103,6 +103,7 @@ export class ChannelService {
     newChannel.description = description;
     newChannel.name = channelName;
     const data = newChannel.toJson();
+
     try {
       //todo update for subcollection use!
       await this.dataService.setDocument('channels', `${newChannel.id}`, data);
@@ -217,6 +218,7 @@ export class ChannelService {
     newThread.creator = activeUser;
     newThread.participants.push(activeUser);
     const data = newThread;
+    console.log("New Channel Thread Data:", data)
     try {
       await this.dataService.setDocumentToSubcollection("channels", channelId, "channelThreads", newThread.id, data);
       return newThread.id
