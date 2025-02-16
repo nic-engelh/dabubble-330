@@ -25,16 +25,10 @@
 
         <div class="card-main-box">
           <div class="thread-message-card-avatar-box box-left">
-            @if (thread.firstMessage[0]?.sender?.avatarUrl) {
-            <img
-              src="thread.firstMessage[0].sender.avatarUrl"
-              alt="Profilpicture"
-            />
+            @if (thread?.firstMessage?.[0]?.sender?.avatarUrl != null) {
+              <img [src]="thread?.firstMessage?.[0]?.sender?.avatarUrl" alt="Profilbild" />
             } @else {
-            <img
-              [src]="imagePaths.PROFIL_DEFAULT_UNISEX"
-              alt="picture profil unisex"
-            />
+              <img [src]="imagePaths.PROFIL_DEFAULT_UNISEX" alt="picture profil unisex" />
             }
           </div>
           <div class="box-right">
@@ -60,9 +54,9 @@
               } @else {
               <p>{{ thread.numberOfMessages }} Antworten</p>
               }
-              <p>
+              <p class="d-flex">
                 Letzte Antwort
-                {{ thread.firstMessage[0].createdAt | date : "fullDate" }}
+                {{ thread.firstMessage[0].createdAt | date : "shortDate" }}
                 {{ thread.firstMessage[0].createdAt | date : "shortTime" }}
               </p>
             </div>

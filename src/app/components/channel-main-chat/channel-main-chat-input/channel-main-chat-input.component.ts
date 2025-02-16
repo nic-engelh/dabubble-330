@@ -13,6 +13,7 @@ import {
 import { ChannelService } from '../../../services/channel-service/channel.service';
 import { ErrorService } from '../../../services/error-service/error.service';
 import { User } from '../../../../models/user.class';
+import { IMAGES } from '../../../shared/constants/image-urls';
 
 @Component({
   selector: 'app-channel-main-chat-input',
@@ -29,6 +30,7 @@ export class ChannelMainChatInputComponent {
   @Input() activeChannelId: string | undefined = undefined;
 
   chatInputForm: FormGroup;
+  imagePaths = IMAGES;
 
   constructor(
     private fb: FormBuilder,
