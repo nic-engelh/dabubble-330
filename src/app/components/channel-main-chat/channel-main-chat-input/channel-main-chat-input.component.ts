@@ -114,10 +114,13 @@ export class ChannelMainChatInputComponent {
     if (!this.activeUser) {
       throw new Error("Active User is required.");
     }
+    let user = this.activeUser.toJson()
+
+    console.log("create message user", user)
     return this.messageService.createMessage(
       threadId,
       messageData,
-      this.activeUser
+      user
     );
   }
 

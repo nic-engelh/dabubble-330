@@ -105,7 +105,6 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   private initializeUserSubscription(): void {
     this.subscriptions.add(
       this.authService.getCurrentUser().subscribe((user) => {
-        if (user )
         this.currentUser = this.userService.transformFireUsertoBubbleUser(user);
         console.log("channel main chat user", this.currentUser);
       })

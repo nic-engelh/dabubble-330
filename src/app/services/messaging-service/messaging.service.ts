@@ -57,6 +57,7 @@ export class MessagingService {
     channelThreadId: string,
     message: Message
   ) {
+    const messageData = message.toJson();
     try {
       await this.dataService.addDocumentToSubSubcollection(
         'channels',
@@ -65,7 +66,7 @@ export class MessagingService {
         channelThreadId,
         'conversationMessages',
         message.id,
-        message
+        messageData
       );
     } catch (error: any) {
       this.error.showErrorNotification('Message could not be set to document');
@@ -84,7 +85,7 @@ export class MessagingService {
       throw (error);
     }
   }
-  
+
   /**
    * Sends a message to a conversation.
    * This function might call `MessageService` to create the message and then update the conversation.

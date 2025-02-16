@@ -35,25 +35,27 @@ export class UserService {
    * const bubbelUser = userService.transformFireUsertoBubbleUser(firebaseUser);
    * console.log(bubbelUser.toJson());
    */
-    transformFireUsertoBubbleUser(fireUser: FirebaseUser): User {
-      if (Object.keys(fireUser).length === 0) {
-        throw new Error('Firebase-Benutzerobjekt ist null oder leer.');
-      }
-
-      if (!fireUser) {
-        return fireUser;
-      }
-
-      const username = fireUser.displayName || '';
-      const email = fireUser.email || '';
-      const avatarUrl = fireUser.photoURL || undefined;
-      const createdAt = new Date(fireUser.creationTime) || undefined;
-      const updatedAt: Date = new Date();
-      const searchName = username.toLowerCase() || '';
-
-      const bubbelUser = new User(fireUser.uid, username, email, avatarUrl, createdAt, updatedAt, searchName);
-      return bubbelUser;
+  transformFireUsertoBubbleUser(fireUser: FirebaseUser): User {
+    if (Object.keys(fireUser).length === 0) {
+      throw new Error('Firebase-Benutzerobjekt ist null oder leer.');
     }
+
+    if (!fireUser) {
+      return fireUser;
+    }
+
+    const username = fireUser.displayName || '';
+    const email = fireUser.email || '';
+    const avatarUrl = fireUser.photoURL || undefined;
+    const createdAt = new Date();
+    const updatedAt: Date = new Date();
+    const searchName = username.toLowerCase() || '';
+
+    // new Date(fireUser.creationTime) || new Date();
+
+    let bubbelUser = new User(fireUser.uid, username, email, avatarUrl, createdAt, updatedAt, searchName);
+    return bubbelUser;
+  }
 
 
 }

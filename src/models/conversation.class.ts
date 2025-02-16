@@ -21,8 +21,8 @@ export class Conversation {
     return {
       id: this.id,
       name: this.name,
-      participants: this.participants.map(p => p.toJson()),
-      creator: this.creator.toJson(),
+      participants: this.participants.map(p => p?.toJson() || null),
+      creator: this.creator?.toJson() || null,
       createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt.toISOString(),
       firstMessage: this.firstMessage ? this.firstMessage.toJson() : null,

@@ -21,11 +21,11 @@ export class MessageService {
   createMessage(
     conversationId: string,
     messageText: string,
-    sender: any
+    sender: User
   ): Message {
     let message = new Message();
     message.content = messageText;
-    message.sender = this.userService.transformFireUsertoBubbleUser(sender);
+    message.sender = sender
     console.log('Message from Message-Service', message);
     return message; // newMessage
   }
