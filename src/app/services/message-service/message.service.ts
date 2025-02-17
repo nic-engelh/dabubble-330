@@ -25,7 +25,7 @@ export class MessageService {
   ): Message {
     let message = new Message();
     message.content = messageText;
-    message.sender = sender
+    message.sender = sender;
     console.log('Message from Message-Service', message);
     return message; // newMessage
   }

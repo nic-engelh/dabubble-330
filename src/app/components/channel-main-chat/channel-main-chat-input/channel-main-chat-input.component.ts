@@ -72,6 +72,7 @@ export class ChannelMainChatInputComponent {
 
       await this.saveMessageToThread(returnedChannelThreadId, newMessage);
       await this.saveFirstMessageToThread(returnedChannelThreadId, newMessage);
+      await this.incrementCount(returnedChannelThreadId)
 
       this.handleSuccess(returnedChannelThreadId);
     } catch (error) {
@@ -171,6 +172,9 @@ export class ChannelMainChatInputComponent {
     if (!this.activeChannelId) {
       throw new Error("Active Channel Id is required.");
     }
+
+    message = message.toJson()
+
     await this.messagingService.setMessageToChannelThreadFirstMessage(
       this.activeChannelId,
       threadId,
@@ -198,4 +202,24 @@ export class ChannelMainChatInputComponent {
       'Failed to send message. Please try again.'
     );
   }
+
+   /**
+   * Increments the message count for the current channel thread.
+   * Handles potential errors during the increment operation.
+   *
+   * @returns {Promise<void>} - A promise that resolves when the increment is complete.
+   */
+   async incrementCount(channelThreadId: string ) {
+    if (!this.activeChannelId) {
+      throw new Error("Active channel Id is required.");
+    }
+    try {
+      await this.channelService.incrementMessageCount(this.activeChannelId, channelThreadId);
+      console.log('Incremented!');
+    } catch (e) {
+      console.error('Error:', e);
+    }
+  }
+
+
 }

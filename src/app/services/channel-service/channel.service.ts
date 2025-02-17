@@ -1,9 +1,15 @@
 import { Conversation } from './../../../models/conversation.class';
 import { Channel } from './../../../models/channel.class';
-import { DocumentData } from '@angular/fire/firestore';
+import {
+  DocumentData,
+  doc,
+  updateDoc,
+  increment,
+  Firestore,
+} from '@angular/fire/firestore';
 import { DataService } from './../data-service/data.service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, filter, mergeMap, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, mergeMap, Observable, switchMap } from 'rxjs';
 import { User } from '../../../models/user.class';
 import { ErrorService } from '../error-service/error.service';
 
@@ -53,22 +59,30 @@ export class ChannelService {
    * @type {Observable<any>}
    */
   activeChannelThreads$: Observable<any> = this.channelId$.pipe(
-    filter(channelId => channelId != null),
-    switchMap(channelId =>
-      this.dataService.getSubcollectionUpdates(`channels`, channelId, 'channelThreads')
+    filter((channelId) => channelId != null),
+    switchMap((channelId) =>
+      this.dataService.getSubcollectionUpdates(
+        `channels`,
+        channelId,
+        'channelThreads'
+      )
     )
   );
 
   /**
-  * Stream of active channel threads. Accumulates threads from all channels
-  * (does not cancel previous subscriptions), ignoring null/undefined values to
-  * prevent invalid requests.
-  * @type {Observable<any>}
-  */
+   * Stream of active channel threads. Accumulates threads from all channels
+   * (does not cancel previous subscriptions), ignoring null/undefined values to
+   * prevent invalid requests.
+   * @type {Observable<any>}
+   */
   allChannelThreads$: Observable<any> = this.channelId$.pipe(
-    filter(channelId => channelId != null),
-    mergeMap(channelId =>
-      this.dataService.getSubcollectionUpdates(`channels`, channelId, 'channelThreads')
+    filter((channelId) => channelId != null),
+    mergeMap((channelId) =>
+      this.dataService.getSubcollectionUpdates(
+        `channels`,
+        channelId,
+        'channelThreads'
+      )
     )
   );
 
@@ -77,7 +91,11 @@ export class ChannelService {
    * @param {DataService} dataService - Service for handling data operations.
    * @param {ErrorService} error - Service for handling errors.
    */
-  constructor(private dataService: DataService, private error: ErrorService) {
+  constructor(
+    private dataService: DataService,
+    private error: ErrorService,
+    private firestore: Firestore
+  ) {
     this.channelUpdates$ = this.dataService.getCollectionUpdates('channels');
   }
 
@@ -212,19 +230,51 @@ export class ChannelService {
     }
   }
 
-  async createChannelThread(channelId: string, activeUser: User): Promise<string> {
+  async createChannelThread(
+    channelId: string,
+    activeUser: User
+  ): Promise<string> {
     //channelThreadId is withn the Conversation.id or data.id
     const newThread = new Conversation();
     newThread.creator = activeUser;
     newThread.participants.push(activeUser);
     const data = newThread.toJson();
-    console.log("New Channel Thread Data:", data)
+    console.log('New Channel Thread Data:', data);
     try {
-      await this.dataService.setDocumentToSubcollection("channels", channelId, "channelThreads", newThread.id, data);
-      return newThread.id
+      await this.dataService.setDocumentToSubcollection(
+        'channels',
+        channelId,
+        'channelThreads',
+        newThread.id,
+        data
+      );
+      return newThread.id;
     } catch {
       this.error.showErrorNotification('Channel could not be created.');
-      throw this.error
+      throw this.error;
     }
+  }
+
+  /**
+   * Increments the 'numberOfMessages' field in a Firestore document.
+   *
+   * @param {string} channelId - The ID of the channel.
+   * @param {string} channelThreadId - The ID of the channel thread.
+   * @returns {Promise<void>} - A promise that resolves when the update is complete.
+   * @throws {Error} - Throws an error if the update fails.
+   */
+  async incrementMessageCount(
+    channelId: string,
+    channelThreadId: string
+  ): Promise<void> {
+    await updateDoc(
+      doc(
+        this.firestore,
+        `channels/${channelId}/channelThreads/${channelThreadId}`
+      ),
+      {
+        numberOfMessages: increment(1),
+      }
+    );
   }
 }
