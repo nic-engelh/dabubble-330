@@ -47,7 +47,7 @@ export class ChannelMainChatInputComponent {
   /**
    * Handles the form submission when a user sends a message.
    * This function orchestrates the entire process:
-   * 1. Validates the form.
+   * 1. Validates the form
    * 2. Creates a new channel thread.
    * 3. Creates a new message.
    * 4. Saves the message to the thread.
