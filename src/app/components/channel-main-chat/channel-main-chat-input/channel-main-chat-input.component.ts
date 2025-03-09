@@ -26,7 +26,7 @@ export class ChannelMainChatInputComponent {
   //todo: create new channelThread, create new Message & getFormInput, setChannelThreadtoChannel, setMessageToChannelThread, addFirstMessageToChannelHeader
 
   @Output() newChannelThreadId = new EventEmitter<string>();
-  @Input() activeUser: User | undefined = undefined;
+  @Input() activeUser: User | undefined = undefined; // ! ERROR active user needs to be: user{}
   @Input() activeChannelId: string | undefined = undefined;
 
   chatInputForm: FormGroup;
@@ -63,11 +63,17 @@ export class ChannelMainChatInputComponent {
       return;
     }
     try {
+      console.log('activeUser onSubmit:', this.activeUser)
+      if (!(this.activeUser instanceof User)) {
+        throw new Error("User type is required.");
+      }
+      const curentUser = this.activeUser;
       const messageData = this.getMessageData();
-      const returnedChannelThreadId = await this.createChannelThread();
+      const returnedChannelThreadId = await this.createChannelThread(curentUser);
       const newMessage = this.createMessage(
         returnedChannelThreadId,
-        messageData
+        messageData,
+        curentUser
       );
 
       await this.saveMessageToThread(returnedChannelThreadId, newMessage);
@@ -111,17 +117,16 @@ export class ChannelMainChatInputComponent {
    * @param {string} messageData - The text content of the message.
    * @returns {Message} - The newly created `Message` object.
    */
-  private createMessage(threadId: string, messageData: string): Message {
+  private createMessage(threadId: string, messageData: string, currentUser: User): Message {
     if (!this.activeUser) {
       throw new Error("Active User is required.");
     }
-    let user = this.activeUser.toJson()
 
-    console.log("create message user", user)
+    console.log("create message user", currentUser)
     return this.messageService.createMessage(
       threadId,
       messageData,
-      user
+      currentUser
     );
   }
 
@@ -129,13 +134,14 @@ export class ChannelMainChatInputComponent {
    * Creates a new channel thread using the `channelService`.
    * @returns {Promise<string>} - A promise that resolves with the ID of the newly created thread.
    */
-  private async createChannelThread(): Promise<string> {
+  private async createChannelThread(currentUser: User): Promise<string> {
     if (!this.activeChannelId || !this.activeUser) {
       throw new Error("Active Channel Id and User is required.");
     }
+    //const user = this.activeUser; // ! Eror: activeUser = Json.Object; User : user{} in console.
     return this.channelService.createChannelThread(
       this.activeChannelId,
-      this.activeUser
+      currentUser
     );
   }
 
@@ -172,9 +178,8 @@ export class ChannelMainChatInputComponent {
     if (!this.activeChannelId) {
       throw new Error("Active Channel Id is required.");
     }
-
     message = message.toJson()
-
+    
     await this.messagingService.setMessageToChannelThreadFirstMessage(
       this.activeChannelId,
       threadId,
@@ -203,13 +208,13 @@ export class ChannelMainChatInputComponent {
     );
   }
 
-   /**
-   * Increments the message count for the current channel thread.
-   * Handles potential errors during the increment operation.
-   *
-   * @returns {Promise<void>} - A promise that resolves when the increment is complete.
-   */
-   async incrementCount(channelThreadId: string ) {
+  /**
+  * Increments the message count for the current channel thread.
+  * Handles potential errors during the increment operation.
+  *
+  * @returns {Promise<void>} - A promise that resolves when the increment is complete.
+  */
+  async incrementCount(channelThreadId: string) {
     if (!this.activeChannelId) {
       throw new Error("Active channel Id is required.");
     }

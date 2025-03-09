@@ -108,7 +108,7 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
 
         if(this.userService.isFirebaseUser(user)) {
           this.currentUser = this.userService.transformFireUsertoBubbleUser(user);
-          this.currentUser = this.currentUser.toJson();
+          //this.currentUser = this.currentUser.toJson();
           console.log("channel main chat bubble user", this.currentUser);
         }
 

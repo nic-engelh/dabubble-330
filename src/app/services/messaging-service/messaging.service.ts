@@ -79,6 +79,7 @@ export class MessagingService {
     const arrayName = 'firstMessage'
 
     try {
+      console.log("Messaging Serivce: setMessageToChannelThreadFirstMessage",message);
       await this.dataService.updateArrayInCollection(channelThreadId, mainDoc, arrayName, message)
     } catch (error: any) {
       this.error.showErrorNotification('Message could not be set to documents array');
