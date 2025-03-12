@@ -40,9 +40,10 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   */
   private subscriptions: Subscription = new Subscription();
 
-  /*
-  TODO
-  on opening:
+  //! allChannels$ and channelThreads$ are triggering to often. They are no good solutions.
+  //TODO delete allChannels$ update and create a new Subject newChannelThreads - separate (old) channelTheads from the new Updates.
+
+  /* Explanation of this component:
   -get active channel (channel-service)
   -read channelThreads into variables (via conversation-serivce)
   -read first threads-conversationMessages and corresponding sender for each channelThread (via conversation-service)
@@ -184,7 +185,7 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
    * @returns {Conversation[]} A new array containing all threads.
    */
   private accumulateThreads(allThreads: Conversation[], newThreads: Conversation[]): Conversation[] {
-    return [...allThreads, ...newThreads];
+    return [...newThreads];
   }
 
   /**

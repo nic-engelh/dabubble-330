@@ -11,15 +11,13 @@
   </header>
   <div
     id="channel-thread-list-container"
-    *ngIf="channelThreads$ | async as threads; else loading"
-  >
-    <pre>{{ channelThreads$ | async | json }}</pre>
+    *ngIf="channelThreads$ | async as threads; else loading">
     <div id="channel-thread-list" *ngFor="let thread of threads">
       <div [id]="thread.id" class="thread-message-card">
         <div class="thread-message-card-date">
           <div class="card-date-line"></div>
           <div class="card-date-box">
-            <p>{{ thread.firstMessage[0].createdAt | date : "fullDate" }}</p>
+            <p>{{ thread.firstMessage[0].timestamp | date : "fullDate" }}</p>
           </div>
         </div>
 
@@ -56,8 +54,8 @@
               }
               <p class="d-flex">
                 Letzte Antwort
-                {{ thread.firstMessage[0].createdAt | date : "shortDate" }}
-                {{ thread.firstMessage[0].createdAt | date : "shortTime" }}
+                {{ thread.firstMessage[0].timestamp | date : "shortDate" }}
+                {{ thread.firstMessage[0].timestamp | date : "shortTime" }}
               </p>
             </div>
           </div>
