@@ -76,7 +76,7 @@ export class ChannelMainChatInputComponent {
         curentUser
       );
 
-      await this.saveMessageToThread(returnedChannelThreadId, newMessage); // ! does not function
+      await this.saveMessageToThread(returnedChannelThreadId, newMessage);
       await this.saveFirstMessageToThread(returnedChannelThreadId, newMessage); // Functions
       await this.incrementCount(returnedChannelThreadId)
 
@@ -121,9 +121,6 @@ export class ChannelMainChatInputComponent {
     if (!this.activeUser) {
       throw new Error("Active User is required.");
     }
-
-    console.log("create message user", currentUser)
-    // ! needs to be a json wihtin the next frunciton
     return this.messageService.createMessage(
       threadId,
       messageData,
@@ -139,7 +136,6 @@ export class ChannelMainChatInputComponent {
     if (!this.activeChannelId || !this.activeUser) {
       throw new Error("Active Channel Id and User is required.");
     }
-    //const user = this.activeUser; // ! Eror: activeUser = Json.Object; User : user{} in console.
     return this.channelService.createChannelThread(
       this.activeChannelId,
       currentUser
