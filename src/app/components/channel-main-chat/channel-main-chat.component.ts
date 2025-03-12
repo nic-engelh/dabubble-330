@@ -40,7 +40,7 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   */
   private subscriptions: Subscription = new Subscription();
 
-  //! allChannels$ and channelThreads$ are triggering to often. They are no good solutions.
+  //! allChannels$ and channelThreads$ are triggering to often. They are no good solutions right now.
   //TODO delete allChannels$ update and create a new Subject newChannelThreads - separate (old) channelTheads from the new Updates.
 
   /* Explanation of this component:
