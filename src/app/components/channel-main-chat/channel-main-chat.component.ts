@@ -18,6 +18,28 @@ import { IMAGES } from '../../shared/constants/image-urls';
  * @component
  * @implements {OnInit}, {OnDestroy}
  */
+
+/* Explanation of this component:
+  -get active channel (channel-service)
+  -read channelThreads into variables (via conversation-serivce)
+  -read first threads-conversationMessages and corresponding sender for each channelThread (via conversation-service)
+  -render channelthreads in hmtl (logged user to right, member to the left)
+  -implement emoji function and array in the message/thread class
+  - IMPORTANT: FirstMessage needs to always the same Message, as in the subcollection, even after an update of the Message
+
+  on using:
+  -sending a new channelThread-Message, creates a new thread within the channel AND in collection "threads" (via conversation-serivce or messaing-service)
+  -each message is saved collectivley within message-collection (at to compo: message-input or message-service)
+  -updates messages in each collection --> messages-service
+  -clicking on "antworten" opens corresponding conversation/thread as modal or so.
+  -clicking on message opens up options as a modal above it
+
+  check: https://chat.deepseek.com/a/chat/s/114178c3-0ef9-4ced-a463-1255c3205251
+  */
+
+  //! allChannels$ and channelThreads$ are triggering to often. They are no good solutions right now.
+  //TODO delete allChannels$ update and create a new Subject newChannelThreads - separate (old) channelTheads from the new Updates.
+
 @Component({
   selector: 'app-channel-main-chat',
   standalone: true,
@@ -40,31 +62,9 @@ export class ChannelMainChatComponent implements OnInit, OnDestroy {
   */
   private subscriptions: Subscription = new Subscription();
 
-  //! allChannels$ and channelThreads$ are triggering to often. They are no good solutions right now.
-  //TODO delete allChannels$ update and create a new Subject newChannelThreads - separate (old) channelTheads from the new Updates.
-
-  /* Explanation of this component:
-  -get active channel (channel-service)
-  -read channelThreads into variables (via conversation-serivce)
-  -read first threads-conversationMessages and corresponding sender for each channelThread (via conversation-service)
-  -render channelthreads in hmtl (logged user to right, member to the left)
-  -implement emoji function and array in the message/thread class
-  - IMPORTANT: FirstMessage needs to always the same Message, as in the subcollection, even after an update of the Message
-
-  on using:
-  -sending a new channelThread-Message, creates a new thread within the channel AND in collection "threads" (via conversation-serivce or messaing-service)
-  -each message is saved collectivley within message-collection (at to compo: message-input or message-service)
-  -updates messages in each collection --> messages-service
-  -clicking on "antworten" opens corresponding conversation/thread as modal or so.
-  -clicking on message opens up options as a modal above it
-
-  check: https://chat.deepseek.com/a/chat/s/114178c3-0ef9-4ced-a463-1255c3205251
-  */
-
   activateTestChannel() {
     this.channelService.openChannel("634f8b15-b353-4bff-bc4b-ed0b1daa8031");
   }
-
 
   /**
    * Creates an instance of ChannelMainChatComponent.
